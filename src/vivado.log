@@ -1,0 +1,79 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Fri Jun 28 16:36:32 2024
+# Process ID: 10194
+# Current directory: /data2/work/github/ea/src
+# Command line: vivado
+# Log file: /data2/work/github/ea/src/vivado.log
+# Journal file: /data2/work/github/ea/src/vivado.jou
+# Running On: suzhifeng, OS: Linux, CPU Frequency: 800.169 MHz, CPU Physical cores: 6, Host memory: 33571 MB
+#-----------------------------------------------------------
+start_gui
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_a/1.0/board.xml as part xcve2802-vsvh1760-2lp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es:part0:1.1 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_a/1.1/board.xml as part xcve2802-vsvh1760-2lp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es_revb:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_b/1.0/board.xml as part xcve2802-vsvh1760-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es_revb:part0:1.1 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_b/1.1/board.xml as part xcve2802-vsvh1760-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158_es:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/es/1.0/board.xml as part xcvh1582-vsva3697-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158_es:part0:1.1 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/es/1.1/board.xml as part xcvh1582-vsva3697-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/2.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670ld/1.0/board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+open_project /data2/work/fpga/ea/ea.xpr
+INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory '/data2/work/fpga/ea/ea.gen/sources_1'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/data2/tools/Xilinx/Vivado/2023.2/data/ip'.
+add_files {/data2/work/github/ea/src/axis_adapter.v /data2/work/github/ea/src/eth_mac_1g_rgmii.v /data2/work/github/ea/src/axis_async_fifo.v /data2/work/github/ea/src/mac_ctrl_tx.v /data2/work/github/ea/src/eth_mac_1g_rgmii_fifo.v /data2/work/github/ea/src/ssio_ddr_in.v /data2/work/github/ea/src/mac_ctrl_rx.v /data2/work/github/ea/src/test_mac.v /data2/work/github/ea/src/lfsr.v /data2/work/github/ea/src/eth_mac_1g.v /data2/work/github/ea/src/axis_async_fifo_adapter.v /data2/work/github/ea/src/test_sender.v /data2/work/github/ea/src/axis_gmii_rx.v /data2/work/github/ea/src/rgmii_phy_if.v /data2/work/github/ea/src/mac_pause_ctrl_tx.v /data2/work/github/ea/src/test_receiver.v /data2/work/github/ea/src/axis_gmii_tx.v /data2/work/github/ea/src/mac_pause_ctrl_rx.v /data2/work/github/ea/src/oddr.v /data2/work/github/ea/src/fpga.v /data2/work/github/ea/src/eth_axis_rx.v /data2/work/github/ea/src/iddr.v /data2/work/github/ea/src/eth_axis_tx.v /data2/work/github/ea/src/fpga_core.v}
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files -fileset constrs_1 -norecurse {/data2/work/github/ea/xdc/eth.xdc /data2/work/github/ea/xdc/fpga.xdc}
+set_property top fpga [current_fileset]
+update_compile_order -fileset sources_1
+WARNING: [filemgmt 56-199] Attempt to get parsing info during refresh. "On-the-fly" syntax checking information may be incorrect. [/data2/work/github/ea/src/test_receiver.v:]
+WARNING: [filemgmt 56-199] Attempt to get parsing info during refresh. "On-the-fly" syntax checking information may be incorrect. [/data2/work/github/ea/src/test_mac.v:]
+WARNING: [filemgmt 56-199] Attempt to get parsing info during refresh. "On-the-fly" syntax checking information may be incorrect. [/data2/work/github/ea/src/test_receiver.v:]
+WARNING: [filemgmt 56-199] Attempt to get parsing info during refresh. "On-the-fly" syntax checking information may be incorrect. [/data2/work/github/ea/src/test_mac.v:]
+export_ip_user_files -of_objects  [get_files /data2/work/github/ea/src/test_mac.v] -no_script -reset -force -quiet
+remove_files  /data2/work/github/ea/src/test_mac.v
+update_compile_order -fileset sources_1
+add_files -norecurse /data2/work/github/ea/src/sync_reset.v
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+[Fri Jun 28 16:42:44 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Fri Jun 28 16:42:44 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+[Fri Jun 28 16:44:13 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Fri Jun 28 16:44:13 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+reset_run synth_1
+INFO: [Project 1-1160] Copying file /data2/work/fpga/ea/ea.runs/synth_1/fpga.dcp to /data2/work/fpga/ea/ea.srcs/utils_1/imports/synth_1 and adding it to utils fileset
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+[Fri Jun 28 16:47:14 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Fri Jun 28 16:47:14 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file /data2/work/fpga/ea/ea.srcs/utils_1/imports/synth_1/fpga.dcp with file /data2/work/fpga/ea/ea.runs/synth_1/fpga.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+[Fri Jun 28 16:55:25 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Fri Jun 28 16:55:25 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file /data2/work/fpga/ea/ea.srcs/utils_1/imports/synth_1/fpga.dcp with file /data2/work/fpga/ea/ea.runs/synth_1/fpga.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+[Fri Jun 28 16:58:55 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Fri Jun 28 16:58:56 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+exit
+INFO: [Common 17-206] Exiting Vivado at Fri Jun 28 17:00:54 2024...

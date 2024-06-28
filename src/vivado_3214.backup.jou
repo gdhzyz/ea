@@ -1,0 +1,15 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Wed Jun 26 16:25:22 2024
+# Process ID: 3214
+# Current directory: /data2/work/github/ea/src
+# Command line: vivado
+# Log file: /data2/work/github/ea/src/vivado.log
+# Journal file: /data2/work/github/ea/src/vivado.jou
+# Running On: suzhifeng, OS: Linux, CPU Frequency: 800.113 MHz, CPU Physical cores: 6, Host memory: 33571 MB
+#-----------------------------------------------------------
+start_gui
+open_project /data2/work/fpga/ea/ea.xpr
