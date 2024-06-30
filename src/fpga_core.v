@@ -77,7 +77,7 @@ assign phy_reset_n = !rst;
 test_sender #(
     .LENGTH(512),
     .LOCAL_MAC(48'h02_00_00_00_00_00),
-    .DST_MAC(48'h02_00_00_00_00_00),
+    .DST_MAC(48'h54_14_A7_12_4D_B3),
     // Width of AXI stream interfaces in bits
     .DATA_WIDTH(8)
 )

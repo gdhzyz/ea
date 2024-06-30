@@ -68,7 +68,7 @@ module test_receiver #
     wire payload_err = payload_fire && 
                        (
                         (beat_count[DATA_WIDTH - 1 : 0] != s_eth_payload_axis_tdata) || 
-                        (s_eth_payload_axis_tlast ^ (beat_count[LENGTH_BITS - 1 : 0] == LENGTH))
+                        (s_eth_payload_axis_tlast ^ (beat_count[LENGTH_BITS - 1 : 0] == LENGTH - 1))
                        );
     (* mark_debug = "true" *)reg hdr_err_reg = 1'b0;
     (* mark_debug = "true" *)reg payload_err_reg = 1'b0;

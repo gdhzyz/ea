@@ -10,7 +10,8 @@ module test_sender #
     // If disabled, tkeep assumed to be 1'b1
     parameter KEEP_ENABLE = (DATA_WIDTH>8),
     // tkeep signal width (words per cycle)
-    parameter KEEP_WIDTH = (DATA_WIDTH/8)
+    parameter KEEP_WIDTH = (DATA_WIDTH/8),
+    parameter TIME_1S = 125000000
 ) 
 (
     /*
@@ -40,18 +41,18 @@ module test_sender #
     (* mark_debug = "true" *) reg [31:0] frame_count = 'd0;
     (* mark_debug = "true" *) reg [31:0] hdr_count = 'd0;
     (* mark_debug = "true" *) reg [31:0] beat_count = 'd0;
+    reg let_go = 1'b0;
+    reg [31:0] timer = 'd0;
 
     wire hdr_fire = m_eth_hdr_valid && m_eth_hdr_ready;
     wire payload_fire = m_eth_payload_axis_tvalid && m_eth_payload_axis_tready;
 
-    assign m_eth_hdr_valid = 1'b1;
     assign m_eth_dest_mac = DST_MAC;
     assign m_eth_src_mac = LOCAL_MAC;
     assign m_eth_type = 16'h88B5;
 
-    assign m_eth_payload_axis_tvalid = 1'b1;
     assign m_eth_payload_axis_tdata = beat_count[DATA_WIDTH - 1 : 0];
-    assign m_eth_payload_axis_tlast = beat_count[LENGTH_BITS - 1 : 0] == LENGTH;
+    assign m_eth_payload_axis_tlast = beat_count[LENGTH_BITS - 1 : 0] == LENGTH - 1;
     assign m_eth_payload_axis_tuser = 1'b0;
 
     always @(posedge clk) begin
@@ -68,6 +69,21 @@ module test_sender #
             end
         end
     end
+
+    always @(posedge clk) begin
+        if (rst) begin
+            let_go <= 1'b0;
+            timer <= 'd0;
+        end else if (timer == TIME_1S * 10) begin
+            let_go <= 1'b1;
+        end else if (timer < TIME_1S * 10) begin
+            let_go <= 1'b0;
+            timer <= timer + 'd1;
+        end
+    end
+    
+    assign m_eth_hdr_valid = let_go;
+    assign m_eth_payload_axis_tvalid = let_go;
 
 
 endmodule

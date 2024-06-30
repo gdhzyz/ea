@@ -56,9 +56,9 @@ module rgmii_phy_if #
      */
     output wire        mac_gmii_rx_clk,
     output wire        mac_gmii_rx_rst,
-    output wire [7:0]  mac_gmii_rxd,
-    output wire        mac_gmii_rx_dv,
-    output wire        mac_gmii_rx_er,
+    (* mark_debug = "true" *)output wire [7:0]  mac_gmii_rxd,
+    (* mark_debug = "true" *)output wire        mac_gmii_rx_dv,
+    (* mark_debug = "true" *)output wire        mac_gmii_rx_er,
     output wire        mac_gmii_tx_clk,
     output wire        mac_gmii_tx_rst,
     output wire        mac_gmii_tx_clk_en,

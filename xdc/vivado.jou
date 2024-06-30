@@ -1,0 +1,468 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Jun 29 09:39:46 2024
+# Process ID: 389662
+# Current directory: /data2/work/github/ea/xdc
+# Command line: vivado
+# Log file: /data2/work/github/ea/xdc/vivado.log
+# Journal file: /data2/work/github/ea/xdc/vivado.jou
+# Running On: suzhifeng, OS: Linux, CPU Frequency: 4373.365 MHz, CPU Physical cores: 6, Host memory: 33571 MB
+#-----------------------------------------------------------
+start_gui
+open_project /data2/work/fpga/ea/ea.xpr
+update_compile_order -fileset sources_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+open_hw_target
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+open_run synth_1 -name synth_1
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+create_debug_core u_ila_0 ila
+set_property C_DATA_DEPTH 2048 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+connect_debug_port u_ila_0/clk [get_nets [list clk_int ]]
+set_property port_width 32 [get_debug_ports u_ila_0/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {core_inst/test_sender/hdr_count[0]} {core_inst/test_sender/hdr_count[1]} {core_inst/test_sender/hdr_count[2]} {core_inst/test_sender/hdr_count[3]} {core_inst/test_sender/hdr_count[4]} {core_inst/test_sender/hdr_count[5]} {core_inst/test_sender/hdr_count[6]} {core_inst/test_sender/hdr_count[7]} {core_inst/test_sender/hdr_count[8]} {core_inst/test_sender/hdr_count[9]} {core_inst/test_sender/hdr_count[10]} {core_inst/test_sender/hdr_count[11]} {core_inst/test_sender/hdr_count[12]} {core_inst/test_sender/hdr_count[13]} {core_inst/test_sender/hdr_count[14]} {core_inst/test_sender/hdr_count[15]} {core_inst/test_sender/hdr_count[16]} {core_inst/test_sender/hdr_count[17]} {core_inst/test_sender/hdr_count[18]} {core_inst/test_sender/hdr_count[19]} {core_inst/test_sender/hdr_count[20]} {core_inst/test_sender/hdr_count[21]} {core_inst/test_sender/hdr_count[22]} {core_inst/test_sender/hdr_count[23]} {core_inst/test_sender/hdr_count[24]} {core_inst/test_sender/hdr_count[25]} {core_inst/test_sender/hdr_count[26]} {core_inst/test_sender/hdr_count[27]} {core_inst/test_sender/hdr_count[28]} {core_inst/test_sender/hdr_count[29]} {core_inst/test_sender/hdr_count[30]} {core_inst/test_sender/hdr_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe1]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list {core_inst/test_sender/frame_count[0]} {core_inst/test_sender/frame_count[1]} {core_inst/test_sender/frame_count[2]} {core_inst/test_sender/frame_count[3]} {core_inst/test_sender/frame_count[4]} {core_inst/test_sender/frame_count[5]} {core_inst/test_sender/frame_count[6]} {core_inst/test_sender/frame_count[7]} {core_inst/test_sender/frame_count[8]} {core_inst/test_sender/frame_count[9]} {core_inst/test_sender/frame_count[10]} {core_inst/test_sender/frame_count[11]} {core_inst/test_sender/frame_count[12]} {core_inst/test_sender/frame_count[13]} {core_inst/test_sender/frame_count[14]} {core_inst/test_sender/frame_count[15]} {core_inst/test_sender/frame_count[16]} {core_inst/test_sender/frame_count[17]} {core_inst/test_sender/frame_count[18]} {core_inst/test_sender/frame_count[19]} {core_inst/test_sender/frame_count[20]} {core_inst/test_sender/frame_count[21]} {core_inst/test_sender/frame_count[22]} {core_inst/test_sender/frame_count[23]} {core_inst/test_sender/frame_count[24]} {core_inst/test_sender/frame_count[25]} {core_inst/test_sender/frame_count[26]} {core_inst/test_sender/frame_count[27]} {core_inst/test_sender/frame_count[28]} {core_inst/test_sender/frame_count[29]} {core_inst/test_sender/frame_count[30]} {core_inst/test_sender/frame_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 24 [get_debug_ports u_ila_0/probe2]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list {core_inst/test_sender/beat_count[8]} {core_inst/test_sender/beat_count[9]} {core_inst/test_sender/beat_count[10]} {core_inst/test_sender/beat_count[11]} {core_inst/test_sender/beat_count[12]} {core_inst/test_sender/beat_count[13]} {core_inst/test_sender/beat_count[14]} {core_inst/test_sender/beat_count[15]} {core_inst/test_sender/beat_count[16]} {core_inst/test_sender/beat_count[17]} {core_inst/test_sender/beat_count[18]} {core_inst/test_sender/beat_count[19]} {core_inst/test_sender/beat_count[20]} {core_inst/test_sender/beat_count[21]} {core_inst/test_sender/beat_count[22]} {core_inst/test_sender/beat_count[23]} {core_inst/test_sender/beat_count[24]} {core_inst/test_sender/beat_count[25]} {core_inst/test_sender/beat_count[26]} {core_inst/test_sender/beat_count[27]} {core_inst/test_sender/beat_count[28]} {core_inst/test_sender/beat_count[29]} {core_inst/test_sender/beat_count[30]} {core_inst/test_sender/beat_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe3]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
+connect_debug_port u_ila_0/probe3 [get_nets [list {led2_count[0]} {led2_count[1]} {led2_count[2]} {led2_count[3]} {led2_count[4]} {led2_count[5]} {led2_count[6]} {led2_count[7]} {led2_count[8]} {led2_count[9]} {led2_count[10]} {led2_count[11]} {led2_count[12]} {led2_count[13]} {led2_count[14]} {led2_count[15]} {led2_count[16]} {led2_count[17]} {led2_count[18]} {led2_count[19]} {led2_count[20]} {led2_count[21]} {led2_count[22]} {led2_count[23]} {led2_count[24]} {led2_count[25]} {led2_count[26]} {led2_count[27]} {led2_count[28]} {led2_count[29]} {led2_count[30]} {led2_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 16 [get_debug_ports u_ila_0/probe4]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
+connect_debug_port u_ila_0/probe4 [get_nets [list {core_inst/tx_eth_type[0]} {core_inst/tx_eth_type[1]} {core_inst/tx_eth_type[2]} {core_inst/tx_eth_type[3]} {core_inst/tx_eth_type[4]} {core_inst/tx_eth_type[5]} {core_inst/tx_eth_type[6]} {core_inst/tx_eth_type[7]} {core_inst/tx_eth_type[8]} {core_inst/tx_eth_type[9]} {core_inst/tx_eth_type[10]} {core_inst/tx_eth_type[11]} {core_inst/tx_eth_type[12]} {core_inst/tx_eth_type[13]} {core_inst/tx_eth_type[14]} {core_inst/tx_eth_type[15]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe5]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
+connect_debug_port u_ila_0/probe5 [get_nets [list {core_inst/tx_eth_src_mac[0]} {core_inst/tx_eth_src_mac[1]} {core_inst/tx_eth_src_mac[2]} {core_inst/tx_eth_src_mac[3]} {core_inst/tx_eth_src_mac[4]} {core_inst/tx_eth_src_mac[5]} {core_inst/tx_eth_src_mac[6]} {core_inst/tx_eth_src_mac[7]} {core_inst/tx_eth_src_mac[8]} {core_inst/tx_eth_src_mac[9]} {core_inst/tx_eth_src_mac[10]} {core_inst/tx_eth_src_mac[11]} {core_inst/tx_eth_src_mac[12]} {core_inst/tx_eth_src_mac[13]} {core_inst/tx_eth_src_mac[14]} {core_inst/tx_eth_src_mac[15]} {core_inst/tx_eth_src_mac[16]} {core_inst/tx_eth_src_mac[17]} {core_inst/tx_eth_src_mac[18]} {core_inst/tx_eth_src_mac[19]} {core_inst/tx_eth_src_mac[20]} {core_inst/tx_eth_src_mac[21]} {core_inst/tx_eth_src_mac[22]} {core_inst/tx_eth_src_mac[23]} {core_inst/tx_eth_src_mac[24]} {core_inst/tx_eth_src_mac[25]} {core_inst/tx_eth_src_mac[26]} {core_inst/tx_eth_src_mac[27]} {core_inst/tx_eth_src_mac[28]} {core_inst/tx_eth_src_mac[29]} {core_inst/tx_eth_src_mac[30]} {core_inst/tx_eth_src_mac[31]} {core_inst/tx_eth_src_mac[32]} {core_inst/tx_eth_src_mac[33]} {core_inst/tx_eth_src_mac[34]} {core_inst/tx_eth_src_mac[35]} {core_inst/tx_eth_src_mac[36]} {core_inst/tx_eth_src_mac[37]} {core_inst/tx_eth_src_mac[38]} {core_inst/tx_eth_src_mac[39]} {core_inst/tx_eth_src_mac[40]} {core_inst/tx_eth_src_mac[41]} {core_inst/tx_eth_src_mac[42]} {core_inst/tx_eth_src_mac[43]} {core_inst/tx_eth_src_mac[44]} {core_inst/tx_eth_src_mac[45]} {core_inst/tx_eth_src_mac[46]} {core_inst/tx_eth_src_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe6]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
+connect_debug_port u_ila_0/probe6 [get_nets [list {core_inst/tx_eth_payload_axis_tdata[0]} {core_inst/tx_eth_payload_axis_tdata[1]} {core_inst/tx_eth_payload_axis_tdata[2]} {core_inst/tx_eth_payload_axis_tdata[3]} {core_inst/tx_eth_payload_axis_tdata[4]} {core_inst/tx_eth_payload_axis_tdata[5]} {core_inst/tx_eth_payload_axis_tdata[6]} {core_inst/tx_eth_payload_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe7]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
+connect_debug_port u_ila_0/probe7 [get_nets [list {core_inst/tx_eth_dest_mac[0]} {core_inst/tx_eth_dest_mac[1]} {core_inst/tx_eth_dest_mac[2]} {core_inst/tx_eth_dest_mac[3]} {core_inst/tx_eth_dest_mac[4]} {core_inst/tx_eth_dest_mac[5]} {core_inst/tx_eth_dest_mac[6]} {core_inst/tx_eth_dest_mac[7]} {core_inst/tx_eth_dest_mac[8]} {core_inst/tx_eth_dest_mac[9]} {core_inst/tx_eth_dest_mac[10]} {core_inst/tx_eth_dest_mac[11]} {core_inst/tx_eth_dest_mac[12]} {core_inst/tx_eth_dest_mac[13]} {core_inst/tx_eth_dest_mac[14]} {core_inst/tx_eth_dest_mac[15]} {core_inst/tx_eth_dest_mac[16]} {core_inst/tx_eth_dest_mac[17]} {core_inst/tx_eth_dest_mac[18]} {core_inst/tx_eth_dest_mac[19]} {core_inst/tx_eth_dest_mac[20]} {core_inst/tx_eth_dest_mac[21]} {core_inst/tx_eth_dest_mac[22]} {core_inst/tx_eth_dest_mac[23]} {core_inst/tx_eth_dest_mac[24]} {core_inst/tx_eth_dest_mac[25]} {core_inst/tx_eth_dest_mac[26]} {core_inst/tx_eth_dest_mac[27]} {core_inst/tx_eth_dest_mac[28]} {core_inst/tx_eth_dest_mac[29]} {core_inst/tx_eth_dest_mac[30]} {core_inst/tx_eth_dest_mac[31]} {core_inst/tx_eth_dest_mac[32]} {core_inst/tx_eth_dest_mac[33]} {core_inst/tx_eth_dest_mac[34]} {core_inst/tx_eth_dest_mac[35]} {core_inst/tx_eth_dest_mac[36]} {core_inst/tx_eth_dest_mac[37]} {core_inst/tx_eth_dest_mac[38]} {core_inst/tx_eth_dest_mac[39]} {core_inst/tx_eth_dest_mac[40]} {core_inst/tx_eth_dest_mac[41]} {core_inst/tx_eth_dest_mac[42]} {core_inst/tx_eth_dest_mac[43]} {core_inst/tx_eth_dest_mac[44]} {core_inst/tx_eth_dest_mac[45]} {core_inst/tx_eth_dest_mac[46]} {core_inst/tx_eth_dest_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 16 [get_debug_ports u_ila_0/probe8]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
+connect_debug_port u_ila_0/probe8 [get_nets [list {core_inst/rx_eth_type[0]} {core_inst/rx_eth_type[1]} {core_inst/rx_eth_type[2]} {core_inst/rx_eth_type[3]} {core_inst/rx_eth_type[4]} {core_inst/rx_eth_type[5]} {core_inst/rx_eth_type[6]} {core_inst/rx_eth_type[7]} {core_inst/rx_eth_type[8]} {core_inst/rx_eth_type[9]} {core_inst/rx_eth_type[10]} {core_inst/rx_eth_type[11]} {core_inst/rx_eth_type[12]} {core_inst/rx_eth_type[13]} {core_inst/rx_eth_type[14]} {core_inst/rx_eth_type[15]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe9]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
+connect_debug_port u_ila_0/probe9 [get_nets [list {core_inst/rx_eth_src_mac[0]} {core_inst/rx_eth_src_mac[1]} {core_inst/rx_eth_src_mac[2]} {core_inst/rx_eth_src_mac[3]} {core_inst/rx_eth_src_mac[4]} {core_inst/rx_eth_src_mac[5]} {core_inst/rx_eth_src_mac[6]} {core_inst/rx_eth_src_mac[7]} {core_inst/rx_eth_src_mac[8]} {core_inst/rx_eth_src_mac[9]} {core_inst/rx_eth_src_mac[10]} {core_inst/rx_eth_src_mac[11]} {core_inst/rx_eth_src_mac[12]} {core_inst/rx_eth_src_mac[13]} {core_inst/rx_eth_src_mac[14]} {core_inst/rx_eth_src_mac[15]} {core_inst/rx_eth_src_mac[16]} {core_inst/rx_eth_src_mac[17]} {core_inst/rx_eth_src_mac[18]} {core_inst/rx_eth_src_mac[19]} {core_inst/rx_eth_src_mac[20]} {core_inst/rx_eth_src_mac[21]} {core_inst/rx_eth_src_mac[22]} {core_inst/rx_eth_src_mac[23]} {core_inst/rx_eth_src_mac[24]} {core_inst/rx_eth_src_mac[25]} {core_inst/rx_eth_src_mac[26]} {core_inst/rx_eth_src_mac[27]} {core_inst/rx_eth_src_mac[28]} {core_inst/rx_eth_src_mac[29]} {core_inst/rx_eth_src_mac[30]} {core_inst/rx_eth_src_mac[31]} {core_inst/rx_eth_src_mac[32]} {core_inst/rx_eth_src_mac[33]} {core_inst/rx_eth_src_mac[34]} {core_inst/rx_eth_src_mac[35]} {core_inst/rx_eth_src_mac[36]} {core_inst/rx_eth_src_mac[37]} {core_inst/rx_eth_src_mac[38]} {core_inst/rx_eth_src_mac[39]} {core_inst/rx_eth_src_mac[40]} {core_inst/rx_eth_src_mac[41]} {core_inst/rx_eth_src_mac[42]} {core_inst/rx_eth_src_mac[43]} {core_inst/rx_eth_src_mac[44]} {core_inst/rx_eth_src_mac[45]} {core_inst/rx_eth_src_mac[46]} {core_inst/rx_eth_src_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe10]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe10]
+connect_debug_port u_ila_0/probe10 [get_nets [list {core_inst/tx_axis_tdata[0]} {core_inst/tx_axis_tdata[1]} {core_inst/tx_axis_tdata[2]} {core_inst/tx_axis_tdata[3]} {core_inst/tx_axis_tdata[4]} {core_inst/tx_axis_tdata[5]} {core_inst/tx_axis_tdata[6]} {core_inst/tx_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe11]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe11]
+connect_debug_port u_ila_0/probe11 [get_nets [list {core_inst/rx_eth_payload_axis_tdata[0]} {core_inst/rx_eth_payload_axis_tdata[1]} {core_inst/rx_eth_payload_axis_tdata[2]} {core_inst/rx_eth_payload_axis_tdata[3]} {core_inst/rx_eth_payload_axis_tdata[4]} {core_inst/rx_eth_payload_axis_tdata[5]} {core_inst/rx_eth_payload_axis_tdata[6]} {core_inst/rx_eth_payload_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe12]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe12]
+connect_debug_port u_ila_0/probe12 [get_nets [list {core_inst/rx_eth_dest_mac[0]} {core_inst/rx_eth_dest_mac[1]} {core_inst/rx_eth_dest_mac[2]} {core_inst/rx_eth_dest_mac[3]} {core_inst/rx_eth_dest_mac[4]} {core_inst/rx_eth_dest_mac[5]} {core_inst/rx_eth_dest_mac[6]} {core_inst/rx_eth_dest_mac[7]} {core_inst/rx_eth_dest_mac[8]} {core_inst/rx_eth_dest_mac[9]} {core_inst/rx_eth_dest_mac[10]} {core_inst/rx_eth_dest_mac[11]} {core_inst/rx_eth_dest_mac[12]} {core_inst/rx_eth_dest_mac[13]} {core_inst/rx_eth_dest_mac[14]} {core_inst/rx_eth_dest_mac[15]} {core_inst/rx_eth_dest_mac[16]} {core_inst/rx_eth_dest_mac[17]} {core_inst/rx_eth_dest_mac[18]} {core_inst/rx_eth_dest_mac[19]} {core_inst/rx_eth_dest_mac[20]} {core_inst/rx_eth_dest_mac[21]} {core_inst/rx_eth_dest_mac[22]} {core_inst/rx_eth_dest_mac[23]} {core_inst/rx_eth_dest_mac[24]} {core_inst/rx_eth_dest_mac[25]} {core_inst/rx_eth_dest_mac[26]} {core_inst/rx_eth_dest_mac[27]} {core_inst/rx_eth_dest_mac[28]} {core_inst/rx_eth_dest_mac[29]} {core_inst/rx_eth_dest_mac[30]} {core_inst/rx_eth_dest_mac[31]} {core_inst/rx_eth_dest_mac[32]} {core_inst/rx_eth_dest_mac[33]} {core_inst/rx_eth_dest_mac[34]} {core_inst/rx_eth_dest_mac[35]} {core_inst/rx_eth_dest_mac[36]} {core_inst/rx_eth_dest_mac[37]} {core_inst/rx_eth_dest_mac[38]} {core_inst/rx_eth_dest_mac[39]} {core_inst/rx_eth_dest_mac[40]} {core_inst/rx_eth_dest_mac[41]} {core_inst/rx_eth_dest_mac[42]} {core_inst/rx_eth_dest_mac[43]} {core_inst/rx_eth_dest_mac[44]} {core_inst/rx_eth_dest_mac[45]} {core_inst/rx_eth_dest_mac[46]} {core_inst/rx_eth_dest_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe13]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe13]
+connect_debug_port u_ila_0/probe13 [get_nets [list {core_inst/rx_axis_tdata[0]} {core_inst/rx_axis_tdata[1]} {core_inst/rx_axis_tdata[2]} {core_inst/rx_axis_tdata[3]} {core_inst/rx_axis_tdata[4]} {core_inst/rx_axis_tdata[5]} {core_inst/rx_axis_tdata[6]} {core_inst/rx_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe14]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe14]
+connect_debug_port u_ila_0/probe14 [get_nets [list {core_inst/test_receiver/beat_count[0]} {core_inst/test_receiver/beat_count[1]} {core_inst/test_receiver/beat_count[2]} {core_inst/test_receiver/beat_count[3]} {core_inst/test_receiver/beat_count[4]} {core_inst/test_receiver/beat_count[5]} {core_inst/test_receiver/beat_count[6]} {core_inst/test_receiver/beat_count[7]} {core_inst/test_receiver/beat_count[8]} {core_inst/test_receiver/beat_count[9]} {core_inst/test_receiver/beat_count[10]} {core_inst/test_receiver/beat_count[11]} {core_inst/test_receiver/beat_count[12]} {core_inst/test_receiver/beat_count[13]} {core_inst/test_receiver/beat_count[14]} {core_inst/test_receiver/beat_count[15]} {core_inst/test_receiver/beat_count[16]} {core_inst/test_receiver/beat_count[17]} {core_inst/test_receiver/beat_count[18]} {core_inst/test_receiver/beat_count[19]} {core_inst/test_receiver/beat_count[20]} {core_inst/test_receiver/beat_count[21]} {core_inst/test_receiver/beat_count[22]} {core_inst/test_receiver/beat_count[23]} {core_inst/test_receiver/beat_count[24]} {core_inst/test_receiver/beat_count[25]} {core_inst/test_receiver/beat_count[26]} {core_inst/test_receiver/beat_count[27]} {core_inst/test_receiver/beat_count[28]} {core_inst/test_receiver/beat_count[29]} {core_inst/test_receiver/beat_count[30]} {core_inst/test_receiver/beat_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe15]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe15]
+connect_debug_port u_ila_0/probe15 [get_nets [list {core_inst/test_receiver/error_count[0]} {core_inst/test_receiver/error_count[1]} {core_inst/test_receiver/error_count[2]} {core_inst/test_receiver/error_count[3]} {core_inst/test_receiver/error_count[4]} {core_inst/test_receiver/error_count[5]} {core_inst/test_receiver/error_count[6]} {core_inst/test_receiver/error_count[7]} {core_inst/test_receiver/error_count[8]} {core_inst/test_receiver/error_count[9]} {core_inst/test_receiver/error_count[10]} {core_inst/test_receiver/error_count[11]} {core_inst/test_receiver/error_count[12]} {core_inst/test_receiver/error_count[13]} {core_inst/test_receiver/error_count[14]} {core_inst/test_receiver/error_count[15]} {core_inst/test_receiver/error_count[16]} {core_inst/test_receiver/error_count[17]} {core_inst/test_receiver/error_count[18]} {core_inst/test_receiver/error_count[19]} {core_inst/test_receiver/error_count[20]} {core_inst/test_receiver/error_count[21]} {core_inst/test_receiver/error_count[22]} {core_inst/test_receiver/error_count[23]} {core_inst/test_receiver/error_count[24]} {core_inst/test_receiver/error_count[25]} {core_inst/test_receiver/error_count[26]} {core_inst/test_receiver/error_count[27]} {core_inst/test_receiver/error_count[28]} {core_inst/test_receiver/error_count[29]} {core_inst/test_receiver/error_count[30]} {core_inst/test_receiver/error_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe16]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe16]
+connect_debug_port u_ila_0/probe16 [get_nets [list {core_inst/test_receiver/frame_count[0]} {core_inst/test_receiver/frame_count[1]} {core_inst/test_receiver/frame_count[2]} {core_inst/test_receiver/frame_count[3]} {core_inst/test_receiver/frame_count[4]} {core_inst/test_receiver/frame_count[5]} {core_inst/test_receiver/frame_count[6]} {core_inst/test_receiver/frame_count[7]} {core_inst/test_receiver/frame_count[8]} {core_inst/test_receiver/frame_count[9]} {core_inst/test_receiver/frame_count[10]} {core_inst/test_receiver/frame_count[11]} {core_inst/test_receiver/frame_count[12]} {core_inst/test_receiver/frame_count[13]} {core_inst/test_receiver/frame_count[14]} {core_inst/test_receiver/frame_count[15]} {core_inst/test_receiver/frame_count[16]} {core_inst/test_receiver/frame_count[17]} {core_inst/test_receiver/frame_count[18]} {core_inst/test_receiver/frame_count[19]} {core_inst/test_receiver/frame_count[20]} {core_inst/test_receiver/frame_count[21]} {core_inst/test_receiver/frame_count[22]} {core_inst/test_receiver/frame_count[23]} {core_inst/test_receiver/frame_count[24]} {core_inst/test_receiver/frame_count[25]} {core_inst/test_receiver/frame_count[26]} {core_inst/test_receiver/frame_count[27]} {core_inst/test_receiver/frame_count[28]} {core_inst/test_receiver/frame_count[29]} {core_inst/test_receiver/frame_count[30]} {core_inst/test_receiver/frame_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe17]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe17]
+connect_debug_port u_ila_0/probe17 [get_nets [list {core_inst/test_receiver/hdr_count[0]} {core_inst/test_receiver/hdr_count[1]} {core_inst/test_receiver/hdr_count[2]} {core_inst/test_receiver/hdr_count[3]} {core_inst/test_receiver/hdr_count[4]} {core_inst/test_receiver/hdr_count[5]} {core_inst/test_receiver/hdr_count[6]} {core_inst/test_receiver/hdr_count[7]} {core_inst/test_receiver/hdr_count[8]} {core_inst/test_receiver/hdr_count[9]} {core_inst/test_receiver/hdr_count[10]} {core_inst/test_receiver/hdr_count[11]} {core_inst/test_receiver/hdr_count[12]} {core_inst/test_receiver/hdr_count[13]} {core_inst/test_receiver/hdr_count[14]} {core_inst/test_receiver/hdr_count[15]} {core_inst/test_receiver/hdr_count[16]} {core_inst/test_receiver/hdr_count[17]} {core_inst/test_receiver/hdr_count[18]} {core_inst/test_receiver/hdr_count[19]} {core_inst/test_receiver/hdr_count[20]} {core_inst/test_receiver/hdr_count[21]} {core_inst/test_receiver/hdr_count[22]} {core_inst/test_receiver/hdr_count[23]} {core_inst/test_receiver/hdr_count[24]} {core_inst/test_receiver/hdr_count[25]} {core_inst/test_receiver/hdr_count[26]} {core_inst/test_receiver/hdr_count[27]} {core_inst/test_receiver/hdr_count[28]} {core_inst/test_receiver/hdr_count[29]} {core_inst/test_receiver/hdr_count[30]} {core_inst/test_receiver/hdr_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe18]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe18]
+connect_debug_port u_ila_0/probe18 [get_nets [list core_inst/test_receiver/hdr_err_reg ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe19]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe19]
+connect_debug_port u_ila_0/probe19 [get_nets [list core_inst/test_receiver/payload_err_reg ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe20]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe20]
+connect_debug_port u_ila_0/probe20 [get_nets [list core_inst/rst ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe21]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe21]
+connect_debug_port u_ila_0/probe21 [get_nets [list core_inst/rx_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe22]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe22]
+connect_debug_port u_ila_0/probe22 [get_nets [list core_inst/rx_axis_tready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe23]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe23]
+connect_debug_port u_ila_0/probe23 [get_nets [list core_inst/rx_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe24]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe24]
+connect_debug_port u_ila_0/probe24 [get_nets [list core_inst/rx_axis_tvalid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe25]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe25]
+connect_debug_port u_ila_0/probe25 [get_nets [list core_inst/rx_eth_hdr_valid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe26]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe26]
+connect_debug_port u_ila_0/probe26 [get_nets [list core_inst/rx_eth_payload_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe27]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe27]
+connect_debug_port u_ila_0/probe27 [get_nets [list core_inst/rx_eth_payload_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe28]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe28]
+connect_debug_port u_ila_0/probe28 [get_nets [list core_inst/rx_eth_payload_axis_tvalid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe29]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe29]
+connect_debug_port u_ila_0/probe29 [get_nets [list core_inst/tx_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe30]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe30]
+connect_debug_port u_ila_0/probe30 [get_nets [list core_inst/tx_axis_tready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe31]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe31]
+connect_debug_port u_ila_0/probe31 [get_nets [list core_inst/tx_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe32]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe32]
+connect_debug_port u_ila_0/probe32 [get_nets [list core_inst/tx_axis_tvalid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe33]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe33]
+connect_debug_port u_ila_0/probe33 [get_nets [list core_inst/tx_eth_hdr_ready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe34]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe34]
+connect_debug_port u_ila_0/probe34 [get_nets [list core_inst/tx_eth_hdr_valid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe35]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe35]
+connect_debug_port u_ila_0/probe35 [get_nets [list core_inst/tx_eth_payload_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe36]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe36]
+connect_debug_port u_ila_0/probe36 [get_nets [list core_inst/tx_eth_payload_axis_tready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe37]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe37]
+connect_debug_port u_ila_0/probe37 [get_nets [list core_inst/tx_eth_payload_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe38]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe38]
+connect_debug_port u_ila_0/probe38 [get_nets [list core_inst/tx_eth_payload_axis_tvalid ]]
+set_property target_constrs_file /data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc [current_fileset -constrset]
+save_constraints -force
+reset_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+open_run impl_1
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila -timeout 0 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+create_hw_cfgmem -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [lindex [get_cfgmem_parts {mt25ql128-spi-x1_x2_x4}] 0]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+delete_hw_cfgmem [ get_property PROGRAM.HW_CFGMEM [get_hw_devices xc7a35t_0 ]]
+create_hw_cfgmem -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [lindex [get_cfgmem_parts {mt25ql128-spi-x1_x2_x4}] 0]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
+reset_run impl_1 -prev_step 
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+set_property PROGRAM.ADDRESS_RANGE  {use_file} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.FILES [list "/data2/work/fpga/ea/ea.runs/impl_1/fpga.bin" ] [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.PRM_FILE {} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.UNUSED_PIN_TERMINATION {pull-none} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+startgroup 
+create_hw_bitstream -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [get_property PROGRAM.HW_CFGMEM_BITFILE [ lindex [get_hw_devices xc7a35t_0] 0]]; program_hw_devices [lindex [get_hw_devices xc7a35t_0] 0]; refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0];
+program_hw_cfgmem -hw_cfgmem [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+endgroup
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/tx_eth_hdr_valid -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'bX [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'bX [get_hw_probes core_inst/tx_eth_hdr_valid -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property CONTROL.TRIGGER_POSITION 10 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property PROGRAM.ADDRESS_RANGE  {use_file} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.FILES [list "/data2/work/fpga/ea/ea.runs/impl_1/fpga.bin" ] [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.PRM_FILE {} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.UNUSED_PIN_TERMINATION {pull-none} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+startgroup 
+create_hw_bitstream -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [get_property PROGRAM.HW_CFGMEM_BITFILE [ lindex [get_hw_devices xc7a35t_0] 0]]; program_hw_devices [lindex [get_hw_devices xc7a35t_0] 0]; refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0];
+program_hw_cfgmem -hw_cfgmem [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+endgroup
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property CONTROL.TRIGGER_POSITION 600 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'bX [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/rx_axis_tvalid -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila -timeout 0 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+wait_on_hw_ila -timeout 0 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+current_design synth_1
+refresh_design
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+reset_run synth_1
+launch_runs synth_1 -jobs 10
+wait_on_run synth_1
+close_design
+open_run synth_1 -name synth_1
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+delete_debug_core [get_debug_cores {u_ila_0 }]
+create_debug_core u_ila_0 ila
+set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+connect_debug_port u_ila_0/clk [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/rx_ssio_ddr_inst/mac_gmii_rx_clk ]]
+set_property port_width 8 [get_debug_ports u_ila_0/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[0]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[1]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[2]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[3]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[4]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[5]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[6]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe1]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe2]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_er ]]
+save_constraints
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+current_design impl_1
+refresh_design
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+current_design synth_1
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group "*" ]
+delete_debug_core [get_debug_cores {u_ila_0 }]
+create_debug_core u_ila_0 ila
+set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+create_debug_core u_ila_1 ila
+set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_1]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_1]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_1]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_1]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_1]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_1]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_1]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_1]
+connect_debug_port u_ila_0/clk [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/rx_ssio_ddr_inst/mac_gmii_rx_clk ]]
+connect_debug_port u_ila_1/clk [get_nets [list clk_int ]]
+set_property port_width 8 [get_debug_ports u_ila_0/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[0]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[1]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[2]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[3]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[4]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[5]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[6]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe1]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe2]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_er ]]
+set_property port_width 1 [get_debug_ports u_ila_1/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_1/probe0]
+connect_debug_port u_ila_1/probe0 [get_nets [list phy_reset_n_OBUF ]]
+save_constraints
+reset_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+wait_on_run impl_1
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_2 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}] -trigger_now
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]]
+save_wave_config {/data2/work/fpga/ea/ea.hw/hw_1/wave/hw_ila_data_1/hw_ila_data_1.wcfg}
+save_wave_config {/data2/work/fpga/ea/ea.hw/hw_1/wave/hw_ila_data_2/hw_ila_data_2.wcfg}

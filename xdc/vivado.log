@@ -1,0 +1,1097 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Jun 29 09:39:46 2024
+# Process ID: 389662
+# Current directory: /data2/work/github/ea/xdc
+# Command line: vivado
+# Log file: /data2/work/github/ea/xdc/vivado.log
+# Journal file: /data2/work/github/ea/xdc/vivado.jou
+# Running On: suzhifeng, OS: Linux, CPU Frequency: 4373.365 MHz, CPU Physical cores: 6, Host memory: 33571 MB
+#-----------------------------------------------------------
+start_gui
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_a/1.0/board.xml as part xcve2802-vsvh1760-2lp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es:part0:1.1 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_a/1.1/board.xml as part xcve2802-vsvh1760-2lp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es_revb:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_b/1.0/board.xml as part xcve2802-vsvh1760-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es_revb:part0:1.1 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_b/1.1/board.xml as part xcve2802-vsvh1760-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158_es:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/es/1.0/board.xml as part xcvh1582-vsva3697-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158_es:part0:1.1 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/es/1.1/board.xml as part xcvh1582-vsva3697-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/2.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at /data2/tools/Xilinx/Vivado/2023.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670ld/1.0/board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+open_project /data2/work/fpga/ea/ea.xpr
+INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory '/data2/work/fpga/ea/ea.gen/sources_1'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/data2/tools/Xilinx/Vivado/2023.2/data/ip'.
+update_compile_order -fileset sources_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2023.2
+  **** Build date : Oct 13 2023 at 20:26:23
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2023.2.0
+  ****** Build date   : Oct 10 2023-04:01:56
+    **** Build number : 2023.2.1696910516
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+open_run synth_1 -name synth_1
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7a35tfgg484-2
+INFO: [Device 21-403] Loading part xc7a35tfgg484-2
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 8191.387 ; gain = 0.000 ; free physical = 27361 ; free virtual = 37677
+INFO: [Netlist 29-17] Analyzing 132 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2023.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc]
+Finished Parsing XDC File [/data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc]
+Parsing XDC File [/data2/work/github/ea/xdc/eth.xdc]
+Finished Parsing XDC File [/data2/work/github/ea/xdc/eth.xdc]
+Parsing XDC File [/data2/work/github/ea/xdc/fpga.xdc]
+INFO: [Constraints 18-632] set_output_delay: No clock object specified, the clocks will be automatically identified [/data2/work/github/ea/xdc/fpga.xdc:35]
+INFO: [Timing 38-35] Done setting XDC timing constraints. [/data2/work/github/ea/xdc/fpga.xdc:37]
+INFO: [Timing 38-2] Deriving generated clocks [/data2/work/github/ea/xdc/fpga.xdc:37]
+Finished Parsing XDC File [/data2/work/github/ea/xdc/fpga.xdc]
+Sourcing Tcl File [/data2/work/github/ea/xdc/axis_async_fifo.tcl]
+Inserting timing constraints for axis_async_fifo instance core_inst/eth_mac_inst/rx_fifo/fifo_inst
+Inserting timing constraints for axis_async_fifo instance core_inst/eth_mac_inst/tx_fifo/fifo_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/axis_async_fifo.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/eth_mac_fifo.tcl]
+Inserting timing constraints for ethernet MAC with FIFO instance core_inst/eth_mac_inst
+WARNING: [Vivado 12-180] No cells matched '.*/rx_sync_reg_[1234]_reg\[\d+\]'. [/data2/work/github/ea/xdc/eth_mac_fifo.tcl:23]
+WARNING: [Vivado 12-180] No cells matched '.*/tx_sync_reg_[1234]_reg\[\d+\]'. [/data2/work/github/ea/xdc/eth_mac_fifo.tcl:23]
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/eth_mac_fifo.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/rgmii_phy_if.tcl]
+Inserting timing constraints for rgmii_phy_if instance core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/rgmii_phy_if.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/sync_reset.tcl]
+Inserting timing constraints for sync_reset instance sync_reset_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/sync_reset.tcl]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 8976.750 ; gain = 0.000 ; free physical = 26827 ; free virtual = 37144
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+open_run: Time (s): cpu = 00:00:14 ; elapsed = 00:00:09 . Memory (MB): peak = 9066.660 ; gain = 1184.297 ; free physical = 26702 ; free virtual = 37018
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+create_debug_core u_ila_0 ila
+set_property C_DATA_DEPTH 2048 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+connect_debug_port u_ila_0/clk [get_nets [list clk_int ]]
+set_property port_width 32 [get_debug_ports u_ila_0/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {core_inst/test_sender/hdr_count[0]} {core_inst/test_sender/hdr_count[1]} {core_inst/test_sender/hdr_count[2]} {core_inst/test_sender/hdr_count[3]} {core_inst/test_sender/hdr_count[4]} {core_inst/test_sender/hdr_count[5]} {core_inst/test_sender/hdr_count[6]} {core_inst/test_sender/hdr_count[7]} {core_inst/test_sender/hdr_count[8]} {core_inst/test_sender/hdr_count[9]} {core_inst/test_sender/hdr_count[10]} {core_inst/test_sender/hdr_count[11]} {core_inst/test_sender/hdr_count[12]} {core_inst/test_sender/hdr_count[13]} {core_inst/test_sender/hdr_count[14]} {core_inst/test_sender/hdr_count[15]} {core_inst/test_sender/hdr_count[16]} {core_inst/test_sender/hdr_count[17]} {core_inst/test_sender/hdr_count[18]} {core_inst/test_sender/hdr_count[19]} {core_inst/test_sender/hdr_count[20]} {core_inst/test_sender/hdr_count[21]} {core_inst/test_sender/hdr_count[22]} {core_inst/test_sender/hdr_count[23]} {core_inst/test_sender/hdr_count[24]} {core_inst/test_sender/hdr_count[25]} {core_inst/test_sender/hdr_count[26]} {core_inst/test_sender/hdr_count[27]} {core_inst/test_sender/hdr_count[28]} {core_inst/test_sender/hdr_count[29]} {core_inst/test_sender/hdr_count[30]} {core_inst/test_sender/hdr_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe1]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list {core_inst/test_sender/frame_count[0]} {core_inst/test_sender/frame_count[1]} {core_inst/test_sender/frame_count[2]} {core_inst/test_sender/frame_count[3]} {core_inst/test_sender/frame_count[4]} {core_inst/test_sender/frame_count[5]} {core_inst/test_sender/frame_count[6]} {core_inst/test_sender/frame_count[7]} {core_inst/test_sender/frame_count[8]} {core_inst/test_sender/frame_count[9]} {core_inst/test_sender/frame_count[10]} {core_inst/test_sender/frame_count[11]} {core_inst/test_sender/frame_count[12]} {core_inst/test_sender/frame_count[13]} {core_inst/test_sender/frame_count[14]} {core_inst/test_sender/frame_count[15]} {core_inst/test_sender/frame_count[16]} {core_inst/test_sender/frame_count[17]} {core_inst/test_sender/frame_count[18]} {core_inst/test_sender/frame_count[19]} {core_inst/test_sender/frame_count[20]} {core_inst/test_sender/frame_count[21]} {core_inst/test_sender/frame_count[22]} {core_inst/test_sender/frame_count[23]} {core_inst/test_sender/frame_count[24]} {core_inst/test_sender/frame_count[25]} {core_inst/test_sender/frame_count[26]} {core_inst/test_sender/frame_count[27]} {core_inst/test_sender/frame_count[28]} {core_inst/test_sender/frame_count[29]} {core_inst/test_sender/frame_count[30]} {core_inst/test_sender/frame_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 24 [get_debug_ports u_ila_0/probe2]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list {core_inst/test_sender/beat_count[8]} {core_inst/test_sender/beat_count[9]} {core_inst/test_sender/beat_count[10]} {core_inst/test_sender/beat_count[11]} {core_inst/test_sender/beat_count[12]} {core_inst/test_sender/beat_count[13]} {core_inst/test_sender/beat_count[14]} {core_inst/test_sender/beat_count[15]} {core_inst/test_sender/beat_count[16]} {core_inst/test_sender/beat_count[17]} {core_inst/test_sender/beat_count[18]} {core_inst/test_sender/beat_count[19]} {core_inst/test_sender/beat_count[20]} {core_inst/test_sender/beat_count[21]} {core_inst/test_sender/beat_count[22]} {core_inst/test_sender/beat_count[23]} {core_inst/test_sender/beat_count[24]} {core_inst/test_sender/beat_count[25]} {core_inst/test_sender/beat_count[26]} {core_inst/test_sender/beat_count[27]} {core_inst/test_sender/beat_count[28]} {core_inst/test_sender/beat_count[29]} {core_inst/test_sender/beat_count[30]} {core_inst/test_sender/beat_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe3]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
+connect_debug_port u_ila_0/probe3 [get_nets [list {led2_count[0]} {led2_count[1]} {led2_count[2]} {led2_count[3]} {led2_count[4]} {led2_count[5]} {led2_count[6]} {led2_count[7]} {led2_count[8]} {led2_count[9]} {led2_count[10]} {led2_count[11]} {led2_count[12]} {led2_count[13]} {led2_count[14]} {led2_count[15]} {led2_count[16]} {led2_count[17]} {led2_count[18]} {led2_count[19]} {led2_count[20]} {led2_count[21]} {led2_count[22]} {led2_count[23]} {led2_count[24]} {led2_count[25]} {led2_count[26]} {led2_count[27]} {led2_count[28]} {led2_count[29]} {led2_count[30]} {led2_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 16 [get_debug_ports u_ila_0/probe4]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
+connect_debug_port u_ila_0/probe4 [get_nets [list {core_inst/tx_eth_type[0]} {core_inst/tx_eth_type[1]} {core_inst/tx_eth_type[2]} {core_inst/tx_eth_type[3]} {core_inst/tx_eth_type[4]} {core_inst/tx_eth_type[5]} {core_inst/tx_eth_type[6]} {core_inst/tx_eth_type[7]} {core_inst/tx_eth_type[8]} {core_inst/tx_eth_type[9]} {core_inst/tx_eth_type[10]} {core_inst/tx_eth_type[11]} {core_inst/tx_eth_type[12]} {core_inst/tx_eth_type[13]} {core_inst/tx_eth_type[14]} {core_inst/tx_eth_type[15]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe5]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
+connect_debug_port u_ila_0/probe5 [get_nets [list {core_inst/tx_eth_src_mac[0]} {core_inst/tx_eth_src_mac[1]} {core_inst/tx_eth_src_mac[2]} {core_inst/tx_eth_src_mac[3]} {core_inst/tx_eth_src_mac[4]} {core_inst/tx_eth_src_mac[5]} {core_inst/tx_eth_src_mac[6]} {core_inst/tx_eth_src_mac[7]} {core_inst/tx_eth_src_mac[8]} {core_inst/tx_eth_src_mac[9]} {core_inst/tx_eth_src_mac[10]} {core_inst/tx_eth_src_mac[11]} {core_inst/tx_eth_src_mac[12]} {core_inst/tx_eth_src_mac[13]} {core_inst/tx_eth_src_mac[14]} {core_inst/tx_eth_src_mac[15]} {core_inst/tx_eth_src_mac[16]} {core_inst/tx_eth_src_mac[17]} {core_inst/tx_eth_src_mac[18]} {core_inst/tx_eth_src_mac[19]} {core_inst/tx_eth_src_mac[20]} {core_inst/tx_eth_src_mac[21]} {core_inst/tx_eth_src_mac[22]} {core_inst/tx_eth_src_mac[23]} {core_inst/tx_eth_src_mac[24]} {core_inst/tx_eth_src_mac[25]} {core_inst/tx_eth_src_mac[26]} {core_inst/tx_eth_src_mac[27]} {core_inst/tx_eth_src_mac[28]} {core_inst/tx_eth_src_mac[29]} {core_inst/tx_eth_src_mac[30]} {core_inst/tx_eth_src_mac[31]} {core_inst/tx_eth_src_mac[32]} {core_inst/tx_eth_src_mac[33]} {core_inst/tx_eth_src_mac[34]} {core_inst/tx_eth_src_mac[35]} {core_inst/tx_eth_src_mac[36]} {core_inst/tx_eth_src_mac[37]} {core_inst/tx_eth_src_mac[38]} {core_inst/tx_eth_src_mac[39]} {core_inst/tx_eth_src_mac[40]} {core_inst/tx_eth_src_mac[41]} {core_inst/tx_eth_src_mac[42]} {core_inst/tx_eth_src_mac[43]} {core_inst/tx_eth_src_mac[44]} {core_inst/tx_eth_src_mac[45]} {core_inst/tx_eth_src_mac[46]} {core_inst/tx_eth_src_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe6]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
+connect_debug_port u_ila_0/probe6 [get_nets [list {core_inst/tx_eth_payload_axis_tdata[0]} {core_inst/tx_eth_payload_axis_tdata[1]} {core_inst/tx_eth_payload_axis_tdata[2]} {core_inst/tx_eth_payload_axis_tdata[3]} {core_inst/tx_eth_payload_axis_tdata[4]} {core_inst/tx_eth_payload_axis_tdata[5]} {core_inst/tx_eth_payload_axis_tdata[6]} {core_inst/tx_eth_payload_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe7]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
+connect_debug_port u_ila_0/probe7 [get_nets [list {core_inst/tx_eth_dest_mac[0]} {core_inst/tx_eth_dest_mac[1]} {core_inst/tx_eth_dest_mac[2]} {core_inst/tx_eth_dest_mac[3]} {core_inst/tx_eth_dest_mac[4]} {core_inst/tx_eth_dest_mac[5]} {core_inst/tx_eth_dest_mac[6]} {core_inst/tx_eth_dest_mac[7]} {core_inst/tx_eth_dest_mac[8]} {core_inst/tx_eth_dest_mac[9]} {core_inst/tx_eth_dest_mac[10]} {core_inst/tx_eth_dest_mac[11]} {core_inst/tx_eth_dest_mac[12]} {core_inst/tx_eth_dest_mac[13]} {core_inst/tx_eth_dest_mac[14]} {core_inst/tx_eth_dest_mac[15]} {core_inst/tx_eth_dest_mac[16]} {core_inst/tx_eth_dest_mac[17]} {core_inst/tx_eth_dest_mac[18]} {core_inst/tx_eth_dest_mac[19]} {core_inst/tx_eth_dest_mac[20]} {core_inst/tx_eth_dest_mac[21]} {core_inst/tx_eth_dest_mac[22]} {core_inst/tx_eth_dest_mac[23]} {core_inst/tx_eth_dest_mac[24]} {core_inst/tx_eth_dest_mac[25]} {core_inst/tx_eth_dest_mac[26]} {core_inst/tx_eth_dest_mac[27]} {core_inst/tx_eth_dest_mac[28]} {core_inst/tx_eth_dest_mac[29]} {core_inst/tx_eth_dest_mac[30]} {core_inst/tx_eth_dest_mac[31]} {core_inst/tx_eth_dest_mac[32]} {core_inst/tx_eth_dest_mac[33]} {core_inst/tx_eth_dest_mac[34]} {core_inst/tx_eth_dest_mac[35]} {core_inst/tx_eth_dest_mac[36]} {core_inst/tx_eth_dest_mac[37]} {core_inst/tx_eth_dest_mac[38]} {core_inst/tx_eth_dest_mac[39]} {core_inst/tx_eth_dest_mac[40]} {core_inst/tx_eth_dest_mac[41]} {core_inst/tx_eth_dest_mac[42]} {core_inst/tx_eth_dest_mac[43]} {core_inst/tx_eth_dest_mac[44]} {core_inst/tx_eth_dest_mac[45]} {core_inst/tx_eth_dest_mac[46]} {core_inst/tx_eth_dest_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 16 [get_debug_ports u_ila_0/probe8]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
+connect_debug_port u_ila_0/probe8 [get_nets [list {core_inst/rx_eth_type[0]} {core_inst/rx_eth_type[1]} {core_inst/rx_eth_type[2]} {core_inst/rx_eth_type[3]} {core_inst/rx_eth_type[4]} {core_inst/rx_eth_type[5]} {core_inst/rx_eth_type[6]} {core_inst/rx_eth_type[7]} {core_inst/rx_eth_type[8]} {core_inst/rx_eth_type[9]} {core_inst/rx_eth_type[10]} {core_inst/rx_eth_type[11]} {core_inst/rx_eth_type[12]} {core_inst/rx_eth_type[13]} {core_inst/rx_eth_type[14]} {core_inst/rx_eth_type[15]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe9]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
+connect_debug_port u_ila_0/probe9 [get_nets [list {core_inst/rx_eth_src_mac[0]} {core_inst/rx_eth_src_mac[1]} {core_inst/rx_eth_src_mac[2]} {core_inst/rx_eth_src_mac[3]} {core_inst/rx_eth_src_mac[4]} {core_inst/rx_eth_src_mac[5]} {core_inst/rx_eth_src_mac[6]} {core_inst/rx_eth_src_mac[7]} {core_inst/rx_eth_src_mac[8]} {core_inst/rx_eth_src_mac[9]} {core_inst/rx_eth_src_mac[10]} {core_inst/rx_eth_src_mac[11]} {core_inst/rx_eth_src_mac[12]} {core_inst/rx_eth_src_mac[13]} {core_inst/rx_eth_src_mac[14]} {core_inst/rx_eth_src_mac[15]} {core_inst/rx_eth_src_mac[16]} {core_inst/rx_eth_src_mac[17]} {core_inst/rx_eth_src_mac[18]} {core_inst/rx_eth_src_mac[19]} {core_inst/rx_eth_src_mac[20]} {core_inst/rx_eth_src_mac[21]} {core_inst/rx_eth_src_mac[22]} {core_inst/rx_eth_src_mac[23]} {core_inst/rx_eth_src_mac[24]} {core_inst/rx_eth_src_mac[25]} {core_inst/rx_eth_src_mac[26]} {core_inst/rx_eth_src_mac[27]} {core_inst/rx_eth_src_mac[28]} {core_inst/rx_eth_src_mac[29]} {core_inst/rx_eth_src_mac[30]} {core_inst/rx_eth_src_mac[31]} {core_inst/rx_eth_src_mac[32]} {core_inst/rx_eth_src_mac[33]} {core_inst/rx_eth_src_mac[34]} {core_inst/rx_eth_src_mac[35]} {core_inst/rx_eth_src_mac[36]} {core_inst/rx_eth_src_mac[37]} {core_inst/rx_eth_src_mac[38]} {core_inst/rx_eth_src_mac[39]} {core_inst/rx_eth_src_mac[40]} {core_inst/rx_eth_src_mac[41]} {core_inst/rx_eth_src_mac[42]} {core_inst/rx_eth_src_mac[43]} {core_inst/rx_eth_src_mac[44]} {core_inst/rx_eth_src_mac[45]} {core_inst/rx_eth_src_mac[46]} {core_inst/rx_eth_src_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe10]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe10]
+connect_debug_port u_ila_0/probe10 [get_nets [list {core_inst/tx_axis_tdata[0]} {core_inst/tx_axis_tdata[1]} {core_inst/tx_axis_tdata[2]} {core_inst/tx_axis_tdata[3]} {core_inst/tx_axis_tdata[4]} {core_inst/tx_axis_tdata[5]} {core_inst/tx_axis_tdata[6]} {core_inst/tx_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe11]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe11]
+connect_debug_port u_ila_0/probe11 [get_nets [list {core_inst/rx_eth_payload_axis_tdata[0]} {core_inst/rx_eth_payload_axis_tdata[1]} {core_inst/rx_eth_payload_axis_tdata[2]} {core_inst/rx_eth_payload_axis_tdata[3]} {core_inst/rx_eth_payload_axis_tdata[4]} {core_inst/rx_eth_payload_axis_tdata[5]} {core_inst/rx_eth_payload_axis_tdata[6]} {core_inst/rx_eth_payload_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 48 [get_debug_ports u_ila_0/probe12]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe12]
+connect_debug_port u_ila_0/probe12 [get_nets [list {core_inst/rx_eth_dest_mac[0]} {core_inst/rx_eth_dest_mac[1]} {core_inst/rx_eth_dest_mac[2]} {core_inst/rx_eth_dest_mac[3]} {core_inst/rx_eth_dest_mac[4]} {core_inst/rx_eth_dest_mac[5]} {core_inst/rx_eth_dest_mac[6]} {core_inst/rx_eth_dest_mac[7]} {core_inst/rx_eth_dest_mac[8]} {core_inst/rx_eth_dest_mac[9]} {core_inst/rx_eth_dest_mac[10]} {core_inst/rx_eth_dest_mac[11]} {core_inst/rx_eth_dest_mac[12]} {core_inst/rx_eth_dest_mac[13]} {core_inst/rx_eth_dest_mac[14]} {core_inst/rx_eth_dest_mac[15]} {core_inst/rx_eth_dest_mac[16]} {core_inst/rx_eth_dest_mac[17]} {core_inst/rx_eth_dest_mac[18]} {core_inst/rx_eth_dest_mac[19]} {core_inst/rx_eth_dest_mac[20]} {core_inst/rx_eth_dest_mac[21]} {core_inst/rx_eth_dest_mac[22]} {core_inst/rx_eth_dest_mac[23]} {core_inst/rx_eth_dest_mac[24]} {core_inst/rx_eth_dest_mac[25]} {core_inst/rx_eth_dest_mac[26]} {core_inst/rx_eth_dest_mac[27]} {core_inst/rx_eth_dest_mac[28]} {core_inst/rx_eth_dest_mac[29]} {core_inst/rx_eth_dest_mac[30]} {core_inst/rx_eth_dest_mac[31]} {core_inst/rx_eth_dest_mac[32]} {core_inst/rx_eth_dest_mac[33]} {core_inst/rx_eth_dest_mac[34]} {core_inst/rx_eth_dest_mac[35]} {core_inst/rx_eth_dest_mac[36]} {core_inst/rx_eth_dest_mac[37]} {core_inst/rx_eth_dest_mac[38]} {core_inst/rx_eth_dest_mac[39]} {core_inst/rx_eth_dest_mac[40]} {core_inst/rx_eth_dest_mac[41]} {core_inst/rx_eth_dest_mac[42]} {core_inst/rx_eth_dest_mac[43]} {core_inst/rx_eth_dest_mac[44]} {core_inst/rx_eth_dest_mac[45]} {core_inst/rx_eth_dest_mac[46]} {core_inst/rx_eth_dest_mac[47]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 8 [get_debug_ports u_ila_0/probe13]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe13]
+connect_debug_port u_ila_0/probe13 [get_nets [list {core_inst/rx_axis_tdata[0]} {core_inst/rx_axis_tdata[1]} {core_inst/rx_axis_tdata[2]} {core_inst/rx_axis_tdata[3]} {core_inst/rx_axis_tdata[4]} {core_inst/rx_axis_tdata[5]} {core_inst/rx_axis_tdata[6]} {core_inst/rx_axis_tdata[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe14]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe14]
+connect_debug_port u_ila_0/probe14 [get_nets [list {core_inst/test_receiver/beat_count[0]} {core_inst/test_receiver/beat_count[1]} {core_inst/test_receiver/beat_count[2]} {core_inst/test_receiver/beat_count[3]} {core_inst/test_receiver/beat_count[4]} {core_inst/test_receiver/beat_count[5]} {core_inst/test_receiver/beat_count[6]} {core_inst/test_receiver/beat_count[7]} {core_inst/test_receiver/beat_count[8]} {core_inst/test_receiver/beat_count[9]} {core_inst/test_receiver/beat_count[10]} {core_inst/test_receiver/beat_count[11]} {core_inst/test_receiver/beat_count[12]} {core_inst/test_receiver/beat_count[13]} {core_inst/test_receiver/beat_count[14]} {core_inst/test_receiver/beat_count[15]} {core_inst/test_receiver/beat_count[16]} {core_inst/test_receiver/beat_count[17]} {core_inst/test_receiver/beat_count[18]} {core_inst/test_receiver/beat_count[19]} {core_inst/test_receiver/beat_count[20]} {core_inst/test_receiver/beat_count[21]} {core_inst/test_receiver/beat_count[22]} {core_inst/test_receiver/beat_count[23]} {core_inst/test_receiver/beat_count[24]} {core_inst/test_receiver/beat_count[25]} {core_inst/test_receiver/beat_count[26]} {core_inst/test_receiver/beat_count[27]} {core_inst/test_receiver/beat_count[28]} {core_inst/test_receiver/beat_count[29]} {core_inst/test_receiver/beat_count[30]} {core_inst/test_receiver/beat_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe15]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe15]
+connect_debug_port u_ila_0/probe15 [get_nets [list {core_inst/test_receiver/error_count[0]} {core_inst/test_receiver/error_count[1]} {core_inst/test_receiver/error_count[2]} {core_inst/test_receiver/error_count[3]} {core_inst/test_receiver/error_count[4]} {core_inst/test_receiver/error_count[5]} {core_inst/test_receiver/error_count[6]} {core_inst/test_receiver/error_count[7]} {core_inst/test_receiver/error_count[8]} {core_inst/test_receiver/error_count[9]} {core_inst/test_receiver/error_count[10]} {core_inst/test_receiver/error_count[11]} {core_inst/test_receiver/error_count[12]} {core_inst/test_receiver/error_count[13]} {core_inst/test_receiver/error_count[14]} {core_inst/test_receiver/error_count[15]} {core_inst/test_receiver/error_count[16]} {core_inst/test_receiver/error_count[17]} {core_inst/test_receiver/error_count[18]} {core_inst/test_receiver/error_count[19]} {core_inst/test_receiver/error_count[20]} {core_inst/test_receiver/error_count[21]} {core_inst/test_receiver/error_count[22]} {core_inst/test_receiver/error_count[23]} {core_inst/test_receiver/error_count[24]} {core_inst/test_receiver/error_count[25]} {core_inst/test_receiver/error_count[26]} {core_inst/test_receiver/error_count[27]} {core_inst/test_receiver/error_count[28]} {core_inst/test_receiver/error_count[29]} {core_inst/test_receiver/error_count[30]} {core_inst/test_receiver/error_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe16]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe16]
+connect_debug_port u_ila_0/probe16 [get_nets [list {core_inst/test_receiver/frame_count[0]} {core_inst/test_receiver/frame_count[1]} {core_inst/test_receiver/frame_count[2]} {core_inst/test_receiver/frame_count[3]} {core_inst/test_receiver/frame_count[4]} {core_inst/test_receiver/frame_count[5]} {core_inst/test_receiver/frame_count[6]} {core_inst/test_receiver/frame_count[7]} {core_inst/test_receiver/frame_count[8]} {core_inst/test_receiver/frame_count[9]} {core_inst/test_receiver/frame_count[10]} {core_inst/test_receiver/frame_count[11]} {core_inst/test_receiver/frame_count[12]} {core_inst/test_receiver/frame_count[13]} {core_inst/test_receiver/frame_count[14]} {core_inst/test_receiver/frame_count[15]} {core_inst/test_receiver/frame_count[16]} {core_inst/test_receiver/frame_count[17]} {core_inst/test_receiver/frame_count[18]} {core_inst/test_receiver/frame_count[19]} {core_inst/test_receiver/frame_count[20]} {core_inst/test_receiver/frame_count[21]} {core_inst/test_receiver/frame_count[22]} {core_inst/test_receiver/frame_count[23]} {core_inst/test_receiver/frame_count[24]} {core_inst/test_receiver/frame_count[25]} {core_inst/test_receiver/frame_count[26]} {core_inst/test_receiver/frame_count[27]} {core_inst/test_receiver/frame_count[28]} {core_inst/test_receiver/frame_count[29]} {core_inst/test_receiver/frame_count[30]} {core_inst/test_receiver/frame_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 32 [get_debug_ports u_ila_0/probe17]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe17]
+connect_debug_port u_ila_0/probe17 [get_nets [list {core_inst/test_receiver/hdr_count[0]} {core_inst/test_receiver/hdr_count[1]} {core_inst/test_receiver/hdr_count[2]} {core_inst/test_receiver/hdr_count[3]} {core_inst/test_receiver/hdr_count[4]} {core_inst/test_receiver/hdr_count[5]} {core_inst/test_receiver/hdr_count[6]} {core_inst/test_receiver/hdr_count[7]} {core_inst/test_receiver/hdr_count[8]} {core_inst/test_receiver/hdr_count[9]} {core_inst/test_receiver/hdr_count[10]} {core_inst/test_receiver/hdr_count[11]} {core_inst/test_receiver/hdr_count[12]} {core_inst/test_receiver/hdr_count[13]} {core_inst/test_receiver/hdr_count[14]} {core_inst/test_receiver/hdr_count[15]} {core_inst/test_receiver/hdr_count[16]} {core_inst/test_receiver/hdr_count[17]} {core_inst/test_receiver/hdr_count[18]} {core_inst/test_receiver/hdr_count[19]} {core_inst/test_receiver/hdr_count[20]} {core_inst/test_receiver/hdr_count[21]} {core_inst/test_receiver/hdr_count[22]} {core_inst/test_receiver/hdr_count[23]} {core_inst/test_receiver/hdr_count[24]} {core_inst/test_receiver/hdr_count[25]} {core_inst/test_receiver/hdr_count[26]} {core_inst/test_receiver/hdr_count[27]} {core_inst/test_receiver/hdr_count[28]} {core_inst/test_receiver/hdr_count[29]} {core_inst/test_receiver/hdr_count[30]} {core_inst/test_receiver/hdr_count[31]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe18]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe18]
+connect_debug_port u_ila_0/probe18 [get_nets [list core_inst/test_receiver/hdr_err_reg ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe19]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe19]
+connect_debug_port u_ila_0/probe19 [get_nets [list core_inst/test_receiver/payload_err_reg ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe20]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe20]
+connect_debug_port u_ila_0/probe20 [get_nets [list core_inst/rst ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe21]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe21]
+connect_debug_port u_ila_0/probe21 [get_nets [list core_inst/rx_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe22]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe22]
+connect_debug_port u_ila_0/probe22 [get_nets [list core_inst/rx_axis_tready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe23]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe23]
+connect_debug_port u_ila_0/probe23 [get_nets [list core_inst/rx_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe24]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe24]
+connect_debug_port u_ila_0/probe24 [get_nets [list core_inst/rx_axis_tvalid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe25]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe25]
+connect_debug_port u_ila_0/probe25 [get_nets [list core_inst/rx_eth_hdr_valid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe26]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe26]
+connect_debug_port u_ila_0/probe26 [get_nets [list core_inst/rx_eth_payload_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe27]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe27]
+connect_debug_port u_ila_0/probe27 [get_nets [list core_inst/rx_eth_payload_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe28]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe28]
+connect_debug_port u_ila_0/probe28 [get_nets [list core_inst/rx_eth_payload_axis_tvalid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe29]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe29]
+connect_debug_port u_ila_0/probe29 [get_nets [list core_inst/tx_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe30]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe30]
+connect_debug_port u_ila_0/probe30 [get_nets [list core_inst/tx_axis_tready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe31]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe31]
+connect_debug_port u_ila_0/probe31 [get_nets [list core_inst/tx_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe32]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe32]
+connect_debug_port u_ila_0/probe32 [get_nets [list core_inst/tx_axis_tvalid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe33]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe33]
+connect_debug_port u_ila_0/probe33 [get_nets [list core_inst/tx_eth_hdr_ready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe34]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe34]
+connect_debug_port u_ila_0/probe34 [get_nets [list core_inst/tx_eth_hdr_valid ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe35]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe35]
+connect_debug_port u_ila_0/probe35 [get_nets [list core_inst/tx_eth_payload_axis_tlast ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe36]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe36]
+connect_debug_port u_ila_0/probe36 [get_nets [list core_inst/tx_eth_payload_axis_tready ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe37]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe37]
+connect_debug_port u_ila_0/probe37 [get_nets [list core_inst/tx_eth_payload_axis_tuser ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe38]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe38]
+connect_debug_port u_ila_0/probe38 [get_nets [list core_inst/tx_eth_payload_axis_tvalid ]]
+set_property target_constrs_file /data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc [current_fileset -constrset]
+save_constraints -force
+reset_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26607 ; free virtual = 36925
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26607 ; free virtual = 36925
+Writing XDEF routing.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26607 ; free virtual = 36925
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.01 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26606 ; free virtual = 36924
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26606 ; free virtual = 36924
+Wrote Device Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26605 ; free virtual = 36924
+Write Physdb Complete: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.02 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26605 ; free virtual = 36924
+[Sat Jun 29 09:43:44 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+open_run impl_1
+Netlist sorting complete. Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.07 . Memory (MB): peak = 9066.660 ; gain = 0.000 ; free physical = 26487 ; free virtual = 36906
+INFO: [Netlist 29-17] Analyzing 807 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2023.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Read ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.03 . Memory (MB): peak = 9084.062 ; gain = 3.000 ; free physical = 26425 ; free virtual = 36844
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+INFO: [Designutils 20-5722] Start Reading Physical Databases.
+Reading placement.
+Read Netlist Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 9258.824 ; gain = 0.000 ; free physical = 26329 ; free virtual = 36748
+Reading placer database...
+Read Device Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9258.824 ; gain = 0.000 ; free physical = 26329 ; free virtual = 36748
+Read PlaceDB: Time (s): cpu = 00:00:00.28 ; elapsed = 00:00:00.28 . Memory (MB): peak = 9268.828 ; gain = 10.004 ; free physical = 26322 ; free virtual = 36741
+Read PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9268.828 ; gain = 0.000 ; free physical = 26322 ; free virtual = 36741
+Reading routing.
+Read RouteStorage: Time (s): cpu = 00:00:00.12 ; elapsed = 00:00:00.12 . Memory (MB): peak = 9268.828 ; gain = 0.000 ; free physical = 26320 ; free virtual = 36739
+Read Physdb Files: Time (s): cpu = 00:00:00.42 ; elapsed = 00:00:00.41 . Memory (MB): peak = 9268.828 ; gain = 10.004 ; free physical = 26320 ; free virtual = 36739
+Restored from archive | CPU: 0.420000 secs | Memory: 12.232101 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:00.42 ; elapsed = 00:00:00.41 . Memory (MB): peak = 9268.828 ; gain = 10.004 ; free physical = 26320 ; free virtual = 36739
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9268.828 ; gain = 0.000 ; free physical = 26320 ; free virtual = 36739
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 386 instances were transformed.
+  CFGLUT5 => CFGLUT5 (SRL16E, SRLC32E): 380 instances
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 6 instances
+
+WARNING: [Timing 38-436] There are set_bus_skew constraint(s) in this design. Please run report_bus_skew to ensure that bus skew requirements are met.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 09:48:08
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 09:48:08
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 09:50:28
+wait_on_hw_ila -timeout 0 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1965] The ILA core 'hw_ila_1' trigger was stopped by user at 2024-Jun-29 09:50:32
+WARNING: [Labtools 27-157] hw_ila [hw_ila_1] stopped. No data to upload.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 09:50:32
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 09:50:32
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file /data2/work/fpga/ea/ea.srcs/utils_1/imports/synth_1/fpga.dcp with file /data2/work/fpga/ea/ea.runs/synth_1/fpga.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+WARNING: [Project 1-478] Design 'synth_1' is stale and will not be used when launching 'impl_1'
+[Sat Jun 29 10:00:09 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Sat Jun 29 10:00:09 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+WARNING: [Project 1-478] Design 'synth_1' is stale and will not be used when launching 'impl_1'
+[Sat Jun 29 10:01:09 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Sat Jun 29 10:01:09 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+create_hw_cfgmem -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [lindex [get_cfgmem_parts {mt25ql128-spi-x1_x2_x4}] 0]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+WARNING: [Labtools 27-1347] Unable to find Debug Probes file [/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx]. Please update hw_device property [PROBES.FILE]
+ Update of hw_probe objects, will be skipped.
+ERROR: [Common 17-48] File not found: /data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx
+delete_hw_cfgmem [ get_property PROGRAM.HW_CFGMEM [get_hw_devices xc7a35t_0 ]]
+create_hw_cfgmem -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [lindex [get_cfgmem_parts {mt25ql128-spi-x1_x2_x4}] 0]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
+reset_run impl_1 -prev_step 
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+[Sat Jun 29 10:08:27 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+set_property PROGRAM.ADDRESS_RANGE  {use_file} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.FILES [list "/data2/work/fpga/ea/ea.runs/impl_1/fpga.bin" ] [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.PRM_FILE {} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.UNUSED_PIN_TERMINATION {pull-none} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+startgroup 
+create_hw_bitstream -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [get_property PROGRAM.HW_CFGMEM_BITFILE [ lindex [get_hw_devices xc7a35t_0] 0]]; program_hw_devices [lindex [get_hw_devices xc7a35t_0] 0]; refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0];
+INFO: [Labtools 27-3164] End of startup status: HIGH
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 SPI core(s).
+WARNING: [Labtools 27-3413] Dropping logic core with cellname:'u_ila_0' at location 'uuid_23E7D65A79BC59F7BC47406C1714DFAE' from probes file, since it cannot be found on the programmed device.
+program_hw_cfgmem -hw_cfgmem [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+Mfg ID : 20   Memory Type : ba   Memory Capacity : 18   Device ID 1 : 0   Device ID 2 : 0
+Performing Erase Operation...
+Erase Operation successful.
+Performing Program and Verify Operations...
+Program/Verify Operation successful.
+INFO: [Labtoolstcl 44-377] Flash programming completed successfully
+program_hw_cfgmem: Time (s): cpu = 00:00:01 ; elapsed = 00:00:29 . Memory (MB): peak = 9671.570 ; gain = 0.000 ; free physical = 25845 ; free virtual = 36300
+endgroup
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/tx_eth_hdr_valid -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'bX [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:12:02
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:12:02
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:12:46
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:12:52
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:13:05
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:13:05
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property TRIGGER_COMPARE_VALUE eq1'bX [get_hw_probes core_inst/tx_eth_hdr_valid -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:13:23
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:13:23
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:13:45
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:13:45
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property CONTROL.TRIGGER_POSITION 10 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:14:09
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:14:09
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:14:25
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:14:27
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3361] The debug hub core was not detected.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active.
+2. Make sure the BSCAN_SWITCH_USER_MASK device property in Vivado Hardware Manager reflects the user scan chain setting in the design and refresh the device.  To determine the user scan chain setting in the design, open the implemented design and use 'get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub]'.
+For more details on setting the scan chain property, consult the Vivado Debug and Programming User Guide (UG908).
+WARNING: [Labtools 27-3413] Dropping logic core with cellname:'u_ila_0' at location 'uuid_23E7D65A79BC59F7BC47406C1714DFAE' from probes file, since it cannot be found on the programmed device.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+set_property PROGRAM.ADDRESS_RANGE  {use_file} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.FILES [list "/data2/work/fpga/ea/ea.runs/impl_1/fpga.bin" ] [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.PRM_FILE {} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.UNUSED_PIN_TERMINATION {pull-none} [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.BLANK_CHECK  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.ERASE  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CFG_PROGRAM  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.VERIFY  1 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+set_property PROGRAM.CHECKSUM  0 [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+startgroup 
+create_hw_bitstream -hw_device [lindex [get_hw_devices xc7a35t_0] 0] [get_property PROGRAM.HW_CFGMEM_BITFILE [ lindex [get_hw_devices xc7a35t_0] 0]]; program_hw_devices [lindex [get_hw_devices xc7a35t_0] 0]; refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0];
+INFO: [Labtools 27-3164] End of startup status: HIGH
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 SPI core(s).
+WARNING: [Labtools 27-3413] Dropping logic core with cellname:'u_ila_0' at location 'uuid_23E7D65A79BC59F7BC47406C1714DFAE' from probes file, since it cannot be found on the programmed device.
+program_hw_cfgmem -hw_cfgmem [ get_property PROGRAM.HW_CFGMEM [lindex [get_hw_devices xc7a35t_0] 0]]
+Mfg ID : 20   Memory Type : ba   Memory Capacity : 18   Device ID 1 : 0   Device ID 2 : 0
+Performing Erase Operation...
+Erase Operation successful.
+Performing Program and Verify Operations...
+Program/Verify Operation successful.
+INFO: [Labtoolstcl 44-377] Flash programming completed successfully
+program_hw_cfgmem: Time (s): cpu = 00:00:01 ; elapsed = 00:00:29 . Memory (MB): peak = 9689.578 ; gain = 0.000 ; free physical = 25771 ; free virtual = 36229
+endgroup
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:44:59
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:45:01
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property CONTROL.TRIGGER_POSITION 600 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:45:29
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:45:29
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 10:45:39
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 10:45:46
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file /data2/work/fpga/ea/ea.srcs/utils_1/imports/synth_1/fpga.dcp with file /data2/work/fpga/ea/ea.runs/synth_1/fpga.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+WARNING: [Project 1-478] Design 'synth_1' is stale and will not be used when launching 'impl_1'
+[Sat Jun 29 15:09:02 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+[Sat Jun 29 15:09:02 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:23:18
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 15:23:18
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+set_property TRIGGER_COMPARE_VALUE eq1'bX [get_hw_probes core_inst/tx_eth_payload_axis_tlast -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+set_property TRIGGER_COMPARE_VALUE eq1'b1 [get_hw_probes core_inst/rx_axis_tvalid -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:23:52
+wait_on_hw_ila -timeout 0 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1965] The ILA core 'hw_ila_1' trigger was stopped by user at 2024-Jun-29 15:25:56
+WARNING: [Labtools 27-157] hw_ila [hw_ila_1] stopped. No data to upload.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:25:58
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 15:25:58
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:26:54
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 15:26:54
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:26:57
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 15:26:57
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-1435] Device xc7a35t (JTAG device index = 0) is not programmed (DONE status = 0).
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:28:02
+wait_on_hw_ila -timeout 0 [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+INFO: [Labtools 27-1965] The ILA core 'hw_ila_1' trigger was stopped by user at 2024-Jun-29 15:29:46
+WARNING: [Labtools 27-157] hw_ila [hw_ila_1] stopped. No data to upload.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:29:46
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 15:29:46
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2024-Jun-29 15:29:57
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2024-Jun-29 15:29:57
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_1.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210512180081
+current_design synth_1
+refresh_design
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24703 ; free virtual = 35939
+INFO: [Netlist 29-17] Analyzing 148 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2023.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc]
+Finished Parsing XDC File [/data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc]
+Parsing XDC File [/data2/work/github/ea/xdc/eth.xdc]
+Finished Parsing XDC File [/data2/work/github/ea/xdc/eth.xdc]
+Parsing XDC File [/data2/work/github/ea/xdc/fpga.xdc]
+INFO: [Constraints 18-632] set_output_delay: No clock object specified, the clocks will be automatically identified [/data2/work/github/ea/xdc/fpga.xdc:35]
+INFO: [Timing 38-35] Done setting XDC timing constraints. [/data2/work/github/ea/xdc/fpga.xdc:37]
+INFO: [Timing 38-2] Deriving generated clocks [/data2/work/github/ea/xdc/fpga.xdc:37]
+Finished Parsing XDC File [/data2/work/github/ea/xdc/fpga.xdc]
+Sourcing Tcl File [/data2/work/github/ea/xdc/axis_async_fifo.tcl]
+Inserting timing constraints for axis_async_fifo instance core_inst/eth_mac_inst/rx_fifo/fifo_inst
+Inserting timing constraints for axis_async_fifo instance core_inst/eth_mac_inst/tx_fifo/fifo_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/axis_async_fifo.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/eth_mac_fifo.tcl]
+Inserting timing constraints for ethernet MAC with FIFO instance core_inst/eth_mac_inst
+WARNING: [Vivado 12-180] No cells matched '.*/rx_sync_reg_[1234]_reg\[\d+\]'. [/data2/work/github/ea/xdc/eth_mac_fifo.tcl:23]
+WARNING: [Vivado 12-180] No cells matched '.*/tx_sync_reg_[1234]_reg\[\d+\]'. [/data2/work/github/ea/xdc/eth_mac_fifo.tcl:23]
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/eth_mac_fifo.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/rgmii_phy_if.tcl]
+Inserting timing constraints for rgmii_phy_if instance core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/rgmii_phy_if.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/sync_reset.tcl]
+Inserting timing constraints for sync_reset instance sync_reset_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/sync_reset.tcl]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file /data2/work/fpga/ea/ea.srcs/utils_1/imports/synth_1/fpga.dcp with file /data2/work/fpga/ea/ea.runs/synth_1/fpga.dcp
+launch_runs synth_1 -jobs 10
+[Sat Jun 29 16:00:22 2024] Launched synth_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/synth_1/runme.log
+close_design
+open_run synth_1 -name synth_1
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7a35tfgg484-2
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24745 ; free virtual = 35950
+INFO: [Netlist 29-17] Analyzing 148 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2023.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc]
+Finished Parsing XDC File [/data2/work/fpga/ea/ea.srcs/constrs_1/new/main.xdc]
+Parsing XDC File [/data2/work/github/ea/xdc/eth.xdc]
+Finished Parsing XDC File [/data2/work/github/ea/xdc/eth.xdc]
+Parsing XDC File [/data2/work/github/ea/xdc/fpga.xdc]
+INFO: [Constraints 18-632] set_output_delay: No clock object specified, the clocks will be automatically identified [/data2/work/github/ea/xdc/fpga.xdc:35]
+INFO: [Timing 38-35] Done setting XDC timing constraints. [/data2/work/github/ea/xdc/fpga.xdc:37]
+INFO: [Timing 38-2] Deriving generated clocks [/data2/work/github/ea/xdc/fpga.xdc:37]
+Finished Parsing XDC File [/data2/work/github/ea/xdc/fpga.xdc]
+Sourcing Tcl File [/data2/work/github/ea/xdc/axis_async_fifo.tcl]
+Inserting timing constraints for axis_async_fifo instance core_inst/eth_mac_inst/rx_fifo/fifo_inst
+Inserting timing constraints for axis_async_fifo instance core_inst/eth_mac_inst/tx_fifo/fifo_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/axis_async_fifo.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/eth_mac_fifo.tcl]
+Inserting timing constraints for ethernet MAC with FIFO instance core_inst/eth_mac_inst
+WARNING: [Vivado 12-180] No cells matched '.*/rx_sync_reg_[1234]_reg\[\d+\]'. [/data2/work/github/ea/xdc/eth_mac_fifo.tcl:23]
+WARNING: [Vivado 12-180] No cells matched '.*/tx_sync_reg_[1234]_reg\[\d+\]'. [/data2/work/github/ea/xdc/eth_mac_fifo.tcl:23]
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/eth_mac_fifo.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/rgmii_phy_if.tcl]
+Inserting timing constraints for rgmii_phy_if instance core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/rgmii_phy_if.tcl]
+Sourcing Tcl File [/data2/work/github/ea/xdc/sync_reset.tcl]
+Inserting timing constraints for sync_reset instance sync_reset_inst
+Finished Sourcing Tcl File [/data2/work/github/ea/xdc/sync_reset.tcl]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24746 ; free virtual = 35952
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group -filter { MARK_DEBUG == "TRUE" } ]
+delete_debug_core [get_debug_cores {u_ila_0 }]
+create_debug_core u_ila_0 ila
+set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+connect_debug_port u_ila_0/clk [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/rx_ssio_ddr_inst/mac_gmii_rx_clk ]]
+set_property port_width 8 [get_debug_ports u_ila_0/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[0]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[1]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[2]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[3]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[4]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[5]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[6]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe1]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe2]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_er ]]
+save_constraints
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36005
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36005
+Writing XDEF routing.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36005
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.02 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36005
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36005
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36006
+Write Physdb Complete: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.02 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24800 ; free virtual = 36006
+[Sat Jun 29 16:02:38 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+current_design impl_1
+refresh_design
+Netlist sorting complete. Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.03 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24784 ; free virtual = 36014
+INFO: [Netlist 29-17] Analyzing 226 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2023.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Read ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24791 ; free virtual = 36021
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+INFO: [Designutils 20-5722] Start Reading Physical Databases.
+Reading placement.
+Read Netlist Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+Reading placer database...
+Read Device Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+Read PlaceDB: Time (s): cpu = 00:00:00.13 ; elapsed = 00:00:00.13 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+Read PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+Reading routing.
+Read RouteStorage: Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.05 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+Read Physdb Files: Time (s): cpu = 00:00:00.19 ; elapsed = 00:00:00.19 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+Restored from archive | CPU: 0.190000 secs | Memory: 5.268356 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:00.19 ; elapsed = 00:00:00.19 . Memory (MB): peak = 9725.594 ; gain = 0.000 ; free physical = 24785 ; free virtual = 36015
+WARNING: [Timing 38-436] There are set_bus_skew constraint(s) in this design. Please run report_bus_skew to ensure that bus skew requirements are met.
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210512180081
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+WARNING: [Labtools 27-1973] Mismatch between the design programmed into the device xc7a35t (JTAG device index = 0) and the probes file(s) /data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx.
+ The device core at location uuid_23E7D65A79BC59F7BC47406C1714DFAE, has 39 ILA Input port(s), but the core in the probes file(s) have 3 ILA Input port(s).
+Resolution: 
+1. Reprogram device with the correct programming file and associated probes file(s) OR
+2. Goto device properties and associate the correct probes file(s) with the programming file already programmed in the device.
+WARNING: [Labtoolstcl 44-129] No matching hw_ila_data was found.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+WARNING: [Labtools 27-1973] Mismatch between the design programmed into the device xc7a35t (JTAG device index = 0) and the probes file(s) /data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx.
+ The device core at location uuid_23E7D65A79BC59F7BC47406C1714DFAE, has 0 ILA Input port(s), but the core in the probes file(s) have 3 ILA Input port(s).
+Resolution: 
+1. Reprogram device with the correct programming file and associated probes file(s) OR
+2. Goto device properties and associate the correct probes file(s) with the programming file already programmed in the device.
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+ERROR: [Labtools 27-3412] Mismatch between the design programmed into the device 'xc7a35t' (JTAG device index = '0'
+ and the probes file(s) '/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx'.
+ The hw_probe 'core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv' in the probes file has port index '1'. This port location for the ILA core at location (uuid_23E7D65A79BC59F7BC47406C1714DFAE), does not support a data probe.
+.
+Resolution: 
+1) Ensure that the clock signal connected to the debug core and/or debug hub is clean and free-running.
+2) Ensure that the clock connected to the debug core and/or debug hub meets all timing constraints.
+3) Ensure that the JTAG clock frequency is 2.5x times slower than the frequency of the clock connected to your debug hub.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+ERROR: [Labtools 27-3412] Mismatch between the design programmed into the device 'xc7a35t' (JTAG device index = '0'
+ and the probes file(s) '/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx'.
+ The hw_probe 'core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv' in the probes file has port index '1'. This port location for the ILA core at location (uuid_23E7D65A79BC59F7BC47406C1714DFAE), does not support a data probe.
+.
+Resolution: 
+1) Ensure that the clock signal connected to the debug core and/or debug hub is clean and free-running.
+2) Ensure that the clock connected to the debug core and/or debug hub meets all timing constraints.
+3) Ensure that the JTAG clock frequency is 2.5x times slower than the frequency of the clock connected to your debug hub.
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+ERROR: [Labtools 27-3412] Mismatch between the design programmed into the device 'xc7a35t' (JTAG device index = '0'
+ and the probes file(s) '/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx'.
+ The hw_probe 'core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv' in the probes file has port index '1'. This port location for the ILA core at location (uuid_23E7D65A79BC59F7BC47406C1714DFAE), does not support a data probe.
+.
+Resolution: 
+1) Ensure that the clock signal connected to the debug core and/or debug hub is clean and free-running.
+2) Ensure that the clock connected to the debug core and/or debug hub meets all timing constraints.
+3) Ensure that the JTAG clock frequency is 2.5x times slower than the frequency of the clock connected to your debug hub.
+current_design synth_1
+show_objects -name NET_ONLY [get_nets -hierarchical -top_net_of_hierarchical_group "*" ]
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[26]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[5]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[10]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[31]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[14]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[17]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[24]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[0]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[13]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_payload_axis_tlast'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_payload_axis_tuser'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_type[6]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[31]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[6]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[12]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[5]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[36]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_axis_tdata[0]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[14]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[39]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[44]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[21]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[2]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_type[14]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[24]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_type[10]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[37]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[19]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[27]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[18]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[1]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_oport0_i_0[4]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_dest_mac[29]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_oport0_i_0[15]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_dest_mac[24]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[18]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_dest_mac[20]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[4]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[3]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[4]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[26]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[0]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[22]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[8]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_dest_mac[9]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_type[4]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[26]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[20]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[23]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_payload_axis_tdata[7]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[12]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[20]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[11]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[22]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_payload_axis_tdata[4]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[15]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[1]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[31]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_type[15]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_dest_mac[6]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_dest_mac[12]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[5]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_error_count[24]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_type[11]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_type[4]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[10]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_dest_mac[11]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[29]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[25]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[5]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_error_count[17]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_beat_count[3]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_error_count[26]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_dest_mac[18]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[4]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[23]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_mac_gmii_rx_clk'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_payload_axis_tdata[5]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[23]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[2]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[33]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[29]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[28]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[35]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_mac_gmii_rxd[0]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[25]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'sl_iport0_o_0[7]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_axis_tdata[6]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[29]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_src_mac[47]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[24]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[12]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[22]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_rx_eth_dest_mac[37]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[20]_1'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_src_mac[35]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_tx_eth_dest_mac[44]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_hdr_count[0]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[17]'; it was auto-generated for Vivado debug.
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u_ila_0_frame_count[11]'; it was auto-generated for Vivado debug.
+INFO: [Common 17-14] Message 'Chipscope 16-3' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+delete_debug_core [get_debug_cores {u_ila_0 }]
+create_debug_core u_ila_0 ila
+set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+create_debug_core u_ila_1 ila
+set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_1]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_1]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_1]
+set_property C_ADV_TRIGGER false [get_debug_cores u_ila_1]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_1]
+set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_1]
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_1]
+set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_1]
+connect_debug_port u_ila_0/clk [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/rx_ssio_ddr_inst/mac_gmii_rx_clk ]]
+connect_debug_port u_ila_1/clk [get_nets [list clk_int ]]
+set_property port_width 8 [get_debug_ports u_ila_0/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[0]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[1]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[2]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[3]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[4]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[5]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[6]} {core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rxd[7]} ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe1]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_dv ]]
+create_debug_port u_ila_0 probe
+set_property port_width 1 [get_debug_ports u_ila_0/probe2]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list core_inst/eth_mac_inst/eth_mac_1g_rgmii_inst/rgmii_phy_if_inst/mac_gmii_rx_er ]]
+set_property port_width 1 [get_debug_ports u_ila_1/probe0]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_1/probe0]
+connect_debug_port u_ila_1/probe0 [get_nets [list phy_reset_n_OBUF ]]
+save_constraints
+reset_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 10
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35926
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35926
+Writing XDEF routing.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35926
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.01 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35926
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35926
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35927
+Write Physdb Complete: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.01 . Memory (MB): peak = 9727.297 ; gain = 0.000 ; free physical = 24711 ; free virtual = 35927
+[Sat Jun 29 16:15:34 2024] Launched impl_1...
+Run output will be captured here: /data2/work/fpga/ea/ea.runs/impl_1/runme.log
+set_property PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.ltx} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/data2/work/fpga/ea/ea.runs/impl_1/fpga.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-2302] Device xc7a35t (JTAG device index = 0) is programmed with a design that has 2 ILA core(s).
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_1 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_0"}]]
+WARNING: Simulation object core_inst/test_sender/hdr_count was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_payload_axis_tvalid was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_payload_axis_tuser was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_payload_axis_tready was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_hdr_valid was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_hdr_ready was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_payload_axis_tlast was not found in the design.
+WARNING: Simulation object core_inst/test_sender/frame_count was not found in the design.
+WARNING: Simulation object core_inst/test_sender/beat_count was not found in the design.
+WARNING: Simulation object led2_count was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_type was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_src_mac was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_payload_axis_tdata was not found in the design.
+WARNING: Simulation object core_inst/tx_eth_dest_mac was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_type was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_src_mac was not found in the design.
+WARNING: Simulation object core_inst/tx_axis_tdata was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_payload_axis_tdata was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_dest_mac was not found in the design.
+WARNING: Simulation object core_inst/rx_axis_tdata was not found in the design.
+WARNING: Simulation object core_inst/test_receiver/beat_count was not found in the design.
+WARNING: Simulation object core_inst/test_receiver/error_count was not found in the design.
+WARNING: Simulation object core_inst/test_receiver/frame_count was not found in the design.
+WARNING: Simulation object core_inst/test_receiver/hdr_count was not found in the design.
+WARNING: Simulation object core_inst/test_receiver/hdr_err_reg was not found in the design.
+WARNING: Simulation object core_inst/test_receiver/payload_err_reg was not found in the design.
+WARNING: Simulation object core_inst/rst was not found in the design.
+WARNING: Simulation object core_inst/rx_axis_tlast was not found in the design.
+WARNING: Simulation object core_inst/rx_axis_tready was not found in the design.
+WARNING: Simulation object core_inst/rx_axis_tuser was not found in the design.
+WARNING: Simulation object core_inst/rx_axis_tvalid was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_hdr_valid was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_payload_axis_tlast was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_payload_axis_tuser was not found in the design.
+WARNING: Simulation object core_inst/rx_eth_payload_axis_tvalid was not found in the design.
+WARNING: Simulation object core_inst/tx_axis_tlast was not found in the design.
+WARNING: Simulation object core_inst/tx_axis_tready was not found in the design.
+WARNING: Simulation object core_inst/tx_axis_tuser was not found in the design.
+WARNING: Simulation object core_inst/tx_axis_tvalid was not found in the design.
+display_hw_ila_data [ get_hw_ila_data hw_ila_data_2 -of_objects [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]]
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_2' trigger was armed at 2024-Jun-29 16:20:26
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_2' triggered at 2024-Jun-29 16:20:26
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_2.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}] -trigger_now
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_2' trigger was armed at 2024-Jun-29 16:20:30
+wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]
+display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xc7a35t_0] -filter {CELL_NAME=~"u_ila_1"}]]
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_2' triggered at 2024-Jun-29 16:20:30
+INFO: [Labtools 27-3304] ILA Waveform data saved to file /data2/work/fpga/ea/ea.hw/backup/hw_ila_data_2.ila. Use Tcl command 'read_hw_ila_data' or Vivado File->Import->Import ILA Data menu item to import the previously saved data.
+INFO: [xilinx.com:ip:bscan_jtag:1.0-1010] bscan_jtag_0: true
+INFO: [xilinx.com:ip:debug_bridge:3.0-0] debug_bridge_0:  Update boundary has completed 
+INFO: [xilinx.com:ip:debug_bridge:3.0-0] debug_bridge_0:  Update boundary has started running 
+save_wave_config {/data2/work/fpga/ea/ea.hw/hw_1/wave/hw_ila_data_1/hw_ila_data_1.wcfg}
+save_wave_config {/data2/work/fpga/ea/ea.hw/hw_1/wave/hw_ila_data_2/hw_ila_data_2.wcfg}
+exit
+INFO: [Common 17-206] Exiting Vivado at Sat Jun 29 16:34:49 2024...
