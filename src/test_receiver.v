@@ -50,13 +50,18 @@ module test_receiver #
     assign s_eth_payload_axis_tready = 1'b1;
 
     always @(posedge clk) begin
-        if (hdr_fire) begin
+        if (rst) begin
+            hdr_count <= 'd0;
+        end else if (hdr_fire) begin
             hdr_count <= hdr_count + 'd1;
         end
     end
 
     always @(posedge clk) begin
-        if (payload_fire) begin
+        if (rst) begin
+           beat_count <= 'd0;
+           frame_count <= 'd0;
+        end else if (payload_fire) begin
             beat_count <= beat_count + 'd1;
             if (s_eth_payload_axis_tlast) begin
                 frame_count <= frame_count + 'd1;

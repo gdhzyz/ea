@@ -63,3 +63,5 @@ set_property IDELAY_VALUE 0 [get_cells {phy_rx_ctl_idelay phy_rxd_idelay_*}]
 set_property -dict {LOC H19 IOSTANDARD LVCMOS33} [get_ports led1]
 set_property -dict {LOC K16 IOSTANDARD LVCMOS33} [get_ports led2]
 
+# Push buttons
+set_property -dict {LOC G16 IOSTANDARD LVCMOS33} [get_ports reset]

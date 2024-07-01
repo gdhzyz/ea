@@ -112,7 +112,7 @@ module eth_mac_1g_rgmii_fifo #
     output wire                       rx_fifo_overflow,
     output wire                       rx_fifo_bad_frame,
     output wire                       rx_fifo_good_frame,
-    output wire [1:0]                 speed,
+    (* mark_debug = "true" *)output wire [1:0]                 speed,
 
     /*
      * Configuration

@@ -15,7 +15,7 @@ module fpga (
      * Reset: Push button, active high
      */
     input  wire       clk_50mhz,
-    //input  wire       reset,
+    input  wire       reset,
 
     /*
      * Ethernet: 1000BASE-T RGMII
@@ -26,20 +26,24 @@ module fpga (
     output wire       phy_tx_clk,
     output wire [3:0] phy_txd,
     output wire       phy_tx_ctl,
-    output wire       phy_reset_n,
+    output wire       phy_reset_n,  // 10ms for YT8511(document require 10us)
     //input  wire       phy_int_n,
 
 
     /*
      * Leds
      */
-     output reg       led1 = 1'b1,
-     output reg       led2 = 1'b1
+    output reg        led1 = 1'b1,
+    output reg        led2 = 1'b1
+
+    ///*
+    // * keys
+    // */
+    //input  wire       key1,
+    //input  wire       key2
 );
 
 // Clock and reset
-wire reset = 1'b0;
-
 wire clk_50mhz_ibufg;
 
 // Internal 125 MHz clock
@@ -52,7 +56,7 @@ wire rst_int;
 wire clk_200mhz_mmcm_out;
 wire clk_200mhz_int;
 
-wire mmcm_rst = reset;
+wire mmcm_rst = !reset;
 wire mmcm_locked;
 wire mmcm_clkfb;
 
@@ -289,7 +293,7 @@ always @(posedge clk_int) begin
 end
 
 localparam time_1s = 125000000;
-(* mark_debug = "true" *)reg [31 : 0] led2_count = 'd0;
+reg [31 : 0] led2_count = 'd0;
 always @(posedge clk_int) begin
     if (rst_int) begin
         led2_count <= 'd0;
@@ -305,6 +309,44 @@ always @(posedge clk_int) begin
         led2 <= !led2;
     end
 end
+
+///*
+// * switch and bottons
+// */
+//
+//wire key1_int;
+//wire key2_int;
+// 
+//debounce_switch #(
+//    .WIDTH(2),
+//    .N(4),
+//    .RATE(125000)
+//)
+//debounce_switch_inst (
+//    .clk(clk_int),
+//    .rst(rst_int),
+//    .in({key1,
+//         key2}
+//        ),
+//    .out({key1_int,
+//        key2_int})
+//);
+
+
+(* mark_debug = "true" *)reg [31:0] time_seconds='d0;
+(* mark_debug = "true" *)reg [31:0] time_counter='d0;
+always @(posedge clk_int) begin
+    if (rst) begin
+        time_seconds <= 'd0;
+        time_counter <= 'd0;
+    end else if (time_counter == time_1s - 1) begin
+        time_seconds <= time_seconds + 'd1;
+        time_counter <= 'd0;
+    end else begin
+        time_counter <= time_counter + 'd1;
+    end
+end
+
 
 endmodule
 

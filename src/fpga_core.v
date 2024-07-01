@@ -30,8 +30,10 @@ module fpga_core #
     output wire       phy_tx_clk,
     output wire [3:0] phy_txd,
     output wire       phy_tx_ctl,
-    output wire       phy_reset_n
+    output reg        phy_reset_n
 );
+
+localparam TIME_1MS = 125 * 1000 * 100;
 
 // AXI between MAC and Ethernet modules
 (* mark_debug = "true" *)wire [7:0] rx_axis_tdata;
@@ -49,8 +51,8 @@ module fpga_core #
 // Ethernet frame between Ethernet modules and UDP stack
 (* mark_debug = "true" *)wire rx_eth_hdr_ready;
 (* mark_debug = "true" *)wire rx_eth_hdr_valid;
-(* mark_debug = "true" *)wire [47:0] rx_eth_dest_mac;
-(* mark_debug = "true" *)wire [47:0] rx_eth_src_mac;
+wire [47:0] rx_eth_dest_mac;
+wire [47:0] rx_eth_src_mac;
 (* mark_debug = "true" *)wire [15:0] rx_eth_type;
 (* mark_debug = "true" *)wire [7:0] rx_eth_payload_axis_tdata;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tvalid;
@@ -60,8 +62,8 @@ module fpga_core #
 
 (* mark_debug = "true" *)wire tx_eth_hdr_ready;
 (* mark_debug = "true" *)wire tx_eth_hdr_valid;
-(* mark_debug = "true" *)wire [47:0] tx_eth_dest_mac;
-(* mark_debug = "true" *)wire [47:0] tx_eth_src_mac;
+wire [47:0] tx_eth_dest_mac;
+wire [47:0] tx_eth_src_mac;
 (* mark_debug = "true" *)wire [15:0] tx_eth_type;
 (* mark_debug = "true" *)wire [7:0] tx_eth_payload_axis_tdata;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tvalid;
@@ -69,7 +71,20 @@ module fpga_core #
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tlast;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tuser;
 
-assign phy_reset_n = !rst;
+localparam TIME_1MS_BITS = $clog2(TIME_1MS);
+(* mark_debug = "true" *)reg [TIME_1MS_BITS - 1:0] phy_reset_counter = 0;
+always @(posedge clk) begin
+    if (rst) begin
+        phy_reset_counter <= 'd0;
+        phy_reset_n <= 1'b0;
+    end else if (phy_reset_counter < TIME_1MS-1) begin
+        phy_reset_counter <= phy_reset_counter + 'd1;
+        phy_reset_n <= 1'b0;
+    end else begin
+       phy_reset_counter <= phy_reset_counter;
+       phy_reset_n <= 1'b1;
+    end
+end
 
 /*
  * test_sender
