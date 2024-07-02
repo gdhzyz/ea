@@ -14,13 +14,14 @@ module uart_rx
    parameter WORD = 8  // bits
   )
   (
-   input        i_Clock,
-   input        i_Rx_Serial,
-   output       o_Rx_DV,
-   output [7:0] o_Rx_Byte
+   input             i_Clock,
+   input             i_Rx_Serial,
+   output            o_Rx_DV,
+   output [WORD-1:0] o_Rx_Byte
    );
 
-   localparam WORD_BITS = $clog2(WORD);
+  localparam WORD_BITS = $clog2(WORD);
+  localparam CLKS_BITS = $clog2(CLKS_PER_BIT);
     
   parameter s_IDLE         = 3'b000;
   parameter s_RX_START_BIT = 3'b001;
@@ -28,12 +29,12 @@ module uart_rx
   parameter s_RX_STOP_BIT  = 3'b011;
   parameter s_CLEANUP      = 3'b100;
    
-  reg                       r_Rx_Data_R = 1'b1;
-  reg                       r_Rx_Data   = 1'b1;
+  (* async_reg = "true" *)reg                       r_Rx_Data_R = 1'b1;
+  (* async_reg = "true" *)reg                       r_Rx_Data   = 1'b1;
    
-  reg [7:0]                 r_Clock_Count = 0;
-  reg [WORD_BITS - 1:0]     r_Bit_Index   = 0; //WORD_BITS bits total
-  reg [WORD - 1:0]          r_Rx_Byte     = 0;
+  reg [CLKS_BITS-1:0]       r_Clock_Count = 0;
+  reg [WORD_BITS-1:0]       r_Bit_Index   = 0; //WORD_BITS bits total
+  reg [WORD-1:0]            r_Rx_Byte     = 0;
   reg                       r_Rx_DV       = 0;
   reg [2:0]                 r_SM_Main     = 0;
    
@@ -99,7 +100,7 @@ module uart_rx
                 r_Rx_Byte[r_Bit_Index] <= r_Rx_Data;
                  
                 // Check if we have received all bits
-                if (r_Bit_Index < 7)
+                if (r_Bit_Index < WORD)
                   begin
                     r_Bit_Index <= r_Bit_Index + 1;
                     r_SM_Main   <= s_RX_DATA_BITS;
