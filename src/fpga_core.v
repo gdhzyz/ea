@@ -56,7 +56,7 @@ wire [47:0] rx_eth_src_mac;
 (* mark_debug = "true" *)wire [15:0] rx_eth_type;
 (* mark_debug = "true" *)wire [7:0] rx_eth_payload_axis_tdata;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tvalid;
-(* mark_debug = "true" *)wire rx_eth_payload_axis_tready;
+wire rx_eth_payload_axis_tready;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tlast;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tuser;
 

@@ -33,8 +33,8 @@ module fpga (
     /*
      * Leds
      */
-    output reg        led1 = 1'b1,
-    output reg        led2 = 1'b1
+    (* mark_debug = "true" *)output reg        led1 = 1'b1,
+    (* mark_debug = "true" *)output reg        led2 = 1'b1
 
     ///*
     // * keys
@@ -336,7 +336,7 @@ end
 (* mark_debug = "true" *)reg [31:0] time_seconds='d0;
 (* mark_debug = "true" *)reg [31:0] time_counter='d0;
 always @(posedge clk_int) begin
-    if (rst) begin
+    if (rst_int) begin
         time_seconds <= 'd0;
         time_counter <= 'd0;
     end else if (time_counter == time_1s - 1) begin

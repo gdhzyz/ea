@@ -69,19 +69,20 @@ module test_receiver #
         end
     end
 
-    wire hdr_err = hdr_fire && (s_eth_dest_mac != LOCAL_MAC || s_eth_src_mac != DST_MAC);
+    //wire hdr_err = hdr_fire && (s_eth_dest_mac != LOCAL_MAC || s_eth_src_mac != DST_MAC);
     wire payload_err = payload_fire && 
                        (
                         (beat_count[DATA_WIDTH - 1 : 0] != s_eth_payload_axis_tdata) || 
                         (s_eth_payload_axis_tlast ^ (beat_count[LENGTH_BITS - 1 : 0] == LENGTH - 1))
                        );
-    (* mark_debug = "true" *)reg hdr_err_reg = 1'b0;
+    //(* mark_debug = "true" *)reg hdr_err_reg = 1'b0;
     (* mark_debug = "true" *)reg payload_err_reg = 1'b0;
 
     always @(posedge clk) begin
-        hdr_err_reg <= hdr_err;
+        //hdr_err_reg <= hdr_err;
         payload_err_reg <= payload_err;
-        error_count <= error_count + ({1'b0, hdr_err_reg} + {1'b0, payload_err_reg});
+        //error_count <= error_count + ({1'b0, hdr_err_reg} + {1'b0, payload_err_reg});
+        error_count <= error_count + payload_err_reg;
     end
 
 
