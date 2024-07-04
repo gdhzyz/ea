@@ -10,7 +10,7 @@
   
 module uart_tx 
   #(
-   parameter CLKS_PER_BIT,
+   parameter CLKS_PER_BIT = 0,
    parameter WORD = 8  // bits
   )
   (
@@ -21,6 +21,14 @@ module uart_tx
    output reg       o_Tx_Serial,
    output           o_Tx_Done
    );
+
+  initial begin
+      if (CLKS_PER_BIT == 0) begin
+          $error("parameter CLKS_PER_BIT must be greater than 0, but got %d. (instance %m)", CLKS_PER_BIT);
+          $finish;
+      end
+  end
+
   localparam WORD_BITS = $clog2(WORD);
   localparam CLKS_BITS = $clog2(CLKS_PER_BIT);
   
@@ -33,7 +41,7 @@ module uart_tx
   reg [2:0]              r_SM_Main     = 0;
   reg [CLKS_BITS-1:0]    r_Clock_Count = 0;
   reg [WORD_BITS-1:0]    r_Bit_Index   = 0;
-  reg [WORD_BITS-1:0]    r_Tx_Data     = 0;
+  reg [WORD-1:0]         r_Tx_Data     = 0;
   reg                    r_Tx_Done     = 0;
   reg                    r_Tx_Active   = 0;
      
@@ -93,7 +101,7 @@ module uart_tx
                 r_Clock_Count <= 0;
                  
                 // Check if we have sent out all bits
-                if (r_Bit_Index < WORD)
+                if (r_Bit_Index < WORD-1)
                   begin
                     r_Bit_Index <= r_Bit_Index + 1;
                     r_SM_Main   <= s_TX_DATA_BITS;

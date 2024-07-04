@@ -10,7 +10,7 @@
   
 module uart_rx 
   #(
-   parameter CLKS_PER_BIT,
+   parameter CLKS_PER_BIT = 0,
    parameter WORD = 8  // bits
   )
   (
@@ -19,6 +19,13 @@ module uart_rx
    output            o_Rx_DV,
    output [WORD-1:0] o_Rx_Byte
    );
+
+  initial begin
+      if (CLKS_PER_BIT == 0) begin
+          $error("parameter CLKS_PER_BIT must be greater than 0, but got %d. (instance %m)", CLKS_PER_BIT);
+          $finish;
+      end
+  end
 
   localparam WORD_BITS = $clog2(WORD);
   localparam CLKS_BITS = $clog2(CLKS_PER_BIT);
@@ -100,7 +107,7 @@ module uart_rx
                 r_Rx_Byte[r_Bit_Index] <= r_Rx_Data;
                  
                 // Check if we have received all bits
-                if (r_Bit_Index < WORD)
+                if (r_Bit_Index < WORD-1)
                   begin
                     r_Bit_Index <= r_Bit_Index + 1;
                     r_SM_Main   <= s_RX_DATA_BITS;
