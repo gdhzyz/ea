@@ -1,6 +1,6 @@
 
-    localparam TIME_OUT_CYCLES = 1000;
-    reg [DATA_WIDTH-1:0] TEST_DATA = {DATA_WIDTH{8'hA5}};
+    localparam CASE1_TIME_OUT_CYCLES = 1000;
+    reg [DATA_WIDTH-1:0] CASE1_TEST_DATA = {DATA_WIDTH{8'hA5}};
     // Takes in input byte and serializes it 
     task send_one_trans;
         begin
@@ -11,7 +11,7 @@
             @(negedge reset);
             @(posedge clk);
             valid <= 1;
-            data <= TEST_DATA;
+            data <= CASE1_TEST_DATA;
             keep <= {KEEP_WIDTH{1'b1}};
             last <= 1'b1;
             user <= 1'b1;
@@ -22,7 +22,9 @@
     endtask
 
     task check_one_trans;
+        integer i;
         begin
+            i = 0;
             oready <= 1'b0;
             forever begin
                 @(posedge clk);
@@ -30,7 +32,7 @@
                     oready <= 1'b1;
                 end
                 if (ovalid && oready) begin
-                    if (odata == TEST_DATA && 
+                    if (odata == CASE1_TEST_DATA && 
                             okeep == {KEEP_WIDTH{1'b1}} && 
                             olast == 1'b1 && 
                             ouser == 1'b1) begin
@@ -40,6 +42,12 @@
                         $error("ovalid %b odata 0x%h okeep 0x%h olast %b ouser %d", 
                                 ovalid, odata, okeep, olast, ouser);
                     end
+                    $finish;
+                end
+
+                i = i + 1;
+                if (i == CASE1_TIME_OUT_CYCLES) begin
+                    $error("decouple_tb_case1 timeout!");
                     $finish;
                 end
             end
@@ -52,13 +60,4 @@
 
     initial begin
         check_one_trans;
-    end
-
-    integer case1_i=0;
-    initial begin
-        for (case1_i = 0; case1_i < TIME_OUT_CYCLES; case1_i = case1_i + 1) begin
-            @(posedge clk);
-        end
-        $error("decouple_tb_case1 timeout!");
-        $finish;
     end

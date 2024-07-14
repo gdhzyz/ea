@@ -69,6 +69,7 @@ module decouple_tb ();
     );
  
    
-    `include "decouple_tb_case1.vh"
+    //`include "decouple_tb_case1.vh"
+    `include "decouple_tb_case2.vh"
    
 endmodule
