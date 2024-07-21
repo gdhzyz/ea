@@ -23,9 +23,11 @@
 /home/suzhifeng/work/github/ea/src/./axis_gmii_tx.v
 /home/suzhifeng/work/github/ea/src/./fpga.v
 /home/suzhifeng/work/github/ea/src/./mac_pause_ctrl_rx.v
+/home/suzhifeng/work/github/ea/src/./gen_timestamp.v
 /home/suzhifeng/work/github/ea/src/./axis_async_fifo.v
 /home/suzhifeng/work/github/ea/src/./eth_mac_1g.v
 /home/suzhifeng/work/github/ea/src/./oddr.v
 /home/suzhifeng/work/github/ea/src/./eth_mac_1g_rgmii.v
 /home/suzhifeng/work/github/ea/src/./fpga_core.v
 /home/suzhifeng/work/github/ea/src/./mac_pause_ctrl_tx.v
+/home/suzhifeng/work/github/ea/src/./test_pattern_recv.v

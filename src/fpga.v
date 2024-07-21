@@ -259,6 +259,8 @@ phy_rx_ctl_idelay (
     .REGRST(1'b0)
 );
 
+wire debug_led;
+
 fpga_core #(
     .TARGET("XILINX")
 )
@@ -280,7 +282,9 @@ core_inst (
     .phy_tx_clk(phy_tx_clk),
     .phy_txd(phy_txd),
     .phy_tx_ctl(phy_tx_ctl),
-    .phy_reset_n(phy_reset_n)
+    .phy_reset_n(phy_reset_n),
+
+    .debug_led(debug_led)
 );
 
 
@@ -289,7 +293,7 @@ core_inst (
  */
 
 always @(posedge clk_int) begin
-    led1 <= 1'b0;
+    led1 <= !debug_led; // 0: on, 1: off.
 end
 
 localparam time_1s = 125000000;
@@ -333,8 +337,8 @@ end
 //);
 
 
-(* mark_debug = "true" *)reg [31:0] time_seconds='d0;
-(* mark_debug = "true" *)reg [31:0] time_counter='d0;
+reg [31:0] time_seconds='d0;
+reg [31:0] time_counter='d0;
 always @(posedge clk_int) begin
     if (rst_int) begin
         time_seconds <= 'd0;

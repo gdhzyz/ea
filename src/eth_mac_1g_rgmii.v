@@ -90,7 +90,7 @@ module eth_mac_1g_rgmii #
     output wire        tx_error_underflow,
     output wire        rx_error_bad_frame,
     output wire        rx_error_bad_fcs,
-    output wire [1:0]  speed,
+    (* mark_debug = "true" *)output wire [1:0]  speed,
 
     /*
      * Configuration

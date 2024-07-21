@@ -45,17 +45,17 @@ module axis_gmii_rx #
     /*
      * GMII input
      */
-    input  wire [DATA_WIDTH-1:0]    gmii_rxd,
-    input  wire                     gmii_rx_dv,
-    input  wire                     gmii_rx_er,
+    (* mark_debug = "true" *)input  wire [DATA_WIDTH-1:0]    gmii_rxd,
+    (* mark_debug = "true" *)input  wire                     gmii_rx_dv,
+    (* mark_debug = "true" *)input  wire                     gmii_rx_er,
 
     /*
      * AXI output
      */
-    output wire [DATA_WIDTH-1:0]    m_axis_tdata,
-    output wire                     m_axis_tvalid,
-    output wire                     m_axis_tlast,
-    output wire [USER_WIDTH-1:0]    m_axis_tuser,
+    (* mark_debug = "true" *)output wire [DATA_WIDTH-1:0]    m_axis_tdata,
+    (* mark_debug = "true" *)output wire                     m_axis_tvalid,
+    (* mark_debug = "true" *)output wire                     m_axis_tlast,
+    (* mark_debug = "true" *)output wire [USER_WIDTH-1:0]    m_axis_tuser,
 
     /*
      * PTP
@@ -65,20 +65,20 @@ module axis_gmii_rx #
     /*
      * Control
      */
-    input  wire                     clk_enable,
-    input  wire                     mii_select,
+    (* mark_debug = "true" *)input  wire                     clk_enable,
+    (* mark_debug = "true" *)input  wire                     mii_select,
 
     /*
      * Configuration
      */
-    input  wire                     cfg_rx_enable,
+    (* mark_debug = "true" *)input  wire                     cfg_rx_enable,
 
     /*
      * Status
      */
-    output wire                     start_packet,
-    output wire                     error_bad_frame,
-    output wire                     error_bad_fcs
+    (* mark_debug = "true" *)output wire                     start_packet,
+    (* mark_debug = "true" *)output wire                     error_bad_frame,
+    (* mark_debug = "true" *)output wire                     error_bad_fcs
 );
 
 // bus width assertions
@@ -98,14 +98,14 @@ localparam [2:0]
     STATE_PAYLOAD = 3'd1,
     STATE_WAIT_LAST = 3'd2;
 
-reg [2:0] state_reg = STATE_IDLE, state_next;
+(* mark_debug = "true" *)reg [2:0] state_reg = STATE_IDLE, state_next;
 
 // datapath control signals
-reg reset_crc;
-reg update_crc;
+(* mark_debug = "true" *)reg reset_crc;
+(* mark_debug = "true" *)reg update_crc;
 
-reg mii_odd = 1'b0;
-reg in_frame = 1'b0;
+(* mark_debug = "true" *)reg mii_odd = 1'b0;
+(* mark_debug = "true" *)reg in_frame = 1'b0;
 
 reg [DATA_WIDTH-1:0] gmii_rxd_d0 = {DATA_WIDTH{1'b0}};
 reg [DATA_WIDTH-1:0] gmii_rxd_d1 = {DATA_WIDTH{1'b0}};

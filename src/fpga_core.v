@@ -4,6 +4,7 @@
 `resetall
 `timescale 1ns / 1ps
 `default_nettype none
+`include "head.vh"
 
 /*
  * FPGA core logic
@@ -30,7 +31,12 @@ module fpga_core #
     output wire       phy_tx_clk,
     output wire [3:0] phy_txd,
     output wire       phy_tx_ctl,
-    output reg        phy_reset_n
+    output reg        phy_reset_n,
+
+    /*
+     * Ethernet: 1000BASE-T RGMII
+     */
+    output wire       debug_led
 );
 
 localparam TIME_1MS = 125 * 1000 * 100;
@@ -56,7 +62,7 @@ wire [47:0] rx_eth_src_mac;
 (* mark_debug = "true" *)wire [15:0] rx_eth_type;
 (* mark_debug = "true" *)wire [7:0] rx_eth_payload_axis_tdata;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tvalid;
-wire rx_eth_payload_axis_tready;
+(* mark_debug = "true" *)wire rx_eth_payload_axis_tready;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tlast;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tuser;
 
@@ -70,6 +76,8 @@ wire [47:0] tx_eth_src_mac;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tready;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tlast;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tuser;
+
+wire [15:0] num_1us;
 
 localparam TIME_1MS_BITS = $clog2(TIME_1MS);
 (* mark_debug = "true" *)reg [TIME_1MS_BITS - 1:0] phy_reset_counter = 0;
@@ -87,18 +95,49 @@ always @(posedge clk) begin
 end
 
 /*
+ * count packet
+ */
+reg [15:0] tx_packet_num=0;
+always @(posedge clk) begin
+    if (rst) begin
+        tx_packet_num <= 0;
+    end else if (tx_eth_payload_axis_tvalid && tx_eth_payload_axis_tready && tx_eth_payload_axis_tlast) begin
+        tx_packet_num <= tx_packet_num + 1;
+    end
+end
+
+reg [15:0] rx_packet_num=0;
+always @(posedge clk) begin
+    if (rst) begin
+        rx_packet_num <= 0;
+    end else if (rx_eth_payload_axis_tvalid && rx_eth_payload_axis_tready && rx_eth_payload_axis_tlast) begin
+        rx_packet_num <= rx_packet_num + 1;
+    end
+end
+
+/*
  * test_sender
  */
-test_sender #(
-    .LENGTH(512),
-    .LOCAL_MAC(48'h02_00_00_00_00_00),
-    .DST_MAC(48'h54_14_A7_12_4D_B3),
-    // Width of AXI stream interfaces in bits
+wire [47:0] client_mac = 48'h01_02_03_04_05_06;
+wire [47:0] server_mac = 48'h07_08_09_0a_0b_0c;
+//wire [47:0] dst_mac = 48'hfe80_59db_ff3c_edf4_c582;
+
+`ifdef IS_CLIENT
+test_gen_pattern #(
+    .DATA_LENGTH(256),
     .DATA_WIDTH(8)
 )
-test_sender (
+test_gen_pattern (
     .clk(clk),
     .rst(rst),
+
+    .packet_index(tx_packet_num),
+    .src_mac(client_mac),
+    .dst_mac(server_mac),
+    .timestamp(num_1us),
+    .is_data(),
+    .is_timestamp0(),
+    .is_timestamp1(),
 
     .m_eth_hdr_valid(tx_eth_hdr_valid),
     .m_eth_hdr_ready(tx_eth_hdr_ready),
@@ -112,20 +151,17 @@ test_sender (
     .m_eth_payload_axis_tuser(tx_eth_payload_axis_tuser)
 );
 
-
-/*
- * test_receiver
- */
-test_receiver #(
-    .LENGTH(512),
-    .LOCAL_MAC(48'h02_00_00_00_00_00),
-    .DST_MAC(48'h02_00_00_00_00_00),
-    // Width of AXI stream interfaces in bits
+test_pattern_recv #(
+    .DATA_LENGTH(256),
     .DATA_WIDTH(8)
-)
-test_receiver (
+) test_pattern_recv (
     .clk(clk),
     .rst(rst),
+
+    .packet_index(rx_packet_num),
+    .src_mac(client_mac),
+    .dst_mac(server_mac),
+    .timestamp(num_1us),
 
     .s_eth_hdr_valid(rx_eth_hdr_valid),
     .s_eth_hdr_ready(rx_eth_hdr_ready),
@@ -138,6 +174,48 @@ test_receiver (
     .s_eth_payload_axis_tlast(rx_eth_payload_axis_tlast),
     .s_eth_payload_axis_tuser(rx_eth_payload_axis_tuser)
 );
+
+`else // not client, loopback server.
+
+assign tx_eth_hdr_valid = rx_eth_hdr_valid;
+assign rx_eth_hdr_ready = tx_eth_hdr_ready;
+assign tx_eth_dest_mac = rx_eth_src_mac;
+assign tx_eth_src_mac = server_mac;
+assign tx_eth_type = 16'h88b6;
+
+assign tx_eth_payload_axis_tvalid = rx_eth_payload_axis_tvalid;
+assign tx_eth_payload_axis_tdata = rx_eth_payload_axis_tdata;
+assign rx_eth_payload_axis_tready = tx_eth_payload_axis_tready;
+assign tx_eth_payload_axis_tlast = rx_eth_payload_axis_tlast;
+assign tx_eth_payload_axis_tuser = rx_eth_payload_axis_tuser;
+`endif // IS_CLIENT
+
+//
+///*
+// * test_receiver
+// */
+//test_receiver #(
+//    .LENGTH(512),
+//    .LOCAL_MAC(48'h02_00_00_00_00_00),
+//    .DST_MAC(48'h02_00_00_00_00_00),
+//    // Width of AXI stream interfaces in bits
+//    .DATA_WIDTH(8)
+//)
+//test_receiver (
+//    .clk(clk),
+//    .rst(rst),
+//
+//    .s_eth_hdr_valid(rx_eth_hdr_valid),
+//    .s_eth_hdr_ready(rx_eth_hdr_ready),
+//    .s_eth_dest_mac(rx_eth_dest_mac),
+//    .s_eth_src_mac(rx_eth_src_mac),
+//    .s_eth_type(rx_eth_type),
+//    .s_eth_payload_axis_tdata(rx_eth_payload_axis_tdata),
+//    .s_eth_payload_axis_tvalid(rx_eth_payload_axis_tvalid),
+//    .s_eth_payload_axis_tready(rx_eth_payload_axis_tready),
+//    .s_eth_payload_axis_tlast(rx_eth_payload_axis_tlast),
+//    .s_eth_payload_axis_tuser(rx_eth_payload_axis_tuser)
+//);
 
 
 eth_mac_1g_rgmii_fifo #(
@@ -243,6 +321,20 @@ eth_axis_tx_inst (
     // Status signals
     .busy()
 );
+
+gen_timestamp 
+#(
+    .CYCLE_NUM_1US(125)
+) gen_timestamp 
+(
+    .clk(clk),
+    .rst(rst),
+    .timestamp(num_1us)
+);
+
+assign debug_led = rx_axis_tvalid;
+
+
 
 endmodule
 
