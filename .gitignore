@@ -1,1 +1,4 @@
-./work/*
+work
+vivado*
+*wlf
+*swp
