@@ -77,17 +77,17 @@ wire mfire = m_axis_tvalid && m_axis_tready;
 wire pfire = psel && penable && pready;
 
 reg [3:0] state_reg=S_IDLE, state_next;
-wire is_command = uart_data[0] == 1'b0;
-wire is_wr_w = uart_data[3:1] == 3'd1;
-wire is_rd_w = uart_data[3:1] == 3'd2;
-wire [3:0] dst_fpga_w = uart_data[7:4];
+wire is_command = s_axis_tdata[0] == 1'b0;
+wire is_wr_w = s_axis_tdata[3:1] == 3'd1;
+wire is_rd_w = s_axis_tdata[3:1] == 3'd2;
+wire [3:0] dst_fpga_w = s_axis_tdata[7:4];
 wire is_local_w = dst_fpga_w == 4'd0 || dst_fpga_w == local_fpga_index;
 wire start = is_command && sfire && is_local_w;
 
 reg is_wr=0, is_rd=0;
 reg [3:0] dst_fpga;
 
-wire [7:0] sdata = s_axis_tdata[7:0];
+wire [7:0] sdata = s_axis_tdata[8:1];
 
 reg penable_reg=0, penable_next;
 reg [15:0] paddr_reg=0, paddr_next;
@@ -116,13 +116,13 @@ always @(*) begin
         case(state_reg)
             S_IDLE: begin
                 if (start) begin
-                    state_next = S_ADDR0
+                    state_next = S_ADDR0;
                 end
             end
             S_ADDR0: begin
                 if (sfire) begin
                     state_next = S_ADDR1;
-                    paddr_next = {paddr_reg[7:0], sdata};
+                    paddr_next = {sdata, paddr_reg[15:8]};
                 end
             end
             S_ADDR1: begin
@@ -134,7 +134,7 @@ always @(*) begin
                         state_next = S_WAIT_READ;
                         penable_next =1'b1;
                     end
-                    paddr_next = {paddr_reg[7:0], sdata};
+                    paddr_next = {sdata, paddr_reg[15:8]};
                 end
             end
             S_WDATA0: begin
@@ -183,34 +183,34 @@ always @(*) begin
             S_RD_HEADER: begin
                 if (mfire) begin
                     state_next = S_RDATA0;
+                    m_axis_tvalid_next = 1'b1;
+                    m_axis_tlast_next = 1'b0;
+                    m_axis_tdata_next = {prdata_reg[7:0], 1'b1};
                 end
-                m_axis_tvalid_next = 1'b1;
-                m_axis_tlast_next = 1'b0;
-                m_axis_tdata_next = prdata_reg[7:0];
             end
             S_RDATA0: begin
                 if (mfire) begin
                     state_next = S_RDATA1;
+                    m_axis_tvalid_next = 1'b1;
+                    m_axis_tlast_next = 1'b0;
+                    m_axis_tdata_next = {prdata_reg[15:8], 1'b1};
                 end
-                m_axis_tvalid_next = 1'b1;
-                m_axis_tlast_next = 1'b0;
-                m_axis_tdata_next = prdata_reg[15:8];
             end
             S_RDATA1: begin
                 if (mfire) begin
                     state_next = S_RDATA2;
+                    m_axis_tvalid_next = 1'b1;
+                    m_axis_tlast_next = 1'b0;
+                    m_axis_tdata_next = {prdata_reg[23:16], 1'b1};
                 end
-                m_axis_tvalid_next = 1'b1;
-                m_axis_tlast_next = 1'b0;
-                m_axis_tdata_next = prdata_reg[23:16];
             end
             S_RDATA2: begin
                 if (mfire) begin
                     state_next = S_RDATA3;
+                    m_axis_tvalid_next = 1'b1;
+                    m_axis_tlast_next = 1'b1;
+                    m_axis_tdata_next = {prdata_reg[31:24], 1'b1};
                 end
-                m_axis_tvalid_next = 1'b1;
-                m_axis_tlast_next = 1'b1;
-                m_axis_tdata_next = prdata_reg[31:24];
             end
             S_RDATA3: begin
                 if (mfire) begin

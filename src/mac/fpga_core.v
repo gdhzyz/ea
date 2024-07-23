@@ -4,7 +4,7 @@
 `resetall
 `timescale 1ns / 1ps
 `default_nettype none
-`include "head.vh"
+`include "../head.vh"
 
 /*
  * FPGA core logic

@@ -4,7 +4,6 @@
 `resetall
 `timescale 1ns / 1ps
 `default_nettype none
-`include "head.vh"
 
 /*
  * Register interface.
@@ -111,6 +110,9 @@ uart2reg uart2reg (
     .pslverr(pslverr)
 );
 
+//block_ea #(
+//    .ADDRESS_WIDTH(16),
+//)
 
 endmodule
 
