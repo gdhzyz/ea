@@ -8,7 +8,7 @@
 /*
  * Uart to register module for both local and remote.
  */
-module uart2reg
+module uart2apb
 (
     /*
      * Clock: 125MHz
@@ -54,7 +54,10 @@ module uart2reg
      */
     input  wire [3:0]   local_fpga_index,
     output wire         busy,
-    output wire         error
+    output wire         error,
+    output wire [31:0]  wreq_count,
+    output wire [31:0]  rreq_count,
+    output wire [31:0]  rack_count
 );
 
 localparam S_IDLE = 0;
@@ -82,7 +85,7 @@ wire is_wr_w = s_axis_tdata[3:1] == 3'd1;
 wire is_rd_w = s_axis_tdata[3:1] == 3'd2;
 wire [3:0] dst_fpga_w = s_axis_tdata[7:4];
 wire is_local_w = dst_fpga_w == 4'd0 || dst_fpga_w == local_fpga_index;
-wire start = is_command && sfire && is_local_w;
+wire start = is_command && sfire && is_local_w && (is_wr_w || is_rd_w);
 
 reg is_wr=0, is_rd=0;
 reg [3:0] dst_fpga;
@@ -99,6 +102,10 @@ reg m_axis_tvalid_reg=0, m_axis_tvalid_next;
 reg m_axis_tlast_reg=0, m_axis_tlast_next;
 reg [8:0] m_axis_tdata_reg, m_axis_tdata_next;
 
+reg [31:0] wreq_count_reg=0, wreq_count_next;
+reg [31:0] rreq_count_reg=0, rreq_count_next;
+reg [31:0] rack_count_reg=0, rack_count_next;
+
 always @(*) begin
     state_next = state_reg;
     penable_next = penable_reg;
@@ -109,6 +116,10 @@ always @(*) begin
     m_axis_tvalid_next = m_axis_tvalid_reg;
     m_axis_tlast_next = m_axis_tlast_reg;
     m_axis_tdata_next = m_axis_tdata_reg;
+
+    wreq_count_next = wreq_count_reg;
+    rreq_count_next = rreq_count_reg;
+    rack_count_next = rack_count_reg;
 
     if (start) begin
         state_next = S_ADDR0;
@@ -168,6 +179,8 @@ always @(*) begin
                     state_next = S_IDLE;
                     penable_next = 1'b0;
                     pwrite_next = 1'b0;
+
+                    wreq_count_next = wreq_count_reg + 1;
                 end
             end
             S_WAIT_READ: begin
@@ -178,6 +191,8 @@ always @(*) begin
                     m_axis_tvalid_next = 1'b1;
                     m_axis_tlast_next = 1'b0;
                     m_axis_tdata_next = {1'b0, dst_fpga, 3'd3, 1'b0};
+
+                    rreq_count_next = rreq_count_reg + 1;
                 end
             end
             S_RD_HEADER: begin
@@ -217,6 +232,8 @@ always @(*) begin
                     state_next = S_IDLE;
                     m_axis_tvalid_next = 1'b0;
                     m_axis_tlast_next = 1'b0;
+
+                    rack_count_next = rack_count_reg + 1;
                 end
             end
         endcase
@@ -271,9 +288,17 @@ always @(posedge clk) begin
     if (rst) begin
         penable_reg <= 1'b0;
         m_axis_tvalid_reg <= 1'b0;
+
+        wreq_count_reg <= 0;
+        rreq_count_reg <= 0;
+        rack_count_reg <= 0;
     end else begin
         penable_reg <= penable_next;
         m_axis_tvalid_reg <= m_axis_tvalid_next;
+
+        wreq_count_reg <= wreq_count_next + 1;
+        rreq_count_reg <= rreq_count_next + 1;
+        rack_count_reg <= rack_count_next + 1;
     end
 end
 
@@ -295,6 +320,13 @@ assign m_axis_tdata = m_axis_tdata_reg;
 assign m_axis_tuser = 1'b0;
 assign m_axis_tlast = m_axis_tlast_reg;
 
+
+/*
+ * counters
+ */
+assign wreq_count = wreq_count_reg;
+assign rreq_count = rreq_count_reg;
+assign rack_count = rack_count_reg;
 
 endmodule
 

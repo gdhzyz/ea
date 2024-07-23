@@ -16,6 +16,7 @@ module reg_intf
      */
     input  wire       clk,
     input  wire       rst,
+    output wire       srst, // soft reset
 
     /*
      * UART
@@ -26,6 +27,7 @@ module reg_intf
     /*
      * configurations
      */
+    output wire [3:0] fpga_index,
     output wire       debug_led
 );
 
@@ -73,6 +75,12 @@ wire         pready;
 wire [31:0]  prdata;
 wire [31:0]  pslverr;
 
+wire         uart2reg_busy;
+wire         uart2reg_error;    
+wire [31:0]  reg_wreq_count;
+wire [31:0]  reg_rreq_count;
+wire [31:0]  reg_rack_count;
+
 uart2reg uart2reg (
     .clk(clk),
     .rst(rst),
@@ -107,12 +115,66 @@ uart2reg uart2reg (
     .pwdata(pwdata),
     .pready(pready),
     .prdata(prdata),
-    .pslverr(pslverr)
+    .pslverr(pslverr),
+
+    /*
+     * Configuration
+     */
+    .local_fpga_index(fpga_index),
+    .busy(uart2reg_busy),
+    .error(uart2reg_error),
+    .wreq_count(reg_wreq_count),
+    .rreq_count(reg_rreq_count),
+    .rack_count(reg_rack_count)
 );
 
-//block_ea #(
-//    .ADDRESS_WIDTH(16),
-//)
+wire reset_trigger;
+
+block_ea #(
+    .ADDRESS_WIDTH(16),
+    .VERSION_INITIAL_VALUE(32'h24072300)
+) reg_block (
+    .i_clk(clk),
+    .i_rst_n(!rst),
+    .i_psel(psel),
+    .i_penable(penable),
+    .i_paddr(paddr),
+    .i_pprot(pprot),
+    .i_pwrite(pwrite),
+    .i_pstrb(pstrb),
+    .i_pwdata(pwdata),
+    .o_pready(pready),
+    .o_prdata(prdata),
+    .o_pslverr(pslverr),
+    .i_version(`VERSION),
+    .i_reset(srst),
+    .o_reset_trigger(reset_trigger),
+    .o_index(fpga_index),
+    .i_uart_bit_rate(115200),
+    .i_uart_reg_write_req_count(reg_wreq_count),
+    .i_uart_reg_read_req_count(reg_rreq_count),
+    .i_uart_reg_read_ack_count(reg_rack_count),
+    .i_uart_write_data_count(),
+    .i_uart_recv_data_count(),
+    .o_uart_data_dst_fpga_index(),
+    .o_uart_reg_dst_fpga_index(),
+    .i_mac_send_count(),
+    .i_mac_recv_count(),
+    .i_mac_reg_write_req_count(),
+    .i_mac_reg_read_req_count(),
+    .i_mac_reg_read_ack_count()
+);
+
+reg srst_reg = 0;
+assign srst = srst_reg;
+always @(posedge clk) begin
+    if (reset_trigger) begin
+        srst_reg <= 1;
+    end else begin
+        srst_reg <= 0;
+    end
+end
+
 
 endmodule
 

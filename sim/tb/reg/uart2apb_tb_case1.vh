@@ -1,6 +1,6 @@
 
     
-    `include "uart2reg_utils.vh"
+    `include "uart2apb_utils.vh"
     localparam CASE1_TIME_OUT_CYCLES = 1000;
 
     // Takes in input byte and serializes it 

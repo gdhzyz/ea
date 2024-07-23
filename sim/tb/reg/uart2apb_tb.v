@@ -1,7 +1,7 @@
 
 `timescale 1ns/100ps
   
-module uart2reg_tb ();
+module uart2apb_tb ();
  
    
     wire clk;     

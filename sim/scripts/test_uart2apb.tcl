@@ -9,10 +9,10 @@ vlog -work work -f ./src/compile_files.f
 vlog -work work -f ./sim/file_list.f
 
 # 启动仿真并使用vopt进行优化，同时保留调试信息
-vopt uart2reg_tb -o uart2reg_tb_opt +acc=npr
+vopt uart2apb_tb -o uart2apb_tb_opt +acc=npr
 
 # 启动仿真
-vsim -L work uart2reg_tb_opt
+vsim -L work uart2apb_tb_opt
 
 # 添加波形信号
 add wave *

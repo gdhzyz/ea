@@ -1,5 +1,5 @@
 
-    `include "uart2reg_utils.vh"
+    `include "uart2apb_utils.vh"
     localparam CASE2_TIME_OUT_CYCLES = 1000;
 
     task check_uart_tx;
