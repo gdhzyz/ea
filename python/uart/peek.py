@@ -19,7 +19,7 @@ def main(argv):
 
     bus_if = BusInterface(args.type, args.device, args.baud)
 
-    addr   = int(args.address, 0)
+    addr   = int(args.address, 16)
     value  = bus_if.read32(0, addr)
 
     if not args.quiet:

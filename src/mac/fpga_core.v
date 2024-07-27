@@ -53,7 +53,7 @@ module fpga_core #
     output wire         debug_led
 );
 
-localparam TIME_100MS = 125 * 1000 * 100;
+localparam TIME_200MS = 125 * 1000 * 100 * 2;
 
 // AXI between MAC and Ethernet modules
 (* mark_debug = "true" *)wire [7:0] rx_axis_tdata;
@@ -93,13 +93,13 @@ wire [47:0] tx_eth_src_mac;
 
 wire [15:0] num_1us;
 
-localparam TIME_100MS_BITS = $clog2(TIME_100MS);
-reg [TIME_100MS_BITS - 1:0] phy_reset_counter = 0;
+localparam TIME_200MS_BITS = $clog2(TIME_200MS);
+reg [TIME_200MS_BITS - 1:0] phy_reset_counter = 0;
 always @(posedge clk) begin
     if (rst) begin
         phy_reset_counter <= 'd0;
         phy_reset_n <= 1'b0;
-    end else if (phy_reset_counter < TIME_100MS-1) begin
+    end else if (phy_reset_counter < TIME_200MS-1) begin
         phy_reset_counter <= phy_reset_counter + 'd1;
         phy_reset_n <= 1'b0;
     end else begin
