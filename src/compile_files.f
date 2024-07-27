@@ -24,7 +24,7 @@
 /home/suzhifeng/work/github/ea/src/./config/regs/rggen_address_decoder.v
 /home/suzhifeng/work/github/ea/src/./config/regs/rggen_axi4lite_skid_buffer.v
 /home/suzhifeng/work/github/ea/src/./config/uart_tx.v
-/home/suzhifeng/work/github/ea/src/./config/uart2reg.v
+/home/suzhifeng/work/github/ea/src/./config/uart2apb.v
 /home/suzhifeng/work/github/ea/src/./fpga.v
 /home/suzhifeng/work/github/ea/src/./mac/rgmii_phy_if.v
 /home/suzhifeng/work/github/ea/src/./mac/eth_axis_tx.v

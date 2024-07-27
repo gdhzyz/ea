@@ -14,33 +14,39 @@ module fpga (
      * Clock: 50MHz
      * Reset: Push button, active high
      */
-    input  wire       clk_50mhz,
-    input  wire       reset,
+    input  wire         clk_50mhz,
+    input  wire         reset,
 
     /*
      * Ethernet: 1000BASE-T RGMII
      */
-    input  wire       phy_rx_clk,
-    input  wire [3:0] phy_rxd,
-    input  wire       phy_rx_ctl,
-    output wire       phy_tx_clk,
-    output wire [3:0] phy_txd,
-    output wire       phy_tx_ctl,
-    output wire       phy_reset_n,  // 10ms for YT8511(document require 10us)
+    input  wire         phy_rx_clk,
+    input  wire [3:0]   phy_rxd,
+    input  wire         phy_rx_ctl,
+    output wire         phy_tx_clk,
+    output wire [3:0]   phy_txd,
+    output wire         phy_tx_ctl,
+    output wire         phy_reset_n,  // 10ms for YT8511(document require 10us)
     //input  wire       phy_int_n,
 
 
     /*
      * Leds
      */
-    (* mark_debug = "true" *)output reg        led1 = 1'b1,
-    (* mark_debug = "true" *)output reg        led2 = 1'b1
+    output reg          led1 = 1'b1,
+    output reg          led2 = 1'b1,
 
     ///*
     // * keys
     // */
     //input  wire       key1,
     //input  wire       key2
+
+    /*
+     * uart
+     */
+    input  wire         uart_rx,
+    output wire         uart_tx
 );
 
 // Clock and reset
@@ -157,6 +163,26 @@ sync_reset_inst (
     .rst(~mmcm_locked),
     .out(rst_int)
 );
+
+wire srst; // soft reset
+wire [3:0] fpga_index;
+
+// =================== reg ==================
+reg_intf reg_intf(
+    .clk(clk_int),
+    .rst(rst_int),
+    .srst(srst),
+
+    .uart_intf_rx(uart_rx),
+    .uart_intf_tx(uart_tx),
+    .fpga_index(fpga_index)
+);
+
+// =================== end reg ==================
+
+
+
+// =================== mac ==================
 
 // IODELAY elements for RGMII interface to PHY
 wire [3:0] phy_rxd_delay;
@@ -286,6 +312,8 @@ core_inst (
 
     .debug_led(debug_led)
 );
+
+// =================== end mac ==================
 
 
 /*

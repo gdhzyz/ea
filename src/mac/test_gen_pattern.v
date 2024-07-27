@@ -49,8 +49,8 @@ localparam S_PACKET_INDEX = 4;
 localparam S_DATA = 5;
 
 (* mark_debug = "true" *)reg [3:0] state_reg = S_IDLE, state_next;
-(* mark_debug = "true" *)reg [DATA_LENGTH_BITS-1:0] count_reg = 0, count_next;
-(* mark_debug = "true" *)reg clear;
+reg [DATA_LENGTH_BITS-1:0] count_reg = 0, count_next;
+reg clear;
 wire fire_payload = m_eth_payload_axis_tvalid && m_eth_payload_axis_tready;
 reg [DATA_WIDTH-1:0] tdata;
 reg [DATA_WIDTH-1:0] data_counter=0;

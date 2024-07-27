@@ -97,7 +97,7 @@ always @(posedge clk) begin
     end
 end
 
-(* mark_debug = "true" *)reg [15:0] rx_timestamp=0;
+reg [15:0] rx_timestamp=0;
 always @(posedge clk) begin
     if (gen_is_timestamp0 && fire) begin
         rx_timestamp[7:0] <= s_eth_payload_axis_tdata;
@@ -116,7 +116,7 @@ always @(posedge clk) begin
     end
 end
 
-(* mark_debug = "true" *)reg [15:0] time_gap=0;
+reg [15:0] time_gap=0;
 wire [15:0] time_gap_w = timestamp - rx_timestamp;
 always @(posedge clk) begin
     if (rst) begin

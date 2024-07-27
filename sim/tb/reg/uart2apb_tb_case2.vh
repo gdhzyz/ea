@@ -3,7 +3,7 @@
     localparam CASE2_TIME_OUT_CYCLES = 1000;
 
     task check_uart_tx;
-        input [8:0] expected_data;
+        input [7:0] expected_data;
         input expected_user;
         input expected_last;
         begin
@@ -40,19 +40,19 @@
             @(posedge clk);
             // write req header
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {1'b0, local_fpga_index, 3'd2, 1'b0};
+            s_axis_tdata <= {1'b0, local_fpga_index, 3'd2};
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // addr0
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {addr[7:0], 1'b1};
+            s_axis_tdata <= addr[7:0];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // addr1
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {addr[15:8], 1'b1};
+            s_axis_tdata <= addr[15:8];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
@@ -95,15 +95,15 @@
             m_axis_tready <= 1;
             @(posedge clk);
             // header
-            check_uart_tx({1'b0, local_fpga_index, 3'd3, 1'b0}, 1'b0, 1'b0);
+            check_uart_tx({1'b0, local_fpga_index, 3'd3}, 1'b0, 1'b0);
             // value0
-            check_uart_tx({data[7:0], 1'b1}, 1'b0, 1'b0);
+            check_uart_tx({data[7:0]}, 1'b0, 1'b0);
             // value1
-            check_uart_tx({data[15:8], 1'b1}, 1'b0, 1'b0);
+            check_uart_tx({data[15:8]}, 1'b0, 1'b0);
             // value2
-            check_uart_tx({data[23:16], 1'b1}, 1'b0, 1'b0);
+            check_uart_tx({data[23:16]}, 1'b0, 1'b0);
             // value3
-            check_uart_tx({data[31:24], 1'b1}, 1'b0, 1'b1);
+            check_uart_tx({data[31:24]}, 1'b0, 1'b1);
             m_axis_tready <= 0;
             if (m_axis_tvalid) begin
                 $error("too many m_axis_tvalid!");

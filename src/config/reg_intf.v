@@ -5,6 +5,8 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
+`include "../head.vh"
+
 /*
  * Register interface.
  */
@@ -27,16 +29,16 @@ module reg_intf
     /*
      * configurations
      */
-    output wire [3:0] fpga_index,
-    output wire       debug_led
+    output wire [3:0] fpga_index
 );
+localparam UART_BITS = `UART_BITS;
 
-wire                uart_rx_valid;
-wire [8:0]          uart_rx_data;
+wire                    uart_rx_valid;
+wire [UART_BITS-1:0]    uart_rx_data;
 
 uart_rx #(
     .CLKS_PER_BIT(125 * 1000 * 1000 / 115200), // 125MHz, 115200bps.
-    .WORK(9)
+    .WORD(UART_BITS)
 ) uart_rx(
     .i_Clock(clk),
     .i_Rx_Serial(uart_intf_rx),
@@ -44,14 +46,14 @@ uart_rx #(
     .o_Rx_Byte(uart_rx_data)
 );
 
-wire                uart_tx_valid;
-wire [8:0]          uart_tx_data;
-wire                uart_tx_active;
-wire                uart_tx_done;
+wire                    uart_tx_valid;
+wire [UART_BITS-1:0]    uart_tx_data;
+wire                    uart_tx_active;
+wire                    uart_tx_done;
 
 uart_tx #(
     .CLKS_PER_BIT(125 * 1000 * 1000 / 115200), // 125MHz, 115200bps.
-    .WORK(9)
+    .WORD(UART_BITS)
 ) uart_tx(
     .i_Clock(clk),
     .i_Tx_DV(uart_tx_valid),
@@ -65,15 +67,15 @@ uart_tx #(
  * APB
  */
 wire         psel;
-wire         penable;
-wire [15:0]  paddr;
+(* mark_debug = "true" *)wire         penable;
+(* mark_debug = "true" *)wire [15:0]  paddr;
 wire [2:0]   pprot;
-wire         pwrite;
+(* mark_debug = "true" *)wire         pwrite;
 wire [3:0]   pstrb;
 wire [31:0]  pwdata;
 wire         pready;
 wire [31:0]  prdata;
-wire [31:0]  pslverr;
+wire         pslverr;
 
 wire         uart2reg_busy;
 wire         uart2reg_error;    
@@ -81,7 +83,7 @@ wire [31:0]  reg_wreq_count;
 wire [31:0]  reg_rreq_count;
 wire [31:0]  reg_rack_count;
 
-uart2reg uart2reg (
+uart2apb uart2apb (
     .clk(clk),
     .rst(rst),
 
@@ -101,7 +103,7 @@ uart2reg uart2reg (
     .m_axis_tdata(uart_tx_data),
     .m_axis_tuser(),
     .m_axis_tlast(),
-    .m_axis_tready(1'b1),
+    .m_axis_tready(!uart_tx_active),
 
     /*
      * APB
@@ -132,7 +134,7 @@ wire reset_trigger;
 
 block_ea #(
     .ADDRESS_WIDTH(16),
-    .VERSION_INITIAL_VALUE(32'h24072300)
+    .VERSION_INITIAL_VALUE(`VERSION)
 ) reg_block (
     .i_clk(clk),
     .i_rst_n(!rst),

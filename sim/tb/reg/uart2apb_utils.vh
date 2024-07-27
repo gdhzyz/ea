@@ -1,5 +1,5 @@
-`ifndef __UART2REG_UTILS_VH__
-`define __UART2REG_UTILS_VH__
+`ifndef __UART2APB_UTILS_VH__
+`define __UART2APB_UTILS_VH__
     task wait_fire;
         begin
             @(posedge clk);
@@ -9,4 +9,4 @@
             end
         end
     endtask
-`endif // __UART2REG_UTILS_VH__
+`endif // __UART2APB_UTILS_VH__

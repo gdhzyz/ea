@@ -39,7 +39,7 @@ module fpga_core #
     output wire       debug_led
 );
 
-localparam TIME_1MS = 125 * 1000 * 100;
+localparam TIME_100MS = 125 * 1000 * 100;
 
 // AXI between MAC and Ethernet modules
 (* mark_debug = "true" *)wire [7:0] rx_axis_tdata;
@@ -79,13 +79,13 @@ wire [47:0] tx_eth_src_mac;
 
 wire [15:0] num_1us;
 
-localparam TIME_1MS_BITS = $clog2(TIME_1MS);
-(* mark_debug = "true" *)reg [TIME_1MS_BITS - 1:0] phy_reset_counter = 0;
+localparam TIME_100MS_BITS = $clog2(TIME_100MS);
+reg [TIME_100MS_BITS - 1:0] phy_reset_counter = 0;
 always @(posedge clk) begin
     if (rst) begin
         phy_reset_counter <= 'd0;
         phy_reset_n <= 1'b0;
-    end else if (phy_reset_counter < TIME_1MS-1) begin
+    end else if (phy_reset_counter < TIME_100MS-1) begin
         phy_reset_counter <= phy_reset_counter + 'd1;
         phy_reset_n <= 1'b0;
     end else begin
@@ -97,20 +97,22 @@ end
 /*
  * count packet
  */
-reg [15:0] tx_packet_num=0;
+(* mark_debug = "true" *)reg [15:0] tx_packet_num=0;
 always @(posedge clk) begin
     if (rst) begin
         tx_packet_num <= 0;
-    end else if (tx_eth_payload_axis_tvalid && tx_eth_payload_axis_tready && tx_eth_payload_axis_tlast) begin
+    end else if (tx_eth_hdr_valid && tx_eth_hdr_ready) begin
         tx_packet_num <= tx_packet_num + 1;
     end
 end
 
-reg [15:0] rx_packet_num=0;
+(* mark_debug = "true" *)reg [15:0] rx_packet_num=0;
 always @(posedge clk) begin
     if (rst) begin
         rx_packet_num <= 0;
-    end else if (rx_eth_payload_axis_tvalid && rx_eth_payload_axis_tready && rx_eth_payload_axis_tlast) begin
+    end else if (rx_eth_hdr_valid 
+                 && rx_eth_hdr_ready 
+                 && (rx_eth_type == 16'h88B6 || rx_eth_type == 16'h88B5)) begin
         rx_packet_num <= rx_packet_num + 1;
     end
 end

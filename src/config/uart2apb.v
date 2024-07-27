@@ -8,7 +8,7 @@
 /*
  * Uart to register module for both local and remote.
  */
-module uart2apb
+module uart2apb 
 (
     /*
      * Clock: 125MHz
@@ -21,7 +21,7 @@ module uart2apb
      * UART rx
      */
     input  wire         s_axis_tvalid,
-    input  wire [8:0]   s_axis_tdata,
+    input  wire [7:0]   s_axis_tdata,
     input  wire         s_axis_tuser,
     input  wire         s_axis_tlast,
     output wire         s_axis_tready,
@@ -30,7 +30,7 @@ module uart2apb
      * UART tx
      */
     output wire         m_axis_tvalid,
-    output wire [8:0]   m_axis_tdata,
+    output wire [7:0]   m_axis_tdata,
     output wire         m_axis_tuser,
     output wire         m_axis_tlast,
     input  wire         m_axis_tready,
@@ -79,18 +79,13 @@ wire sfire = s_axis_tvalid && s_axis_tready;
 wire mfire = m_axis_tvalid && m_axis_tready;
 wire pfire = psel && penable && pready;
 
+reg is_wr_reg=0, is_rd_reg=0, is_wr_next, is_rd_next;
 reg [3:0] state_reg=S_IDLE, state_next;
-wire is_command = s_axis_tdata[0] == 1'b0;
-wire is_wr_w = s_axis_tdata[3:1] == 3'd1;
-wire is_rd_w = s_axis_tdata[3:1] == 3'd2;
-wire [3:0] dst_fpga_w = s_axis_tdata[7:4];
+wire [3:0] dst_fpga_w = s_axis_tdata[6:3];
 wire is_local_w = dst_fpga_w == 4'd0 || dst_fpga_w == local_fpga_index;
-wire start = is_command && sfire && is_local_w && (is_wr_w || is_rd_w);
+wire start = sfire && is_local_w && (is_wr_next || is_rd_next);
 
-reg is_wr=0, is_rd=0;
-reg [3:0] dst_fpga;
-
-wire [7:0] sdata = s_axis_tdata[8:1];
+wire [7:0] sdata = s_axis_tdata;
 
 reg penable_reg=0, penable_next;
 reg [15:0] paddr_reg=0, paddr_next;
@@ -100,7 +95,7 @@ reg [31:0] prdata_reg=0, prdata_next;
 
 reg m_axis_tvalid_reg=0, m_axis_tvalid_next;
 reg m_axis_tlast_reg=0, m_axis_tlast_next;
-reg [8:0] m_axis_tdata_reg, m_axis_tdata_next;
+reg [7:0] m_axis_tdata_reg, m_axis_tdata_next;
 
 reg [31:0] wreq_count_reg=0, wreq_count_next;
 reg [31:0] rreq_count_reg=0, rreq_count_next;
@@ -121,123 +116,124 @@ always @(*) begin
     rreq_count_next = rreq_count_reg;
     rack_count_next = rack_count_reg;
 
-    if (start) begin
-        state_next = S_ADDR0;
-    end else begin
-        case(state_reg)
-            S_IDLE: begin
-                if (start) begin
-                    state_next = S_ADDR0;
-                end
+    is_wr_next = is_wr_reg;
+    is_rd_next = is_rd_reg;
+
+    case(state_reg)
+        S_IDLE: begin
+            if (start) begin
+                state_next = S_ADDR0;
             end
-            S_ADDR0: begin
-                if (sfire) begin
-                    state_next = S_ADDR1;
-                    paddr_next = {sdata, paddr_reg[15:8]};
-                end
+            is_wr_next = s_axis_tdata[2:0] == 3'd1;
+            is_rd_next = s_axis_tdata[2:0] == 3'd2;
+        end
+        S_ADDR0: begin
+            if (sfire) begin
+                state_next = S_ADDR1;
+                paddr_next = {sdata, paddr_reg[15:8]};
             end
-            S_ADDR1: begin
-                if (sfire) begin
-                    if (is_wr) begin
-                        state_next = S_WDATA0;
-                        penable_next = 1'b0;
-                    end else begin
-                        state_next = S_WAIT_READ;
-                        penable_next =1'b1;
-                    end
-                    paddr_next = {sdata, paddr_reg[15:8]};
-                end
-            end
-            S_WDATA0: begin
-                if (sfire) begin
-                    state_next = S_WDATA1;
-                    pwdata_next = {sdata, pwdata_reg[31:8]};
-                end
-            end
-            S_WDATA1: begin
-                if (sfire) begin
-                    state_next = S_WDATA2;
-                    pwdata_next = {sdata, pwdata_reg[31:8]};
-                end
-            end
-            S_WDATA2: begin
-                if (sfire) begin
-                    state_next = S_WDATA3;
-                    pwdata_next = {sdata, pwdata_reg[31:8]};
-                end
-            end
-            S_WDATA3: begin
-                if (sfire) begin
-                    state_next = S_WAIT_WRITE;
-                    pwdata_next = {sdata, pwdata_reg[31:8]};
+        end
+        S_ADDR1: begin
+            if (sfire) begin
+                if (is_wr_reg) begin
+                    state_next = S_WDATA0;
+                    penable_next = 1'b0;
+                end else begin
+                    state_next = S_WAIT_READ;
                     penable_next =1'b1;
-                    pwrite_next = 1'b1;
                 end
+                paddr_next = {sdata, paddr_reg[15:8]};
             end
-            S_WAIT_WRITE: begin
-                if (pfire) begin
-                    state_next = S_IDLE;
-                    penable_next = 1'b0;
-                    pwrite_next = 1'b0;
+        end
+        S_WDATA0: begin
+            if (sfire) begin
+                state_next = S_WDATA1;
+                pwdata_next = {sdata, pwdata_reg[31:8]};
+            end
+        end
+        S_WDATA1: begin
+            if (sfire) begin
+                state_next = S_WDATA2;
+                pwdata_next = {sdata, pwdata_reg[31:8]};
+            end
+        end
+        S_WDATA2: begin
+            if (sfire) begin
+                state_next = S_WDATA3;
+                pwdata_next = {sdata, pwdata_reg[31:8]};
+            end
+        end
+        S_WDATA3: begin
+            if (sfire) begin
+                state_next = S_WAIT_WRITE;
+                pwdata_next = {sdata, pwdata_reg[31:8]};
+                penable_next =1'b1;
+                pwrite_next = 1'b1;
+            end
+        end
+        S_WAIT_WRITE: begin
+            if (pfire) begin
+                state_next = S_IDLE;
+                penable_next = 1'b0;
+                pwrite_next = 1'b0;
 
-                    wreq_count_next = wreq_count_reg + 1;
-                end
+                wreq_count_next = wreq_count_reg + 1;
             end
-            S_WAIT_READ: begin
-                if (pfire) begin
-                    state_next = S_RD_HEADER;
-                    penable_next = 1'b0;
-                    prdata_next = prdata;
-                    m_axis_tvalid_next = 1'b1;
-                    m_axis_tlast_next = 1'b0;
-                    m_axis_tdata_next = {1'b0, dst_fpga, 3'd3, 1'b0};
+        end
+        S_WAIT_READ: begin
+            if (pfire) begin
+                state_next = S_RD_HEADER;
+                penable_next = 1'b0;
+                prdata_next = prdata;
+                m_axis_tvalid_next = 1'b1;
+                m_axis_tlast_next = 1'b0;
+                m_axis_tdata_next = {1'b0, local_fpga_index, 3'd3};
 
-                    rreq_count_next = rreq_count_reg + 1;
-                end
+                rreq_count_next = rreq_count_reg + 1;
             end
-            S_RD_HEADER: begin
-                if (mfire) begin
-                    state_next = S_RDATA0;
-                    m_axis_tvalid_next = 1'b1;
-                    m_axis_tlast_next = 1'b0;
-                    m_axis_tdata_next = {prdata_reg[7:0], 1'b1};
-                end
+        end
+        S_RD_HEADER: begin
+            if (mfire) begin
+                state_next = S_RDATA0;
+                m_axis_tvalid_next = 1'b1;
+                m_axis_tlast_next = 1'b0;
+                m_axis_tdata_next = prdata_reg[7:0];
             end
-            S_RDATA0: begin
-                if (mfire) begin
-                    state_next = S_RDATA1;
-                    m_axis_tvalid_next = 1'b1;
-                    m_axis_tlast_next = 1'b0;
-                    m_axis_tdata_next = {prdata_reg[15:8], 1'b1};
-                end
+        end
+        S_RDATA0: begin
+            if (mfire) begin
+                state_next = S_RDATA1;
+                m_axis_tvalid_next = 1'b1;
+                m_axis_tlast_next = 1'b0;
+                m_axis_tdata_next = prdata_reg[15:8];
             end
-            S_RDATA1: begin
-                if (mfire) begin
-                    state_next = S_RDATA2;
-                    m_axis_tvalid_next = 1'b1;
-                    m_axis_tlast_next = 1'b0;
-                    m_axis_tdata_next = {prdata_reg[23:16], 1'b1};
-                end
+        end
+        S_RDATA1: begin
+            if (mfire) begin
+                state_next = S_RDATA2;
+                m_axis_tvalid_next = 1'b1;
+                m_axis_tlast_next = 1'b0;
+                m_axis_tdata_next = prdata_reg[23:16];
             end
-            S_RDATA2: begin
-                if (mfire) begin
-                    state_next = S_RDATA3;
-                    m_axis_tvalid_next = 1'b1;
-                    m_axis_tlast_next = 1'b1;
-                    m_axis_tdata_next = {prdata_reg[31:24], 1'b1};
-                end
+        end
+        S_RDATA2: begin
+            if (mfire) begin
+                state_next = S_RDATA3;
+                m_axis_tvalid_next = 1'b1;
+                m_axis_tlast_next = 1'b1;
+                m_axis_tdata_next = prdata_reg[31:24];
             end
-            S_RDATA3: begin
-                if (mfire) begin
-                    state_next = S_IDLE;
-                    m_axis_tvalid_next = 1'b0;
-                    m_axis_tlast_next = 1'b0;
+        end
+        S_RDATA3: begin
+            if (mfire) begin
+                state_next = S_IDLE;
+                m_axis_tvalid_next = 1'b0;
+                m_axis_tlast_next = 1'b0;
 
-                    rack_count_next = rack_count_reg + 1;
-                end
+                rack_count_next = rack_count_reg + 1;
             end
-        endcase
-    end
+        end
+    endcase
 end
 
 always @(posedge clk) begin
@@ -269,14 +265,6 @@ always @(posedge clk) begin
 end
 
 always @(posedge clk) begin
-    if (start) begin
-        is_wr <= is_wr_w;
-        is_rd <= is_rd_w;
-        dst_fpga <= dst_fpga_w;
-    end
-end
-
-always @(posedge clk) begin
     paddr_reg <= paddr_next;
     pwrite_reg <= pwrite_next;
     pwdata_reg <= pwdata_next;
@@ -284,6 +272,9 @@ always @(posedge clk) begin
 
     m_axis_tlast_reg <= m_axis_tlast_next;
     m_axis_tdata_reg <= m_axis_tdata_next;
+    
+    is_wr_reg <= is_wr_next;
+    is_rd_reg <= is_rd_next;
 
     if (rst) begin
         penable_reg <= 1'b0;

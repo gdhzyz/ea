@@ -11,7 +11,7 @@ module uart2apb_tb ();
      * UART rx
      */
     reg          s_axis_tvalid;
-    reg  [8:0]   s_axis_tdata;
+    reg  [7:0]   s_axis_tdata;
     reg          s_axis_tuser;
     reg          s_axis_tlast;
     wire         s_axis_tready;
@@ -20,7 +20,7 @@ module uart2apb_tb ();
      * UART tx
      */
     wire         m_axis_tvalid;
-    wire [8:0]   m_axis_tdata;
+    wire [7:0]   m_axis_tdata;
     wire         m_axis_tuser;
     wire         m_axis_tlast;
     reg          m_axis_tready;
@@ -108,7 +108,7 @@ module uart2apb_tb ();
         .reset(reset)
     );
      
-    //`include "uart2apb_tb_case1.vh"
-    `include "uart2apb_tb_case2.vh"
+    `include "uart2apb_tb_case1.vh"
+    //`include "uart2apb_tb_case2.vh"
    
 endmodule

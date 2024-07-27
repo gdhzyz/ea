@@ -4,111 +4,76 @@
 module uart2reg_tb ();
  
    
-    wire clk;     
-    wire reset;
-    
-    /*
-     * UART rx
-     */
-    reg          s_axis_tvalid;
-    reg  [8:0]   s_axis_tdata;
-    reg          s_axis_tuser;
-    reg          s_axis_tlast;
-    wire         s_axis_tready;
+wire clk;     
+wire reset;
+wire srst;
 
-    /*
-     * UART tx
-     */
-    wire         m_axis_tvalid;
-    wire [8:0]   m_axis_tdata;
-    wire         m_axis_tuser;
-    wire         m_axis_tlast;
-    reg          m_axis_tready;
+wire extern_uart_tx;
+reg extern_uart_tx_valid;
+reg [8:0] extern_uart_tx_data;
+wire extern_uart_tx_active;
+wire extern_uart_tx_done;
 
-    /*
-     * APB
-     */
-    wire         psel;
-    wire         penable;
-    wire [15:0]  paddr;
-    wire [2:0]   pprot;
-    wire         pwrite;
-    wire [3:0]   pstrb;
-    wire [31:0]  pwdata;
-    reg          pready;
-    reg  [31:0]  prdata;
-    reg  [31:0]  pslverr;
+uart_tx #(
+    .CLKS_PER_BIT(125 * 1000 * 1000 / 115200), // 125MHz, 115200bps.
+    .WORD(8)
+) tb_uart_tx(
+    .i_Clock(clk),
+    .i_Tx_DV(extern_uart_tx_valid),
+    .i_Tx_Byte(extern_uart_tx_data),
+    .o_Tx_Active(extern_uart_tx_active),
+    .o_Tx_Serial(extern_uart_tx),
+    .o_Tx_Done(extern_uart_tx_done)
+);
 
-    /*
-     * Configuration
-     */
-    reg  [3:0]   local_fpga_index;
-    wire         busy;
-    wire         error;
-       
-   
-    uart2apb uart2apb (
-    /*
-     * Clock: 125MHz
-     * Synchronous reset
-     */
+wire extern_uart_rx;
+wire extern_uart_rx_valid;
+wire [8:0] extern_uart_rx_data;
+
+uart_rx #(
+    .CLKS_PER_BIT(125 * 1000 * 1000 / 115200), // 125MHz, 115200bps.
+    .WORD(8)
+) tb_uart_rx(
+    .i_Clock(clk),
+    .i_Rx_Serial(extern_uart_rx),
+    .o_Rx_DV(extern_uart_rx_valid),
+    .o_Rx_Byte(extern_uart_rx_data)
+);
+
+wire [3:0] fpga_index;
+
+reg_intf dut (
+/*
+ * Clock: 125MHz
+ * Synchronous reset
+ */
+.clk(clk),
+.rst(reset),
+.srst(srst),
+/*
+ * UART
+ */
+.uart_intf_rx(extern_uart_tx),
+.uart_intf_tx(extern_uart_rx),
+/*
+ * configurations
+ */
+.fpga_index(fpga_index)
+);
+
+
+clock_gen 
+#(.PERIOD(10)) 
+clock_gen 
+(
+    .clk(clk)
+);
+reset_gen reset_gen (
     .clk(clk),
-    .rst(reset),
+    .reset(reset)
+);
 
-    /*
-     * UART rx
-     */
-    .s_axis_tvalid(s_axis_tvalid),
-    .s_axis_tdata(s_axis_tdata),
-    .s_axis_tuser(s_axis_tuser),
-    .s_axis_tlast(s_axis_tlast),
-    .s_axis_tready(s_axis_tready),
+`include "uart2reg_tb_case1.vh"
 
-    /*
-     * UART tx
-     */
-    .m_axis_tvalid(m_axis_tvalid),
-    .m_axis_tdata(m_axis_tdata),
-    .m_axis_tuser(m_axis_tuser),
-    .m_axis_tlast(m_axis_tlast),
-    .m_axis_tready(m_axis_tready),
-
-    /*
-     * APB
-     */
-    .psel(psel),
-    .penable(penable),
-    .paddr(paddr),
-    .pprot(pprot),
-    .pwrite(pwrite),
-    .pstrb(pstrb),
-    .pwdata(pwdata),
-    .pready(pready),
-    .prdata(prdata),
-    .pslverr(pslverr),
-
-    /*
-     * Configuration
-     */
-    .local_fpga_index(local_fpga_index),
-    .busy(busy),
-    .error(error)
-    );
-
-
-    clock_gen 
-    #(.PERIOD(10)) 
-    clock_gen 
-    (
-        .clk(clk)
-    );
-
-    reset_gen reset_gen (
-        .clk(clk),
-        .reset(reset)
-    );
-     
-    //`include "uart2apb_tb_case1.vh"
-    `include "uart2apb_tb_case2.vh"
    
 endmodule

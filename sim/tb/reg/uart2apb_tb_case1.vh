@@ -20,43 +20,43 @@
             @(posedge clk);
             // write req header
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {1'b0, local_fpga_index, 3'd1, 1'b0};
+            s_axis_tdata <= {1'b0, local_fpga_index, 3'd1};
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // addr0
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {addr[7:0], 1'b1};
+            s_axis_tdata <= addr[7:0];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // addr1
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {addr[15:8], 1'b1};
+            s_axis_tdata <= addr[15:8];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // value0
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {data[7:0], 1'b1};
+            s_axis_tdata <= data[7:0];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // value1
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {data[15:8], 1'b1};
+            s_axis_tdata <= data[15:8];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // value2
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {data[23:16], 1'b1};
+            s_axis_tdata <= data[23:16];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
             // value3
             s_axis_tvalid <= 1;
-            s_axis_tdata <= {data[31:24], 1'b1};
+            s_axis_tdata <= data[31:24];
             s_axis_tuser <= 0;
             s_axis_tlast <= 1;
             wait_fire;
