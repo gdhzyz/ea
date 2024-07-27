@@ -29,6 +29,9 @@ module fpga (
     output wire         phy_reset_n,  // 10ms for YT8511(document require 10us)
     //input  wire       phy_int_n,
 
+    output wire         mdio_c,
+    inout  wire         mdio_d,
+
 
     /*
      * Leds
@@ -164,17 +167,44 @@ sync_reset_inst (
     .out(rst_int)
 );
 
-wire srst; // soft reset
-wire [3:0] fpga_index;
+wire        srst; // soft reset
+wire [3:0]  fpga_index;
+wire        mdio_valid;
+wire        mdio_write;
+wire        mdio_ready;
+wire [4:0]  mdio_addr;
+wire [15:0] mdio_wdata;
+wire [15:0] mdio_rdata;
 
 // =================== reg ==================
 reg_intf reg_intf(
+    /*
+     * Clock: 125MHz
+     * Synchronous reset
+     */
     .clk(clk_int),
     .rst(rst_int),
     .srst(srst),
 
+    /*
+     * UART
+     */
     .uart_intf_rx(uart_rx),
     .uart_intf_tx(uart_tx),
+
+    /*
+     * MDIO
+     */
+    .mdio_valid(mdio_valid),
+    .mdio_write(mdio_write),
+    .mdio_ready(mdio_ready),
+    .mdio_addr(mdio_addr),
+    .mdio_wdata(mdio_wdata),
+    .mdio_rdata(mdio_rdata),
+
+     /*
+     * configurations
+     */
     .fpga_index(fpga_index)
 );
 
@@ -286,6 +316,9 @@ phy_rx_ctl_idelay (
 );
 
 wire debug_led;
+wire mdio_i;
+wire mdio_o;
+wire mdio_t;
 
 fpga_core #(
     .TARGET("XILINX")
@@ -310,8 +343,25 @@ core_inst (
     .phy_tx_ctl(phy_tx_ctl),
     .phy_reset_n(phy_reset_n),
 
+    /*
+     * MDIO
+     */
+    .mdio_valid(mdio_valid),
+    .mdio_write(mdio_write),
+    .mdio_ready(mdio_ready),
+    .mdio_addr(mdio_addr),
+    .mdio_wdata(mdio_wdata),
+    .mdio_rdata(mdio_rdata),
+    .mdio_phy_i(mdio_i),
+    .mdio_phy_o(mdio_o),
+    .mdio_phy_t(mdio_t),
+    .mdio_phy_c(mdio_c),
+
     .debug_led(debug_led)
 );
+
+assign mdio_d = mdio_t ? 1'bz : mdio_o;
+assign mdio_i = mdio_d;
 
 // =================== end mac ==================
 

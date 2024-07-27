@@ -16,20 +16,30 @@ module reg_intf
      * Clock: 125MHz
      * Synchronous reset
      */
-    input  wire       clk,
-    input  wire       rst,
-    output wire       srst, // soft reset
+    input  wire         clk,
+    input  wire         rst,
+    output wire         srst, // soft reset
 
     /*
      * UART
      */
-    input  wire       uart_intf_rx,
-    output wire       uart_intf_tx,
+    input  wire         uart_intf_rx,
+    output wire         uart_intf_tx,
+
+    /*
+     * MDIO
+     */
+    output wire         mdio_valid,
+    output wire         mdio_write,
+    input  wire         mdio_ready,
+    output wire [4:0]   mdio_addr,
+    output wire [15:0]  mdio_wdata,
+    input  wire [15:0]  mdio_rdata,
 
     /*
      * configurations
      */
-    output wire [3:0] fpga_index
+    output wire [3:0]   fpga_index
 );
 localparam UART_BITS = `UART_BITS;
 
@@ -73,9 +83,18 @@ wire [2:0]   pprot;
 (* mark_debug = "true" *)wire         pwrite;
 wire [3:0]   pstrb;
 wire [31:0]  pwdata;
-wire         pready;
-wire [31:0]  prdata;
 wire         pslverr;
+
+wire         is_local_reg = paddr[15:12] < 4'h8;
+wire         is_local_mdio = paddr[15:12] == 4'h8;
+wire         reg_pready;
+wire [31:0]  reg_prdata;
+wire         pready = is_local_mdio ? mdio_ready : reg_pready;
+wire [31:0]  prdata = is_local_mdio ? {16'd0, mdio_rdata} : reg_prdata;
+assign       mdio_valid = psel && penable && is_local_mdio;
+assign       mdio_addr = paddr[4:0];
+assign       mdio_wdata = pwdata[15:0];
+assign       mdio_write = pwrite;
 
 wire         uart2reg_busy;
 wire         uart2reg_error;    
@@ -138,15 +157,15 @@ block_ea #(
 ) reg_block (
     .i_clk(clk),
     .i_rst_n(!rst),
-    .i_psel(psel),
-    .i_penable(penable),
+    .i_psel(psel && is_local_reg),
+    .i_penable(penable && is_local_reg),
     .i_paddr(paddr),
     .i_pprot(pprot),
     .i_pwrite(pwrite),
     .i_pstrb(pstrb),
     .i_pwdata(pwdata),
-    .o_pready(pready),
-    .o_prdata(prdata),
+    .o_pready(reg_pready),
+    .o_prdata(reg_prdata),
     .o_pslverr(pslverr),
     .i_version(`VERSION),
     .i_reset(srst),

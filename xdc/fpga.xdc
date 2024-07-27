@@ -73,3 +73,7 @@ set_property -dict {LOC G16 IOSTANDARD LVCMOS33} [get_ports reset]
 # uart
 set_property -dict {LOC H22 IOSTANDARD LVCMOS33} [get_ports uart_tx]
 set_property -dict {LOC J22 IOSTANDARD LVCMOS33} [get_ports uart_rx]
+
+# mdio
+set_property -dict {LOC AA21 IOSTANDARD LVCMOS33} [get_ports mdio_c]
+set_property -dict {LOC Y22 IOSTANDARD LVCMOS33} [get_ports mdio_d]
