@@ -1,0 +1,1 @@
+g++ -o capture capture_eth2.cpp -lpcap

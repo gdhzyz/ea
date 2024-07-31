@@ -6,6 +6,8 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
+`include "header.vh"
+
 /*
  * FPGA top-level module
  */
@@ -211,7 +213,8 @@ reg_intf reg_intf(
 // =================== end reg ==================
 
 
-
+`ifdef DO_DPA
+`else  // DO_DPA
 // =================== mac ==================
 
 // IODELAY elements for RGMII interface to PHY
@@ -364,6 +367,7 @@ assign mdio_d = mdio_t ? 1'bz : mdio_o;
 assign mdio_i = mdio_d;
 
 // =================== end mac ==================
+`endif // DO_DPA
 
 
 /*
