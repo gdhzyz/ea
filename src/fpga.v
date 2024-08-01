@@ -6,7 +6,7 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
-`include "header.vh"
+`include "head.vh"
 
 /*
  * FPGA top-level module
@@ -214,23 +214,33 @@ reg_intf reg_intf(
 
 
 `ifdef DO_DPA
-top_4ch_training_monitor top_4ch_training_monitor (
+top_4ch_training_monitor # (
+    .num_chan(5)
+) top_4ch_training_monitor (
      .data_out(),
      .train_done(),
-     .iobclk(phy_rx_ctl),
+     .iobclk(phy_rx_clk),
      .clk_200m(clk_200mhz_int),
-     .data_in(phy_rxd),
+     .data_in({phy_rx_ctl, phy_rxd}),
      .rst(rst_int),
      .train_en(1'b1),
      .inc_ext(1'b0),
      .ice_ext(1'b0)
 );
+
+// donot connect rx channel to mac
+wire [3:0] phy_rxd_delay = 0;
+wire       phy_rx_ctl_delay = 0;
+wire       phy_rx_clk_delay = 0;
+
 `else  // DO_DPA
+
 // =================== mac ==================
 
 // IODELAY elements for RGMII interface to PHY
 wire [3:0] phy_rxd_delay;
 wire       phy_rx_ctl_delay;
+wire       phy_rx_clk_delay = phy_rx_clk;
 
 IDELAYCTRL
 idelayctrl_inst (
@@ -328,6 +338,7 @@ phy_rx_ctl_idelay (
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
 );
+`endif // DO_DPA
 
 wire debug_led;
 wire mdio_i;
@@ -349,7 +360,7 @@ core_inst (
     /*
      * Ethernet: 1000BASE-T RGMII
      */
-    .phy_rx_clk(phy_rx_clk),
+    .phy_rx_clk(phy_rx_clk_delay),
     .phy_rxd(phy_rxd_delay),
     .phy_rx_ctl(phy_rx_ctl_delay),
     .phy_tx_clk(phy_tx_clk),
@@ -378,7 +389,6 @@ assign mdio_d = mdio_t ? 1'bz : mdio_o;
 assign mdio_i = mdio_d;
 
 // =================== end mac ==================
-`endif // DO_DPA
 
 
 /*

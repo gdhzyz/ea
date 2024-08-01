@@ -14,7 +14,7 @@ module top_4ch_training_monitor (
     );
 
 // Parameter that determines the number of channels instantiated.
-parameter num_chan = 4;
+parameter num_chan = 5;
 
 output [num_chan*4-1:0] data_out;
 output train_done;
@@ -80,64 +80,20 @@ wire [3:0] datain_monitor;
 wire [3:0] dataout[num_chan-1:0];
 reg [3:0] dataout_R1[num_chan-1:0];
 wire [3:0] dataout_int[num_chan-1:0];
-wire [3:0] windowout[num_chan-1:0];
-
-reg [3:0] windowout_R1[num_chan-1:0];
-
-// Dataout Channel Select Mux
-wire [3:0] muxout_d0d1; // TODO
-wire [3:0] muxout_d2d3;
-wire [3:0] muxout_d4d5;
-wire [3:0] muxout_d6d7;
-wire [3:0] muxout_d8d9;
-wire [3:0] muxout_d10d11;
-wire [3:0] muxout_d12d13;
-wire [3:0] muxout_d14d15;
-
-wire [3:0] muxout_d0_to_d3;
-wire [3:0] muxout_d4_to_d7;
-wire [3:0] muxout_d8_to_d11;
-wire [3:0] muxout_d12_to_d15;
-
-reg [3:0] muxout_d0_to_d3_R1;
-reg [3:0] muxout_d4_to_d7_R1;
-reg [3:0] muxout_d8_to_d11_R1;
-reg [3:0] muxout_d12_to_d15_R1;
-
-wire [3:0] muxout_d0_to_d7;
-wire [3:0] muxout_d8_to_d15;
-
-// Window Monitor Channel Select Mux
-wire [3:0] muxout_w0w1;
-wire [3:0] muxout_w2w3;
-wire [3:0] muxout_w4w5;
-wire [3:0] muxout_w6w7;
-wire [3:0] muxout_w8w9;
-wire [3:0] muxout_w10w11;
-wire [3:0] muxout_w12w13;
-wire [3:0] muxout_w14w15;
-
-wire [3:0] muxout_w0_to_w3;
-wire [3:0] muxout_w4_to_w7;
-wire [3:0] muxout_w8_to_w11;
-wire [3:0] muxout_w12_to_w15;
-
-reg [3:0] muxout_w0_to_w3_R1;
-reg [3:0] muxout_w4_to_w7_R1;
-reg [3:0] muxout_w8_to_w11_R1;
-reg [3:0] muxout_w12_to_w15_R1;
-
-wire [3:0] muxout_w0_to_w7;
-wire [3:0] muxout_w8_to_w15;
-
 wire [2:0] edgei_training;
 reg [7:0] counter;
 reg cnt_rst;
 reg [3:0] op_sel;
 
+wire bufio_clk;
+BUFIO RX_CLK_BUFIO(.O(bufio_clk), .I(iobclk));
+BUFR RX_CLK_BUFR(.O(clkdiv), .CE(1'b1), .CLR(1'b0), .I(bufio_clk));
+//synopsys translate_off
+defparam RX_CLK_BUFR.BUFR_DIVIDE = "4";
+//synopsys translate_on
+
 wire idelayctrl_ready;
 wire domain_reset;
-
 rst_machine RST_CTRL1   //PRODUCES RST FOR RX LOGIC (must be synchronous to TX clock, though)
  (
  .CLK_generic(clkdiv),
@@ -148,37 +104,38 @@ rst_machine RST_CTRL1   //PRODUCES RST FOR RX LOGIC (must be synchronous to TX c
 
 IDELAYCTRL RX_IDELAYCTRL(.RDY(idelayctrl_ready), .REFCLK(clk_200m), .RST(rst));
 
+// Instantiate the IDELAY
 wire [num_chan-1:0] delayed_data_in;
 wire [4:0] delayed_count_value[num_chan-1:0];
-
-// Instantiate the IDELAY
-IDELAYE2 data_idelay[num_chan-1:0] (
-    .C(clkdiv),
-    .REGRST(domain_reset),
-    .LD(1'b0), // update when in product.
-    .CE(dlyce_to_data_iserdes[num_chan-1:0]),
-    .INC(dlyinc_to_data_iserdes[num_chan-1:0]),
-    .CINVCTRL(1'b0),
-    .CNTVALUEIN(4'd0),
-    .IDATAIN(data_in[num_chan-1:0]),
-    .LDPIPEEN(1'b0),
-    .DATAIN({num_chan{1'b0}}),
-    .DATAOUT(delayed_data_in[num_chan-1:0]),
-    .CNTVALUEOUT(delayed_count_value[num_chan-1:0]);
-);
 // synthesis translate_off
 generate
 genvar i;
 for (i=0; i<=num_chan-1; i=i+1)
 begin :  data_idelay_defparam
-defparam data_idelay[i].IDELAY_TYPE = "VARIABLE";
-defparam data_idelay[i].DELAY_SRC = "IDATAIN";
-defparam data_idelay[i].IDELAY_VALUE = 0;
-defparam data_idelay[i].HIGH_PERFORMANCE_MODE = "TRUE";
-defparam data_idelay[i].SIGNAL_PATTERN = "DATA";
-defparam data_idelay[i].REFCLK_FREQENCY = 200; // IDELAYCTRL clock input frequency in MHz
-defparam data_idelay[i].CINVCTRL_SEL = "FALSE";
-defparam data_idelay[i].PIPE_SEL = "FALSE";
+
+    IDELAYE2 data_idelay (
+        .C(clkdiv),
+        .REGRST(domain_reset),
+        .LD(1'b0), // update when in product.
+        .CE(dlyce_to_data_iserdes[i]),
+        .INC(dlyinc_to_data_iserdes[i]),
+        .CINVCTRL(1'b0),
+        .CNTVALUEIN(4'd0),
+        .IDATAIN(data_in[i]),
+        .LDPIPEEN(1'b0),
+        .DATAIN(),
+        .DATAOUT(delayed_data_in[i]),
+        .CNTVALUEOUT(delayed_count_value[i])
+    );
+    
+    defparam data_idelay[i].IDELAY_TYPE = "VARIABLE";
+    defparam data_idelay[i].DELAY_SRC = "IDATAIN";
+    defparam data_idelay[i].IDELAY_VALUE = 0;
+    defparam data_idelay[i].HIGH_PERFORMANCE_MODE = "TRUE";
+    defparam data_idelay[i].SIGNAL_PATTERN = "DATA";
+    defparam data_idelay[i].REFCLK_FREQENCY = 200; // IDELAYCTRL clock input frequency in MHz
+    defparam data_idelay[i].CINVCTRL_SEL = "FALSE";
+    defparam data_idelay[i].PIPE_SEL = "FALSE";
 end
 endgenerate
 // synthesis translate_on
@@ -196,8 +153,8 @@ ISERDESE2 data_chan_master_[num_chan-1:0] (
     .BITSLIP(bitslip[num_chan-1:0]), // OK
     .CE1(1'b1),  // OK
     .CE2(1'b0), // OK
-    .CLK(iobclk),  // OK
-    .CLKB(~iobclk), // OK
+    .CLK(bufio_clk),  // OK
+    .CLKB(~bufio_clk), // OK
     .CLKDIV(clkdiv), // OK         
     .D(),  // OK
     .DDLY(delayed_data_in[num_chan-1:0]),  // OK
@@ -235,7 +192,8 @@ generate
 genvar i;
 for (i=0; i<=num_chan-1; i=i+1) begin
     assign dataout[i] = {{q1[i],q2[i]},{q3[i],q4[i]}};
-    assign data_out[num_chan*i:+4] = dataout[i];
+    //assign data_out[num_chan*i+:4] = dataout[i];
+    assign data_out[num_chan*(i+1)-1 : num_chan*i] = dataout[i];
 
     always @(posedge domain_reset or posedge clkdiv) begin
         if (domain_reset) begin
@@ -434,18 +392,13 @@ end
 // Dataout Channel Select Mux
 reg [3:0] muxout;
 
-always @(posedge domain_reset or posedge clkdiv) begin
+always @(posedge clkdiv) begin: muxout_assign
     integer i;
 
-    if (domain_reset) begin
-        muxout <= 0;
-    end else begin
         for (i = 0; i < num_chan; i = i + 1) begin
-            if ((1<<i) == chan_sel) begin
+            if ((1<<i) == chan_sel)
                 muxout <= dataout_R1[i];
-            end
         end
-    end
 end
 
 assign datain = muxout;
