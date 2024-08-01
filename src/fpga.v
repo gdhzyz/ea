@@ -214,6 +214,17 @@ reg_intf reg_intf(
 
 
 `ifdef DO_DPA
+top_4ch_training_monitor top_4ch_training_monitor (
+     .data_out(),
+     .train_done(),
+     .iobclk(phy_rx_ctl),
+     .clk_200m(clk_200mhz_int),
+     .data_in(phy_rxd),
+     .rst(rst_int),
+     .train_en(1'b1),
+     .inc_ext(1'b0),
+     .ice_ext(1'b0)
+);
 `else  // DO_DPA
 // =================== mac ==================
 
