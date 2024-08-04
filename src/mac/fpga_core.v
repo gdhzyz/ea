@@ -34,20 +34,6 @@ module fpga_core #
     output reg          phy_reset_n,
 
     /*
-     * MDIO
-     */
-    input  wire         mdio_valid,
-    input  wire         mdio_write,
-    output wire         mdio_ready,
-    input  wire [4:0]   mdio_addr,
-    input  wire [15:0]  mdio_wdata,
-    output wire [15:0]  mdio_rdata,
-    input  wire         mdio_phy_i,
-    output wire         mdio_phy_o,
-    output wire         mdio_phy_t,
-    output wire         mdio_phy_c,
-
-    /*
      * Ethernet: 1000BASE-T RGMII
      */
     output wire         debug_led
@@ -338,48 +324,6 @@ eth_axis_tx_inst (
     .busy()
 );
 
-reg clk_2_5m=1;
-mdio_if mdio_if (
-    .Clk(clk),
-    .Rst(rst),
-    .MDIO_Clk(clk_2_5m),
-    .MDIO_en(mdio_valid),
-    .MDIO_OP(~mdio_write),
-    .MDIO_Req(mdio_valid),
-    .MDIO_PHY_AD(5'b00100),
-    .MDIO_REG_AD(mdio_addr),
-    .MDIO_WR_DATA(mdio_wdata),
-    .MDIO_RD_DATA(mdio_rdata),
-    .MDIO_done(mdio_ready),
-    .PHY_MDIO_I(mdio_phy_i),
-    .PHY_MDIO_O(mdio_phy_o),
-    .PHY_MDIO_T(mdio_phy_t),
-    .PHY_MDC(mdio_phy_c)
-);
-
-// divide 125MHz into 2.5MHz.
-localparam F125MHz = 125 * 1000 * 1000;
-localparam F2_5MHz = 25 * 1000 * 1000 / 10;
-localparam FRATIO_HALF = F125MHz / F2_5MHz / 2;
-localparam FRATIO_WIDTH = $clog2(FRATIO_HALF);
-reg [FRATIO_WIDTH-1:0] fcounter=0;
-always @(posedge clk) begin
-    if (rst) begin
-        fcounter <= 0;
-    end else if (fcounter == FRATIO_HALF-1) begin
-        fcounter <= 0;
-    end else begin
-        fcounter <= fcounter + 1;
-    end
-end
-
-always @(posedge clk) begin
-    if (rst) begin
-        clk_2_5m <= 1;
-    end else if (fcounter == FRATIO_HALF-1) begin
-        clk_2_5m <= ~clk_2_5m;
-    end
-end
 
 gen_timestamp 
 #(

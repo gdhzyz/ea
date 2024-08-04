@@ -43,7 +43,7 @@
 //              limitation shall apply not-withstanding the failure of the 
 //              essential purpose of any limited remedies herein. 
 //
-//  Copyright © 2002 Xilinx, Inc.
+//  Copyright ï¿½ 2002 Xilinx, Inc.
 //  All rights reserved 
 // 
 //*****************************************************************************
@@ -62,22 +62,22 @@ module deskew (
       );
 
 
-input [3:0] datain;
+(* mark_debug = "true" *)input [3:0] datain;
 output [2:0] edgei;
 input rst; 
-input deskew_en;
+(* mark_debug = "true" *)input deskew_en;
 input clkdiv;
-output dlyce;
-output dlyinc;
-output done;
+(* mark_debug = "true" *)output dlyce;
+(* mark_debug = "true" *)output dlyinc;
+(* mark_debug = "true" *)output done;
 
-reg [4:0] Current_State;
+(* mark_debug = "true" *)reg [4:0] Current_State;
 reg [4:0] Next_State;
-reg [7:0] counter;
+(* mark_debug = "true" *)reg [7:0] counter;
 //synthesis attribute keep of counter is true;
-reg [7:0] center_store;
+(* mark_debug = "true" *)reg [7:0] center_store;
 wire [2:0] edgei;
-reg [2:0] edgei_init;
+(* mark_debug = "true" *)reg [2:0] edgei_init;
 //synthesis attribute keep of edgei_init is true;
 reg cnt_rst;
 reg cnt_inc;
@@ -195,343 +195,343 @@ always @ (Current_State)
 begin
    case (Current_State)
       START: begin
-	    cnt_rst <= 1'b1;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b1;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	 end
 
       START_WAIT1: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	 end
 
       START_WAIT2: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	 end
 
      SEEK_EDGE: begin   
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b1;
-         load_center <= 1'b0;            
-	    done <= 1'b0;	      
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b1;
+         load_center = 1'b0;            
+	    done = 1'b0;	      
 	end
 
      INC1: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b1;
-	    dlyinc <= 1'b1;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b1;
+	    dlyinc = 1'b1;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	end
 
      INC1_WAIT1: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	end
 
      INC1_WAIT2: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC1_WAIT3: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC1_WAIT4: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC1_WAIT5: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC1_WAIT6: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC1_WAIT7: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC1_WAIT8: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
 	  // Check to see if the Q1 output of the ISERDES has changed 
 	  // indicating the first edge has been found.
      EDGE1: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
 	  // If the first edge has been found, continue incrememnting 
 	  // the tap delay line while incrementing the tap counter
 	  // until the second edge is found. 
      INC2: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b1;
-         dlyce <= 1'b1;
-	    dlyinc <= 1'b1;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b1;
+         dlyce = 1'b1;
+	    dlyinc = 1'b1;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT1: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT2: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT3: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT4: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT5: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT6: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT7: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      INC2_WAIT8: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
 	  // Check to see if the Q2 output of the ISERDES has changed 
 	  // indicating the second edge has been found.
      EDGE2: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      EDGE2_WAIT1: begin
-	    cnt_rst <= 1'b1;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b1;            
-	    done <= 1'b0;			     	         
+	    cnt_rst = 1'b1;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b1;            
+	    done = 1'b0;			     	         
      end   
 
 	  // Once second edge is found, decrement the tap delay line to half
 	  // the value of the tap counter 
      CENTER_DEC: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b1;
-         dlyce <= 1'b1;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;		     	         
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b1;
+         dlyce = 1'b1;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;		     	         
      end   
 
 	  // Check to see if the center point of the data eye has been reached.
      CHECK_CENTER: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;	         
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;	         
      end   
 
       DONE: begin           
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b1;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b1;
       end
 
       DONE_WAIT1: begin           
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
       end
 
       DONE_WAIT2: begin           
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
       end		 
 
      NO_INC1: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
      NO_INC2: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
 	  end
 
       default: begin
-	    cnt_rst <= 1'b0;
-	    cnt_inc <= 1'b0;
-         dlyce <= 1'b0;
-	    dlyinc <= 1'b0;
-         loadedgei <= 1'b0;
-         load_center <= 1'b0;            
-	    done <= 1'b0;
+	    cnt_rst = 1'b0;
+	    cnt_inc = 1'b0;
+         dlyce = 1'b0;
+	    dlyinc = 1'b0;
+         loadedgei = 1'b0;
+         load_center = 1'b0;            
+	    done = 1'b0;
       end				 
    endcase
 end
@@ -542,164 +542,164 @@ begin
    case (Current_State)
       START: begin
 		   if (rst)
-	         Next_State <= START; 
+	         Next_State = START; 
 		   else if (!deskew_en)
-	         Next_State <= START; 
+	         Next_State = START; 
 			else
-	         Next_State <= START_WAIT1; 
+	         Next_State = START_WAIT1; 
 		end
 
      START_WAIT1: begin
-        Next_State <= START_WAIT2;
+        Next_State = START_WAIT2;
 	end
 
      START_WAIT2: begin
-        Next_State <= SEEK_EDGE;
+        Next_State = SEEK_EDGE;
 	end
 
      SEEK_EDGE: begin   
 	   if (edgei[0] || edgei[1])
 		//if (edgei[0] & edgei[1] & edgei[2])	            
-	      Next_State <= INC1;
+	      Next_State = INC1;
 	   else
-	      Next_State <= SEEK_EDGE;	      
+	      Next_State = SEEK_EDGE;	      
 	end
 
      INC1: begin
-        Next_State <= INC1_WAIT1;
+        Next_State = INC1_WAIT1;
 	end
 
-     INC1_WAIT1: begin
-        Next_State <= INC1_WAIT2;
+     INC1_WAIT1: begin           // new tag is valid
+        Next_State = INC1_WAIT2;
 	end
 
      INC1_WAIT2: begin
-        Next_State <= INC1_WAIT3;
+        Next_State = INC1_WAIT3;
 	  end
 
      INC1_WAIT3: begin
-        Next_State <= INC1_WAIT4;
+        Next_State = INC1_WAIT4;
 	  end
 
      INC1_WAIT4: begin
-        Next_State <= INC1_WAIT5;
+        Next_State = INC1_WAIT5;
 	  end
 
      INC1_WAIT5: begin
-        Next_State <= INC1_WAIT6;
+        Next_State = INC1_WAIT6;
 	  end
 
      INC1_WAIT6: begin
-        Next_State <= INC1_WAIT7;
+        Next_State = INC1_WAIT7;
 	  end
 
      INC1_WAIT7: begin
-        Next_State <= INC1_WAIT8;
+        Next_State = INC1_WAIT8;
 	  end
 
      INC1_WAIT8: begin
-        Next_State <= EDGE1;
+        Next_State = EDGE1;
 	  end
 
 	  // Check to see if the Q1 output of the ISERDES has changed 
 	  // indicating the first edge has been found.
      EDGE1: begin
         if (edgei == (edgei_init << 1)) // First edge found
-           Next_State <= INC2; 
+           Next_State = INC2; 
         else /*if (edgei == edgei_init)*/
-	      Next_State <= INC1;
+	      Next_State = INC1;
 		  //else
-	     // Next_State <= NO_INC1;		   
+	     // Next_State = NO_INC1;		   
 	  end
 
 	  // If the first edge has been found, continue incrememnting 
 	  // the tap delay line while incrementing the tap counter
 	  // until the second edge is found. 
      INC2: begin
-	     Next_State <= INC2_WAIT1;
+	     Next_State = INC2_WAIT1;
 	  end
 
      INC2_WAIT1: begin
-        Next_State <= INC2_WAIT2;
+        Next_State = INC2_WAIT2;
 	  end
 
      INC2_WAIT2: begin
-        Next_State <= INC2_WAIT3;
+        Next_State = INC2_WAIT3;
 	  end
 
      INC2_WAIT3: begin
-        Next_State <= INC2_WAIT4;
+        Next_State = INC2_WAIT4;
 	  end
 
      INC2_WAIT4: begin
-        Next_State <= INC2_WAIT5;
+        Next_State = INC2_WAIT5;
 	  end
 
      INC2_WAIT5: begin
-        Next_State <= INC2_WAIT6;
+        Next_State = INC2_WAIT6;
 	  end
 
      INC2_WAIT6: begin
-        Next_State <= INC2_WAIT7;
+        Next_State = INC2_WAIT7;
 	  end
 
      INC2_WAIT7: begin
-        Next_State <= INC2_WAIT8;
+        Next_State = INC2_WAIT8;
 	  end
 
      INC2_WAIT8: begin
-        Next_State <= EDGE2;
+        Next_State = EDGE2;
 	  end
 	  // Check to see if the Q2 output of the ISERDES has changed 
 	  // indicating the second edge has been found.
      EDGE2: begin
         if (edgei == (edgei_init << 2))		 			 		 
-           Next_State <= EDGE2_WAIT1; 
+           Next_State = EDGE2_WAIT1; 
         else /*if (edgei == (edgei_init << 1))*/ 
-           Next_State <= INC2; 
+           Next_State = INC2; 
 		  //else
-        //   Next_State <= NO_INC2; 
+        //   Next_State = NO_INC2; 
 	  end
 
      EDGE2_WAIT1: begin
-	     Next_State <= CENTER_DEC;			     	         
+	     Next_State = CENTER_DEC;			     	         
      end   
 
 	  // Once second edge is found, decrement the tap delay line to half
 	  // the value of the tap counter 
      CENTER_DEC: begin
-	     Next_State <= CHECK_CENTER;			     	         
+	     Next_State = CHECK_CENTER;			     	         
      end   
 
 	  // Check to see if the center point of the data eye has been reached.
      CHECK_CENTER: begin
 	     if (counter == center)
-		    Next_State <= DONE;
+		    Next_State = DONE;
 		else
-		   Next_State <= CENTER_DEC;	         
+		   Next_State = CENTER_DEC;	         
      end   
 
    DONE: begin           
-      Next_State <= DONE_WAIT1 ;
+      Next_State = DONE_WAIT1 ;
    end
 
    DONE_WAIT1: begin           
-      Next_State <= DONE_WAIT2 ;
+      Next_State = DONE_WAIT2 ;
    end
 
    DONE_WAIT2: begin           
-      Next_State <= START ;
+      Next_State = START ;
    end		 
 
    NO_INC1: begin
-        Next_State <= INC1_WAIT1;
+        Next_State = INC1_WAIT1;
 	end
 
    NO_INC2: begin
-        Next_State <= INC2_WAIT1;
+        Next_State = INC2_WAIT1;
 	end
 
-   default: Next_State <= START ;
+   default: Next_State = START ;
    endcase
 end
 

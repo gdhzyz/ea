@@ -1,5 +1,6 @@
 
 
+
 // Language: Verilog 2001
 
 `resetall
@@ -28,7 +29,7 @@ module fpga (
     output wire         phy_tx_clk,
     output wire [3:0]   phy_txd,
     output wire         phy_tx_ctl,
-    output wire         phy_reset_n,  // 10ms for YT8511(document require 10us)
+    output wire         phy_reset_n,  // 100ms for YT8511(document require 10us)
     //input  wire       phy_int_n,
 
     output wire         mdio_c,
@@ -213,25 +214,31 @@ reg_intf reg_intf(
 // =================== end reg ==================
 
 
+wire debug_led;
+wire deskew_done;
+wire mdio_i;
+wire mdio_o;
+wire mdio_t;
+
 `ifdef DO_DPA
-top_4ch_training_monitor # (
-    .num_chan(5)
-) top_4ch_training_monitor (
-     .data_out(),
-     .train_done(),
-     .iobclk(phy_rx_clk),
-     .clk_200m(clk_200mhz_int),
-     .data_in({phy_rx_ctl, phy_rxd}),
-     .rst(rst_int),
-     .train_en(1'b1),
-     .inc_ext(1'b0),
-     .ice_ext(1'b0)
+dpa dpa (
+    .clk_200m(clk_200mhz_int),
+    .clk(clk_int), // 125mhz
+    .clk90(clk90_int), // 125mhz, shifted 90 degree
+    .rst(rst_int),
+    .phy_reset_n(phy_reset_n),
+    
+    .phy_rx_clk(phy_rx_clk),
+    .phy_rxd(phy_rxd),
+    .phy_rx_ctl(phy_rx_ctl),
+    .phy_tx_clk(phy_tx_clk),
+    .phy_txd(phy_txd),
+    .phy_tx_ctl(phy_tx_ctl),
+    
+    .deskew_done(deskew_done)
 );
 
-// donot connect rx channel to mac
-wire [3:0] phy_rxd_delay = 0;
-wire       phy_rx_ctl_delay = 0;
-wire       phy_rx_clk_delay = 0;
+assign     debug_led = 1'b1;
 
 `else  // DO_DPA
 
@@ -338,12 +345,6 @@ phy_rx_ctl_idelay (
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
 );
-`endif // DO_DPA
-
-wire debug_led;
-wire mdio_i;
-wire mdio_o;
-wire mdio_t;
 
 fpga_core #(
     .TARGET("XILINX")
@@ -368,27 +369,59 @@ core_inst (
     .phy_tx_ctl(phy_tx_ctl),
     .phy_reset_n(phy_reset_n),
 
-    /*
-     * MDIO
-     */
-    .mdio_valid(mdio_valid),
-    .mdio_write(mdio_write),
-    .mdio_ready(mdio_ready),
-    .mdio_addr(mdio_addr),
-    .mdio_wdata(mdio_wdata),
-    .mdio_rdata(mdio_rdata),
-    .mdio_phy_i(mdio_i),
-    .mdio_phy_o(mdio_o),
-    .mdio_phy_t(mdio_t),
-    .mdio_phy_c(mdio_c),
-
     .debug_led(debug_led)
 );
+// =================== end mac ==================
+`endif // DO_DPA
+
+// =================== mdio ==================
+reg clk_2_5m=1;
+mdio_if mdio_if (
+    .Clk(clk_int),
+    .Rst(rst_int),
+    .MDIO_Clk(clk_2_5m),
+    .MDIO_en(mdio_valid),
+    .MDIO_OP(~mdio_write),
+    .MDIO_Req(mdio_valid),
+    .MDIO_PHY_AD(5'b00100),
+    .MDIO_REG_AD(mdio_addr),
+    .MDIO_WR_DATA(mdio_wdata),
+    .MDIO_RD_DATA(mdio_rdata),
+    .MDIO_done(mdio_ready),
+    .PHY_MDIO_I(mdio_i),
+    .PHY_MDIO_O(mdio_o),
+    .PHY_MDIO_T(mdio_t),
+    .PHY_MDC(mdio_c)
+);
+
+// divide 125MHz into 2.5MHz.
+localparam F125MHz = 125 * 1000 * 1000;
+localparam F2_5MHz = 25 * 1000 * 1000 / 10;
+localparam FRATIO_HALF = F125MHz / F2_5MHz / 2;
+localparam FRATIO_WIDTH = $clog2(FRATIO_HALF);
+reg [FRATIO_WIDTH-1:0] fcounter=0;
+always @(posedge clk_int) begin
+    if (rst_int) begin
+        fcounter <= 0;
+    end else if (fcounter == FRATIO_HALF-1) begin
+        fcounter <= 0;
+    end else begin
+        fcounter <= fcounter + 1;
+    end
+end
+
+always @(posedge clk_int) begin
+    if (rst_int) begin
+        clk_2_5m <= 1;
+    end else if (fcounter == FRATIO_HALF-1) begin
+        clk_2_5m <= ~clk_2_5m;
+    end
+end
 
 assign mdio_d = mdio_t ? 1'bz : mdio_o;
 assign mdio_i = mdio_d;
 
-// =================== end mac ==================
+// =================== end mdio ==================
 
 
 /*
