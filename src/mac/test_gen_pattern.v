@@ -3,6 +3,8 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
+`include "../head.vh"
+
 module test_gen_pattern # 
 (
     parameter DATA_LENGTH = 64,
@@ -12,6 +14,7 @@ module test_gen_pattern #
 (
     input  wire                     clk,
     input  wire                     rst,
+    input  wire                     enable,
 
     /*
      * Global information
@@ -48,12 +51,28 @@ localparam S_3ZEROS = 3;
 localparam S_PACKET_INDEX = 4;
 localparam S_DATA = 5;
 
-(* mark_debug = "true" *)reg [3:0] state_reg = S_IDLE, state_next;
+reg [3:0] state_reg = S_IDLE, state_next;
 reg [DATA_LENGTH_BITS-1:0] count_reg = 0, count_next;
 reg clear;
 wire fire_payload = m_eth_payload_axis_tvalid && m_eth_payload_axis_tready;
 reg [DATA_WIDTH-1:0] tdata;
 reg [DATA_WIDTH-1:0] data_counter=0;
+
+`ifdef DO_DPA_INSIDE_MAC
+
+reg [19:0] dpa_pattern=20'b0000_0000_0011_1111_1111;
+wire [1:0] dpa_out_one = dpa_pattern[19:18];
+wire [7:0] dpa_out = {dpa_out_one[1], dpa_out_one[1], dpa_out_one[1], dpa_out_one[1],
+                      dpa_out_one[0], dpa_out_one[0], dpa_out_one[0], dpa_out_one[0]};
+always @(posedge clk) begin
+    if (rst) begin
+        dpa_pattern <= 20'b0000_0000_0011_1111_1111;
+    end else if (fire_payload) begin
+        dpa_pattern <= {dpa_pattern[17:0], dpa_pattern[19:18]};
+    end
+end
+
+`endif //`ifdef DO_DPA_INSIDE_MAC
 
 always @* begin
     state_next = state_reg;
@@ -133,6 +152,10 @@ always @* begin
         count_next = count_reg + 1;
     end
 
+`ifdef DO_DPA_INSIDE_MAC
+    tdata = dpa_out;
+`endif // DO_DPA_INSIDE_MAC
+
 end
 
 always @(posedge clk) begin
@@ -155,11 +178,22 @@ always @(posedge clk) begin
     end
 end
 
+reg [31:0] gap_counter = 32'd0;
+always @(posedge clk) begin
+    if (rst) begin
+        gap_counter <= 32'd0;
+    end else if (m_eth_payload_axis_tlast && fire_payload) begin
+        gap_counter <= 32'd12500; // 100us
+    end else if (gap_counter != 0) begin
+        gap_counter <= gap_counter - 1;
+    end
+end
+
 assign m_eth_dest_mac = dst_mac;
 assign m_eth_src_mac = src_mac;
 assign m_eth_type = 16'h88B5;
-assign m_eth_hdr_valid = state_reg != S_IDLE;
-assign m_eth_payload_axis_tvalid = state_reg != S_IDLE;
+assign m_eth_hdr_valid = state_reg != S_IDLE && enable;
+assign m_eth_payload_axis_tvalid = state_reg != S_IDLE && gap_counter == 0;
 assign m_eth_payload_axis_tdata = tdata;
 assign m_eth_payload_axis_tlast = state_reg == S_DATA && count_reg == DATA_LENGTH - 1;
 assign m_eth_payload_axis_tuser = 1'b0;

@@ -12,6 +12,7 @@ module test_pattern_recv #
 (
     input  wire                     clk,
     input  wire                     rst,
+    input  wire                     enable,
 
     /*
      * Global information
@@ -22,7 +23,7 @@ module test_pattern_recv #
     input wire  [15:0]              timestamp,
 
     (* mark_debug = "true" *)output reg                      error=0,
-    (* mark_debug = "true" *)output reg  [15:0]              max_time_gap=0,
+    output reg  [15:0]              max_time_gap=0,
 
     /*
      * Ethernet frame input
@@ -62,6 +63,7 @@ test_gen_pattern
 (
     .clk(clk),
     .rst(rst),
+    .enable(enable),
     .packet_index(packet_index),
     .timestamp(16'd0),
     .src_mac(src_mac),

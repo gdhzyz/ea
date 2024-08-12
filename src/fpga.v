@@ -172,6 +172,12 @@ sync_reset_inst (
 
 wire        srst; // soft reset
 wire [3:0]  fpga_index;
+(* mark_debug = "true" *)wire [4:0]  mac_dly_incs;
+(* mark_debug = "true" *)wire [24:0] mac_dly_values;
+(* mark_debug = "true" *)wire        mac_enable_jumbo_test;
+wire [4:0]  mac_jumbo_errors;
+wire [4:0]  mac_jumbo_error_clears;
+
 wire        mdio_valid;
 wire        mdio_write;
 wire        mdio_ready;
@@ -208,7 +214,12 @@ reg_intf reg_intf(
      /*
      * configurations
      */
-    .fpga_index(fpga_index)
+    .fpga_index(fpga_index),
+    .mac_dly_incs(mac_dly_incs),
+    .mac_dly_values(mac_dly_values),
+    .mac_enable_jumbo_test(mac_enable_jumbo_test),
+    .mac_jumbo_errors(mac_jumbo_errors),
+    .mac_jumbo_error_clears(mac_jumbo_error_clears)
 );
 
 // =================== end reg ==================
@@ -249,6 +260,8 @@ wire [3:0] phy_rxd_delay;
 wire       phy_rx_ctl_delay;
 wire       phy_rx_clk_delay = phy_rx_clk;
 
+localparam PHY_RX_DATA_DELAY_TAGS = 5'd25; // each tags is 78ps, 25 tags is 1950ps
+
 IDELAYCTRL
 idelayctrl_inst (
     .REFCLK(clk_200mhz_int),
@@ -257,90 +270,90 @@ idelayctrl_inst (
 );
 
 IDELAYE2 #(
-    .IDELAY_TYPE("FIXED")
+    .IDELAY_TYPE("VARIABLE")
 )
 phy_rxd_idelay_0 (
     .IDATAIN(phy_rxd[0]),
     .DATAOUT(phy_rxd_delay[0]),
     .DATAIN(1'b0),
-    .C(1'b0),
-    .CE(1'b0),
-    .INC(1'b0),
+    .C(clk_int),
+    .CE(mac_dly_incs[0]),
+    .INC(mac_dly_incs[0]),
     .CINVCTRL(1'b0),
     .CNTVALUEIN(5'd0),
-    .CNTVALUEOUT(),
+    .CNTVALUEOUT(mac_dly_values[5*0 +: 5]),
     .LD(1'b0),
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
 );
 
 IDELAYE2 #(
-    .IDELAY_TYPE("FIXED")
+    .IDELAY_TYPE("VARIABLE")
 )
 phy_rxd_idelay_1 (
     .IDATAIN(phy_rxd[1]),
     .DATAOUT(phy_rxd_delay[1]),
     .DATAIN(1'b0),
-    .C(1'b0),
-    .CE(1'b0),
-    .INC(1'b0),
+    .C(clk_int),
+    .CE(mac_dly_incs[1]),
+    .INC(mac_dly_incs[1]),
     .CINVCTRL(1'b0),
     .CNTVALUEIN(5'd0),
-    .CNTVALUEOUT(),
+    .CNTVALUEOUT(mac_dly_values[5*1 +: 5]),
     .LD(1'b0),
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
 );
 
 IDELAYE2 #(
-    .IDELAY_TYPE("FIXED")
+    .IDELAY_TYPE("VARIABLE")
 )
 phy_rxd_idelay_2 (
     .IDATAIN(phy_rxd[2]),
     .DATAOUT(phy_rxd_delay[2]),
     .DATAIN(1'b0),
-    .C(1'b0),
-    .CE(1'b0),
-    .INC(1'b0),
+    .C(clk_int),
+    .CE(mac_dly_incs[2]),
+    .INC(mac_dly_incs[2]),
     .CINVCTRL(1'b0),
     .CNTVALUEIN(5'd0),
-    .CNTVALUEOUT(),
+    .CNTVALUEOUT(mac_dly_values[5*2 +: 5]),
     .LD(1'b0),
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
 );
 
 IDELAYE2 #(
-    .IDELAY_TYPE("FIXED")
+    .IDELAY_TYPE("VARIABLE")
 )
 phy_rxd_idelay_3 (
     .IDATAIN(phy_rxd[3]),
     .DATAOUT(phy_rxd_delay[3]),
     .DATAIN(1'b0),
-    .C(1'b0),
-    .CE(1'b0),
-    .INC(1'b0),
+    .C(clk_int),
+    .CE(mac_dly_incs[3]),
+    .INC(mac_dly_incs[3]),
     .CINVCTRL(1'b0),
     .CNTVALUEIN(5'd0),
-    .CNTVALUEOUT(),
+    .CNTVALUEOUT(mac_dly_values[5*3 +: 5]),
     .LD(1'b0),
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
 );
 
 IDELAYE2 #(
-    .IDELAY_TYPE("FIXED")
+    .IDELAY_TYPE("VARIABLE")
 )
 phy_rx_ctl_idelay (
     .IDATAIN(phy_rx_ctl),
     .DATAOUT(phy_rx_ctl_delay),
     .DATAIN(1'b0),
-    .C(1'b0),
-    .CE(1'b0),
-    .INC(1'b0),
+    .C(clk_int),
+    .CE(mac_dly_incs[4]),
+    .INC(mac_dly_incs[4]),
     .CINVCTRL(1'b0),
     .CNTVALUEIN(5'd0),
-    .CNTVALUEOUT(),
+    .CNTVALUEOUT(mac_dly_values[5*4 +: 5]),
     .LD(1'b0),
     .LDPIPEEN(1'b0),
     .REGRST(1'b0)
@@ -369,7 +382,10 @@ core_inst (
     .phy_tx_ctl(phy_tx_ctl),
     .phy_reset_n(phy_reset_n),
 
-    .debug_led(debug_led)
+    .debug_led(debug_led),
+    .enable_jumbo_test(mac_enable_jumbo_test),
+    .jumbo_errors(mac_jumbo_errors),
+    .jumbo_error_clears(mac_jumbo_error_clears)
 );
 // =================== end mac ==================
 `endif // DO_DPA

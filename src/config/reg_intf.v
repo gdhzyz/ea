@@ -39,7 +39,12 @@ module reg_intf
     /*
      * configurations
      */
-    output wire [3:0]   fpga_index
+    output wire [3:0]   fpga_index,
+    output reg  [4:0]   mac_dly_incs,
+    input  wire [24:0]  mac_dly_values,
+    output wire         mac_enable_jumbo_test,
+    input  wire [4:0]   mac_jumbo_errors,
+    output reg  [4:0]   mac_jumbo_error_clears
 );
 localparam UART_BITS = `UART_BITS;
 
@@ -77,10 +82,10 @@ uart_tx #(
  * APB
  */
 wire         psel;
-(* mark_debug = "true" *)wire         penable;
-(* mark_debug = "true" *)wire [15:0]  paddr;
+wire         penable;
+wire [15:0]  paddr;
 wire [2:0]   pprot;
-(* mark_debug = "true" *)wire         pwrite;
+wire         pwrite;
 wire [3:0]   pstrb;
 wire [31:0]  pwdata;
 wire         pslverr;
@@ -151,6 +156,26 @@ uart2apb uart2apb (
 
 wire reset_trigger;
 
+wire mac_dly_inc;
+reg  [4:0] mac_dly_value;
+reg  mac_jumbo_error;
+wire mac_jumbo_error_clear;
+wire [2:0] mac_dly_sel;
+
+always @(*) begin: mac_dly_sel_block
+    integer i;
+
+    for (i = 0; i < 5; i = i + 1) begin
+        if (mac_dly_sel == i) begin
+            mac_dly_value = mac_dly_values[i*5 +: 5];
+            mac_jumbo_error = mac_jumbo_errors[i];
+
+        end
+        mac_jumbo_error_clears[i] = mac_jumbo_error_clear && mac_dly_sel == i;
+        mac_dly_incs[i] = mac_dly_inc && mac_dly_sel == i;
+    end
+end
+
 block_ea #(
     .ADDRESS_WIDTH(16),
     .VERSION_INITIAL_VALUE(`VERSION)
@@ -183,7 +208,14 @@ block_ea #(
     .i_mac_recv_count(),
     .i_mac_reg_write_req_count(),
     .i_mac_reg_read_req_count(),
-    .i_mac_reg_read_ack_count()
+    .i_mac_reg_read_ack_count(),
+    .o_mac_dly_sel(mac_dly_sel),
+    .o_mac_dly_inc_trigger(mac_dly_inc),
+    .i_mac_dly_value(mac_dly_value),
+    .o_mac_enable_jumbo_test(mac_enable_jumbo_test),
+    .i_mac_jumbo_error(mac_jumbo_error),
+    .o_mac_jumbo_error_trigger(mac_jumbo_error_clear)
+
 );
 
 reg srst_reg = 0;

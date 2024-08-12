@@ -50,6 +50,12 @@ module block_ea
   input logic [31:0] i_mac_reg_write_req_count,
   input logic [31:0] i_mac_reg_read_req_count,
   input logic [31:0] i_mac_reg_read_ack_count,
+  output logic [2:0] o_mac_dly_sel,
+  output logic o_mac_dly_inc_trigger,
+  input logic [4:0] i_mac_dly_value,
+  output logic o_mac_enable_jumbo_test,
+  input logic i_mac_jumbo_error,
+  output logic o_mac_jumbo_error_trigger,
   input logic [15:0][31:0] i_mac_test_array,
   output logic [15:0][7:0] o_i2s_out_tdm_num,
   output logic [15:0][7:0] o_i2s_out_is_master,
@@ -76,12 +82,12 @@ module block_ea
   input logic [15:0][31:0] i_i2s_in_frame_num,
   output logic [15:0][31:0] o_i2s_in_bclk_freq
 );
-  rggen_register_if #(16, 32, 512) register_if[41]();
+  rggen_register_if #(16, 32, 512) register_if[46]();
   rggen_apb_adapter #(
     .ADDRESS_WIDTH        (ADDRESS_WIDTH),
     .LOCAL_ADDRESS_WIDTH  (16),
     .BUS_WIDTH            (32),
-    .REGISTERS            (41),
+    .REGISTERS            (46),
     .PRE_DECODE           (PRE_DECODE),
     .BASE_ADDRESS         (BASE_ADDRESS),
     .BYTE_SIZE            (65536),
@@ -786,6 +792,204 @@ module block_ea
       );
     end
   end endgenerate
+  generate if (1) begin : g_mac_dly_sel
+    rggen_bit_field_if #(32) bit_field_if();
+    `rggen_tie_off_unused_signals(32, 32'h00000007, bit_field_if)
+    rggen_default_register #(
+      .READABLE       (1),
+      .WRITABLE       (1),
+      .ADDRESS_WIDTH  (16),
+      .OFFSET_ADDRESS (16'h0300),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALUE_WIDTH    (512)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[16]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_mac_dly_sel
+      localparam bit [2:0] INITIAL_VALUE = 3'h0;
+      rggen_bit_field_if #(3) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 3)
+      rggen_bit_field #(
+        .WIDTH          (3),
+        .INITIAL_VALUE  (INITIAL_VALUE),
+        .SW_WRITE_ONCE  (0),
+        .TRIGGER        (0)
+      ) u_bit_field (
+        .i_clk              (i_clk),
+        .i_rst_n            (i_rst_n),
+        .bit_field_if       (bit_field_sub_if),
+        .o_write_trigger    (),
+        .o_read_trigger     (),
+        .i_sw_write_enable  ('1),
+        .i_hw_write_enable  ('0),
+        .i_hw_write_data    ('0),
+        .i_hw_set           ('0),
+        .i_hw_clear         ('0),
+        .i_value            ('0),
+        .i_mask             ('1),
+        .o_value            (o_mac_dly_sel),
+        .o_value_unmasked   ()
+      );
+    end
+  end endgenerate
+  generate if (1) begin : g_mac_dly_inc
+    rggen_bit_field_if #(32) bit_field_if();
+    `rggen_tie_off_unused_signals(32, 32'h00000001, bit_field_if)
+    rggen_default_register #(
+      .READABLE       (0),
+      .WRITABLE       (1),
+      .ADDRESS_WIDTH  (16),
+      .OFFSET_ADDRESS (16'h0304),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALUE_WIDTH    (512)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[17]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_mac_dly_inc
+      localparam bit INITIAL_VALUE = 1'h0;
+      rggen_bit_field_if #(1) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+      rggen_bit_field_w01trg #(
+        .TRIGGER_VALUE  (1'b1),
+        .WIDTH          (1)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_value      ('0),
+        .o_trigger    (o_mac_dly_inc_trigger)
+      );
+    end
+  end endgenerate
+  generate if (1) begin : g_mac_dly_value
+    rggen_bit_field_if #(32) bit_field_if();
+    `rggen_tie_off_unused_signals(32, 32'h0000001f, bit_field_if)
+    rggen_default_register #(
+      .READABLE       (1),
+      .WRITABLE       (0),
+      .ADDRESS_WIDTH  (16),
+      .OFFSET_ADDRESS (16'h0308),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALUE_WIDTH    (512)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[18]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_mac_dly_value
+      localparam bit [4:0] INITIAL_VALUE = 5'h00;
+      rggen_bit_field_if #(5) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 5)
+      rggen_bit_field #(
+        .WIDTH              (5),
+        .STORAGE            (0),
+        .EXTERNAL_READ_DATA (1),
+        .TRIGGER            (0)
+      ) u_bit_field (
+        .i_clk              (i_clk),
+        .i_rst_n            (i_rst_n),
+        .bit_field_if       (bit_field_sub_if),
+        .o_write_trigger    (),
+        .o_read_trigger     (),
+        .i_sw_write_enable  ('0),
+        .i_hw_write_enable  ('0),
+        .i_hw_write_data    ('0),
+        .i_hw_set           ('0),
+        .i_hw_clear         ('0),
+        .i_value            (i_mac_dly_value),
+        .i_mask             ('1),
+        .o_value            (),
+        .o_value_unmasked   ()
+      );
+    end
+  end endgenerate
+  generate if (1) begin : g_mac_enable_jumbo_test
+    rggen_bit_field_if #(32) bit_field_if();
+    `rggen_tie_off_unused_signals(32, 32'h00000001, bit_field_if)
+    rggen_default_register #(
+      .READABLE       (1),
+      .WRITABLE       (1),
+      .ADDRESS_WIDTH  (16),
+      .OFFSET_ADDRESS (16'h030c),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALUE_WIDTH    (512)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[19]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_mac_enable_jumbo_test
+      localparam bit INITIAL_VALUE = 1'h0;
+      rggen_bit_field_if #(1) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+      rggen_bit_field #(
+        .WIDTH          (1),
+        .INITIAL_VALUE  (INITIAL_VALUE),
+        .SW_WRITE_ONCE  (0),
+        .TRIGGER        (0)
+      ) u_bit_field (
+        .i_clk              (i_clk),
+        .i_rst_n            (i_rst_n),
+        .bit_field_if       (bit_field_sub_if),
+        .o_write_trigger    (),
+        .o_read_trigger     (),
+        .i_sw_write_enable  ('1),
+        .i_hw_write_enable  ('0),
+        .i_hw_write_data    ('0),
+        .i_hw_set           ('0),
+        .i_hw_clear         ('0),
+        .i_value            ('0),
+        .i_mask             ('1),
+        .o_value            (o_mac_enable_jumbo_test),
+        .o_value_unmasked   ()
+      );
+    end
+  end endgenerate
+  generate if (1) begin : g_mac_jumbo_error
+    rggen_bit_field_if #(32) bit_field_if();
+    `rggen_tie_off_unused_signals(32, 32'h00000001, bit_field_if)
+    rggen_default_register #(
+      .READABLE       (1),
+      .WRITABLE       (1),
+      .ADDRESS_WIDTH  (16),
+      .OFFSET_ADDRESS (16'h0310),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALUE_WIDTH    (512)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[20]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_mac_jumbo_error
+      localparam bit INITIAL_VALUE = 1'h0;
+      rggen_bit_field_if #(1) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+      rggen_bit_field_w01trg #(
+        .TRIGGER_VALUE  (1'b1),
+        .WIDTH          (1)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_value      (i_mac_jumbo_error),
+        .o_trigger    (o_mac_jumbo_error_trigger)
+      );
+    end
+  end endgenerate
   generate if (1) begin : g_mac_test_array
     rggen_bit_field_if #(512) bit_field_if();
     `rggen_tie_off_unused_signals(512, 512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff, bit_field_if)
@@ -800,7 +1004,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[16]),
+      .register_if  (register_if[21]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_mac_test_array
@@ -847,7 +1051,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[17]),
+      .register_if  (register_if[22]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_tdm_num
@@ -894,7 +1098,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[18]),
+      .register_if  (register_if[23]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_is_master
@@ -941,7 +1145,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[19]),
+      .register_if  (register_if[24]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_enable
@@ -988,7 +1192,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[20]),
+      .register_if  (register_if[25]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_fpga_index
@@ -1035,7 +1239,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[21]),
+      .register_if  (register_if[26]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_word_width
@@ -1082,7 +1286,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[22]),
+      .register_if  (register_if[27]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_valid_word_width
@@ -1129,7 +1333,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[23]),
+      .register_if  (register_if[28]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_lrck_is_pulse
@@ -1176,7 +1380,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[24]),
+      .register_if  (register_if[29]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_lrck_polarity
@@ -1223,7 +1427,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[25]),
+      .register_if  (register_if[30]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_lrck_alignment
@@ -1270,7 +1474,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[26]),
+      .register_if  (register_if[31]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_i2s_index
@@ -1317,7 +1521,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[27]),
+      .register_if  (register_if[32]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_frame_num
@@ -1364,7 +1568,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[28]),
+      .register_if  (register_if[33]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_out_bclk_freq
@@ -1411,7 +1615,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[29]),
+      .register_if  (register_if[34]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_tdm_num
@@ -1458,7 +1662,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[30]),
+      .register_if  (register_if[35]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_is_master
@@ -1505,7 +1709,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[31]),
+      .register_if  (register_if[36]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_enable
@@ -1552,7 +1756,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[32]),
+      .register_if  (register_if[37]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_fpga_index
@@ -1599,7 +1803,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[33]),
+      .register_if  (register_if[38]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_word_width
@@ -1646,7 +1850,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[34]),
+      .register_if  (register_if[39]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_valid_word_width
@@ -1693,7 +1897,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[35]),
+      .register_if  (register_if[40]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_lrck_is_pulse
@@ -1740,7 +1944,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[36]),
+      .register_if  (register_if[41]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_lrck_polarity
@@ -1787,7 +1991,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[37]),
+      .register_if  (register_if[42]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_lrck_alignment
@@ -1834,7 +2038,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[38]),
+      .register_if  (register_if[43]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_i2s_index
@@ -1881,7 +2085,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[39]),
+      .register_if  (register_if[44]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_frame_num
@@ -1928,7 +2132,7 @@ module block_ea
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[40]),
+      .register_if  (register_if[45]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_i2s_in_bclk_freq

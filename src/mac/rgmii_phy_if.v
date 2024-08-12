@@ -56,7 +56,7 @@ module rgmii_phy_if #
      */
     output wire        mac_gmii_rx_clk,
     output wire        mac_gmii_rx_rst,
-    output wire [7:0]  mac_gmii_rxd,
+    (* mark_debug = "true" *)output wire [7:0]  mac_gmii_rxd,
     output wire        mac_gmii_rx_dv,
     output wire        mac_gmii_rx_er,
     output wire        mac_gmii_tx_clk,
@@ -84,8 +84,8 @@ module rgmii_phy_if #
 
 // receive
 
-wire rgmii_rx_ctl_1;
-wire rgmii_rx_ctl_2;
+(* mark_debug = "true" *)wire rgmii_rx_ctl_1;
+(* mark_debug = "true" *)wire rgmii_rx_ctl_2;
 
 ssio_ddr_in #
 (

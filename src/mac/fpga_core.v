@@ -20,7 +20,7 @@ module fpga_core #
      */
     input  wire         clk,
     input  wire         clk90,
-    (* mark_debug = "true" *)input  wire       rst,
+    input  wire       rst,
 
     /*
      * Ethernet: 1000BASE-T RGMII
@@ -36,19 +36,23 @@ module fpga_core #
     /*
      * Ethernet: 1000BASE-T RGMII
      */
-    output wire         debug_led
+    output wire         debug_led,
+    
+    input  wire         enable_jumbo_test,
+    output wire [4:0]   jumbo_errors,
+    input  wire [4:0]   jumbo_error_clears
 );
 
 localparam TIME_200MS = 125 * 1000 * 100 * 2;
 
 // AXI between MAC and Ethernet modules
-(* mark_debug = "true" *)wire [7:0] rx_axis_tdata;
+wire [7:0] rx_axis_tdata;
 (* mark_debug = "true" *)wire rx_axis_tvalid;
 (* mark_debug = "true" *)wire rx_axis_tready;
 (* mark_debug = "true" *)wire rx_axis_tlast;
 (* mark_debug = "true" *)wire rx_axis_tuser;
 
-(* mark_debug = "true" *)wire [7:0] tx_axis_tdata;
+wire [7:0] tx_axis_tdata;
 (* mark_debug = "true" *)wire tx_axis_tvalid;
 (* mark_debug = "true" *)wire tx_axis_tready;
 (* mark_debug = "true" *)wire tx_axis_tlast;
@@ -59,7 +63,7 @@ localparam TIME_200MS = 125 * 1000 * 100 * 2;
 (* mark_debug = "true" *)wire rx_eth_hdr_valid;
 wire [47:0] rx_eth_dest_mac;
 wire [47:0] rx_eth_src_mac;
-(* mark_debug = "true" *)wire [15:0] rx_eth_type;
+wire [15:0] rx_eth_type;
 (* mark_debug = "true" *)wire [7:0] rx_eth_payload_axis_tdata;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tvalid;
 (* mark_debug = "true" *)wire rx_eth_payload_axis_tready;
@@ -70,7 +74,7 @@ wire [47:0] rx_eth_src_mac;
 (* mark_debug = "true" *)wire tx_eth_hdr_valid;
 wire [47:0] tx_eth_dest_mac;
 wire [47:0] tx_eth_src_mac;
-(* mark_debug = "true" *)wire [15:0] tx_eth_type;
+wire [15:0] tx_eth_type;
 (* mark_debug = "true" *)wire [7:0] tx_eth_payload_axis_tdata;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tvalid;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tready;
@@ -97,7 +101,7 @@ end
 /*
  * count packet
  */
-(* mark_debug = "true" *)reg [15:0] tx_packet_num=0;
+(* mark_debug = "true" *)reg [31:0] tx_packet_num=0;
 always @(posedge clk) begin
     if (rst) begin
         tx_packet_num <= 0;
@@ -106,7 +110,7 @@ always @(posedge clk) begin
     end
 end
 
-(* mark_debug = "true" *)reg [15:0] rx_packet_num=0;
+(* mark_debug = "true" *)reg [31:0] rx_packet_num=0;
 always @(posedge clk) begin
     if (rst) begin
         rx_packet_num <= 0;
@@ -122,16 +126,48 @@ end
  */
 wire [47:0] client_mac = 48'h01_02_03_04_05_06;
 wire [47:0] server_mac = 48'h07_08_09_0a_0b_0c;
+//wire [47:0] server_mac = 48'h00_e0_4c_60_0d_1c;  // linux usb
 //wire [47:0] dst_mac = 48'hfe80_59db_ff3c_edf4_c582;
 
 `ifdef IS_CLIENT
+`ifdef DO_DPA_INSIDE_MAC
+
+gen_dpa_pattern #(
+    .DATA_LENGTH(7000), // actually needs to minus 8, for payload info.
+    .DATA_WIDTH(8)
+)
+gen_dpa_pattern (
+    .clk(clk),
+    .rst(rst),
+    .enable(enable_jumbo_test),
+
+    .src_mac(client_mac),
+    .dst_mac(server_mac),
+
+    .m_eth_hdr_valid(tx_eth_hdr_valid),
+    .m_eth_hdr_ready(tx_eth_hdr_ready),
+    .m_eth_dest_mac(tx_eth_dest_mac),
+    .m_eth_src_mac(tx_eth_src_mac),
+    .m_eth_type(tx_eth_type),
+    .m_eth_payload_axis_tdata(tx_eth_payload_axis_tdata),
+    .m_eth_payload_axis_tvalid(tx_eth_payload_axis_tvalid),
+    .m_eth_payload_axis_tready(tx_eth_payload_axis_tready),
+    .m_eth_payload_axis_tlast(tx_eth_payload_axis_tlast),
+    .m_eth_payload_axis_tuser(tx_eth_payload_axis_tuser)
+);
+
+assign rx_eth_hdr_ready = 1'b1;
+assign rx_eth_payload_axis_tready = 1'b1;
+
+`else // DO_DPA_INSIDE_MAC
 test_gen_pattern #(
-    .DATA_LENGTH(256),
+    .DATA_LENGTH(7000), // actually needs to minus 8, for payload info.
     .DATA_WIDTH(8)
 )
 test_gen_pattern (
     .clk(clk),
     .rst(rst),
+    .enable(enable_jumbo_test),
 
     .packet_index(tx_packet_num),
     .src_mac(client_mac),
@@ -154,11 +190,12 @@ test_gen_pattern (
 );
 
 test_pattern_recv #(
-    .DATA_LENGTH(256),
+    .DATA_LENGTH(7000),
     .DATA_WIDTH(8)
 ) test_pattern_recv (
     .clk(clk),
     .rst(rst),
+    .enable(enable_jumbo_test),
 
     .packet_index(rx_packet_num),
     .src_mac(client_mac),
@@ -176,6 +213,7 @@ test_pattern_recv #(
     .s_eth_payload_axis_tlast(rx_eth_payload_axis_tlast),
     .s_eth_payload_axis_tuser(rx_eth_payload_axis_tuser)
 );
+`endif //DO_DPA_INSIDE_MAC
 
 `else // not client, loopback server.
 
@@ -227,9 +265,9 @@ eth_mac_1g_rgmii_fifo #(
     .USE_CLK90("TRUE"),
     .ENABLE_PADDING(1),
     .MIN_FRAME_LENGTH(64),
-    .TX_FIFO_DEPTH(4096),
+    .TX_FIFO_DEPTH(8192),
     .TX_FRAME_FIFO(1),
-    .RX_FIFO_DEPTH(4096),
+    .RX_FIFO_DEPTH(8192),
     .RX_FRAME_FIFO(1)
 )
 eth_mac_inst (
@@ -270,7 +308,9 @@ eth_mac_inst (
 
     .cfg_ifg(8'd12),
     .cfg_tx_enable(1'b1),
-    .cfg_rx_enable(1'b1)
+    .cfg_rx_enable(1'b1),
+    .jumbo_errors(jumbo_errors),
+    .jumbo_error_clears(jumbo_error_clears)
 );
 
 eth_axis_rx

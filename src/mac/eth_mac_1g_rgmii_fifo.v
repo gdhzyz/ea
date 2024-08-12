@@ -112,14 +112,16 @@ module eth_mac_1g_rgmii_fifo #
     output wire                       rx_fifo_overflow,
     output wire                       rx_fifo_bad_frame,
     output wire                       rx_fifo_good_frame,
-    (* mark_debug = "true" *)output wire [1:0]                 speed,
+    output wire [1:0]                 speed,
 
     /*
      * Configuration
      */
     input  wire [7:0]                 cfg_ifg,
     input  wire                       cfg_tx_enable,
-    input  wire                       cfg_rx_enable
+    input  wire                       cfg_rx_enable,
+    output wire [4:0]                 jumbo_errors,
+    input  wire [4:0]                 jumbo_error_clears
 );
 
 wire tx_clk;
@@ -248,7 +250,9 @@ eth_mac_1g_rgmii_inst (
     .speed(speed_int),
     .cfg_ifg(cfg_ifg),
     .cfg_tx_enable(cfg_tx_enable),
-    .cfg_rx_enable(cfg_rx_enable)
+    .cfg_rx_enable(cfg_rx_enable),
+    .jumbo_errors(jumbo_errors),
+    .jumbo_error_clears(jumbo_error_clears)
 );
 
 axis_async_fifo_adapter #(

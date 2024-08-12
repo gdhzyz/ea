@@ -28,6 +28,8 @@ THE SOFTWARE.
 `timescale 1ns / 1ps
 `default_nettype none
 
+`include "../head.vh"
+
 /*
  * AXI4-Stream GMII frame receiver (GMII in, AXI out)
  */
@@ -78,7 +80,9 @@ module axis_gmii_rx #
      */
     (* mark_debug = "true" *)output wire                     start_packet,
     (* mark_debug = "true" *)output wire                     error_bad_frame,
-    (* mark_debug = "true" *)output wire                     error_bad_fcs
+    (* mark_debug = "true" *)output wire                     error_bad_fcs,
+    (* mark_debug = "true" *)output wire [4:0]               jumbo_errors,
+    (* mark_debug = "true" *)input  wire [4:0]               jumbo_error_clears
 );
 
 // bus width assertions
@@ -101,11 +105,11 @@ localparam [2:0]
 (* mark_debug = "true" *)reg [2:0] state_reg = STATE_IDLE, state_next;
 
 // datapath control signals
-(* mark_debug = "true" *)reg reset_crc;
-(* mark_debug = "true" *)reg update_crc;
+reg reset_crc;
+reg update_crc;
 
-(* mark_debug = "true" *)reg mii_odd = 1'b0;
-(* mark_debug = "true" *)reg in_frame = 1'b0;
+reg mii_odd = 1'b0;
+reg in_frame = 1'b0;
 
 reg [DATA_WIDTH-1:0] gmii_rxd_d0 = {DATA_WIDTH{1'b0}};
 reg [DATA_WIDTH-1:0] gmii_rxd_d1 = {DATA_WIDTH{1'b0}};
@@ -113,17 +117,17 @@ reg [DATA_WIDTH-1:0] gmii_rxd_d2 = {DATA_WIDTH{1'b0}};
 reg [DATA_WIDTH-1:0] gmii_rxd_d3 = {DATA_WIDTH{1'b0}};
 reg [DATA_WIDTH-1:0] gmii_rxd_d4 = {DATA_WIDTH{1'b0}};
 
-reg gmii_rx_dv_d0 = 1'b0;
-reg gmii_rx_dv_d1 = 1'b0;
-reg gmii_rx_dv_d2 = 1'b0;
-reg gmii_rx_dv_d3 = 1'b0;
-reg gmii_rx_dv_d4 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_dv_d0 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_dv_d1 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_dv_d2 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_dv_d3 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_dv_d4 = 1'b0;
 
-reg gmii_rx_er_d0 = 1'b0;
-reg gmii_rx_er_d1 = 1'b0;
-reg gmii_rx_er_d2 = 1'b0;
-reg gmii_rx_er_d3 = 1'b0;
-reg gmii_rx_er_d4 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_er_d0 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_er_d1 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_er_d2 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_er_d3 = 1'b0;
+(* mark_debug = "true" *)reg gmii_rx_er_d4 = 1'b0;
 
 reg [DATA_WIDTH-1:0] m_axis_tdata_reg = {DATA_WIDTH{1'b0}}, m_axis_tdata_next;
 reg m_axis_tvalid_reg = 1'b0, m_axis_tvalid_next;
@@ -352,6 +356,94 @@ always @(posedge clk) begin
         gmii_rx_dv_d4 <= 1'b0;
     end
 end
+
+// =============== debug ===============
+(* mark_debug = "true" *)reg [15:0] rx_packet_num=0;
+(* mark_debug = "true" *)reg [15:0] rx_packet_error_num=0;
+always @(posedge clk) begin
+    if (rst) begin
+        rx_packet_num <= 0;
+        rx_packet_error_num <= 0;
+    end else if (m_axis_tvalid && m_axis_tlast) begin
+        rx_packet_num <= rx_packet_num + 1;
+        if (m_axis_tuser) begin
+            rx_packet_error_num <= rx_packet_error_num + 1;
+        end
+    end
+end
+
+`ifdef DO_DPA_INSIDE_MAC
+(* mark_debug = "true" *)reg [4:0] jumbo_frame_counter=0;
+always @(posedge clk) begin
+    if (m_axis_tvalid) begin
+        if (m_axis_tlast) begin
+            jumbo_frame_counter <= 0;
+        end else begin
+            jumbo_frame_counter <= jumbo_frame_counter + 1;
+        end
+    end
+end
+
+(* mark_debug = "true" *)reg is_payload=0;
+always @(posedge clk) begin
+    if (rst) begin
+        is_payload <= 1'b0;
+    end else if (m_axis_tvalid && m_axis_tlast) begin
+        is_payload <= 1'b0;
+    end else if (m_axis_tvalid && jumbo_frame_counter == 5'd13) begin // 2 * 6 for macs, 2 for ethernet type.
+        is_payload <= 1'b1;
+    end
+end
+
+(* mark_debug = "true" *)wire [7:0]  gen_axis_tdata;
+(* mark_debug = "true" *)wire        gen_axis_tvalid;
+(* mark_debug = "true" *)wire        gen_axis_tready;
+(* mark_debug = "true" *)wire        gen_axis_tlast;
+
+assign gen_axis_tready = is_payload && m_axis_tvalid;
+
+gen_dpa_pattern #(
+    .DATA_LENGTH(7000),
+    .DATA_WIDTH(8)
+) gen_dpa_pattern (
+    .clk(clk),
+    .rst(rst),
+    .enable(1'b1),
+    .src_mac(48'd0),
+    .dst_mac(48'd0),
+    .m_eth_hdr_valid(),
+    .m_eth_hdr_ready(1'b1),
+    .m_eth_dest_mac(),
+    .m_eth_src_mac(),
+    .m_eth_type(),
+    .m_eth_payload_axis_tdata(gen_axis_tdata),
+    .m_eth_payload_axis_tvalid(gen_axis_tvalid),
+    .m_eth_payload_axis_tready(gen_axis_tready),
+    .m_eth_payload_axis_tlast(gen_axis_tlast),
+    .m_eth_payload_axis_tuser()
+);
+
+(* mark_debug = "true" *)reg [4:0] jumbo_errors_reg = 0;
+always @(posedge clk) begin: jumbo_errors_reg_block
+    integer i;
+
+    for (i = 0; i < 4; i = i + 1) begin
+        if (rst) begin
+            jumbo_errors_reg[i] <= 0;
+        end else if (m_axis_tvalid && m_axis_tlast) begin
+            jumbo_errors_reg[i] <= 0;
+        end else if (m_axis_tvalid && is_payload) begin 
+            if ((~gen_axis_tvalid) || 
+                    (m_axis_tlast && ~gen_axis_tlast) ||
+                    (m_axis_tdata[i] != gen_axis_tdata[i]) ||
+                    (m_axis_tdata[i+4] != gen_axis_tdata[i+4])) begin
+                jumbo_errors_reg[i] <= 1'b1;
+            end
+        end
+    end
+    jumbo_errors_reg[4] <= 1'b0;
+end
+`endif //DO_DPA_INSIDE_MAC
 
 endmodule
 

@@ -185,7 +185,9 @@ module eth_mac_1g #
     input  wire [15:0]                  cfg_rx_lfc_opcode,
     input  wire                         cfg_rx_lfc_en,
     input  wire [15:0]                  cfg_rx_pfc_opcode,
-    input  wire                         cfg_rx_pfc_en
+    input  wire                         cfg_rx_pfc_en,
+    output wire [4:0]                   jumbo_errors,
+    input  wire [4:0]                   jumbo_error_clears
 );
 
 parameter MAC_CTRL_ENABLE = PAUSE_ENABLE || PFC_ENABLE;
@@ -224,7 +226,9 @@ axis_gmii_rx_inst (
     .cfg_rx_enable(cfg_rx_enable),
     .start_packet(rx_start_packet),
     .error_bad_frame(rx_error_bad_frame),
-    .error_bad_fcs(rx_error_bad_fcs)
+    .error_bad_fcs(rx_error_bad_fcs),
+    .jumbo_errors(jumbo_errors),
+    .jumbo_error_clears(jumbo_error_clears)
 );
 
 axis_gmii_tx #(
