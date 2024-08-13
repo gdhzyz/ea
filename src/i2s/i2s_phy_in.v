@@ -12,10 +12,8 @@
 module i2s_phy_in 
 (
     /*
-     * Clock: 24.576MHz * 8 = 196.608
      * Synchronous reset
      */
-    input  wire         clk,
     input  wire         rst,
 
     /*
@@ -26,10 +24,11 @@ module i2s_phy_in
     input  wire         datai,
 
     /*
-     * I2S parallel output.
+     * I2S parallel output, synchronized with bclk.
      */
-    output wire         ovalid,
-    output wire [31:0]  odata, // lower bits are always valid.
+    output wire         m_axis_tvalid,
+    output wire [31:0]  m_axis_tdata, // lower bits are always valid.
+    output wire         m_axis_tlast,
 
     /*
      * configuration, do not need to have been synchronized to bclk.
@@ -177,6 +176,30 @@ reg [31:0] data_reg;
 always @(posedge bclk) begin
     data_reg <= {data_reg[30:0], data};
 end
+
+reg ovalid = 0;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        ovalid <= 1'b0;
+    end else if (end_word) begin
+        ovalid <= 1'b1;
+    end else begin
+        ovalid <= 1'b0;
+    end
+end
+
+reg olast=0;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        olast <= 1'b0;
+    end else begin
+        olast <= end_frame;
+    end
+end
+
+assign m_axis_tvalid = ovalid;
+assign m_axis_tdata = data_reg;
+assign m_axis_tlast = olast;
 
 endmodule
 
