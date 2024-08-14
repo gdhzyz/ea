@@ -1,10 +1,10 @@
 
+
 // Language: Verilog 2001
 
 `resetall
 `timescale 1ns / 1ps
 `default_nettype none
-`include "../head.vh"
 
 /*
  * I2S from ADC
@@ -12,7 +12,7 @@
 module i2s_phy_in 
 (
     /*
-     * Synchronous reset
+     * Asynchronous reset
      */
     input  wire         rst,
 
@@ -34,7 +34,6 @@ module i2s_phy_in
      * configuration, do not need to have been synchronized to bclk.
      */
     input  wire [4:0]   i_tdm_num,
-    input  wire         i_is_master,
     input  wire [5:0]   i_word_width,
     input  wire         i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
     input  wire         i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
@@ -58,16 +57,6 @@ sync_signal #(
     .clk(bclk),
     .in(i_tdm_num),
     .out(tdm_num)
-);
-
-// -------- is_master --------
-wire is_master;
-sync_signal #(
-    .WIDTH(1)
-) is_master_synchronizer (
-    .clk(bclk),
-    .in(i_is_master),
-    .out(is_master)
 );
 
 // -------- word_width --------
@@ -138,14 +127,14 @@ wire data = is_lrck_aligned ? datai_d[2] : datai_d[3];
 reg in_frame = 1'b0;
 reg [3:0] tdm_counter=0;
 reg [5:0] bit_counter=0;
-wire end_word = bit_counter == word_width-1;
-wire end_frame = tdm_counter == tdm_num-1 && end_word;
+wire word_last = bit_counter == word_width-1;
+wire frame_last = tdm_counter == tdm_num-1 && word_last;
 always @(posedge bclk) begin
     if (rst_sync) begin
         in_frame <= 1'b0;
     end else if (start_word) begin
         in_frame <= 1'b1;
-    end else if (end_frame) begin
+    end else if (frame_last) begin
         in_frame <= 1'b0;
     end
 end
@@ -163,8 +152,8 @@ end
 always @(posedge bclk) begin
     if (rst_sync) begin
         tdm_counter <= 0;
-    end else if (end_word) begin
-        if (end_frame) begin
+    end else if (word_last) begin
+        if (frame_last) begin
             tdm_counter <= 0;
         end else begin
             tdm_counter <= tdm_counter + 1;
@@ -181,7 +170,7 @@ reg ovalid = 0;
 always @(posedge bclk) begin
     if (rst_sync) begin
         ovalid <= 1'b0;
-    end else if (end_word) begin
+    end else if (word_last) begin
         ovalid <= 1'b1;
     end else begin
         ovalid <= 1'b0;
@@ -193,7 +182,7 @@ always @(posedge bclk) begin
     if (rst_sync) begin
         olast <= 1'b0;
     end else begin
-        olast <= end_frame;
+        olast <= frame_last;
     end
 end
 

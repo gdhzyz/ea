@@ -31,6 +31,8 @@ always @(posedge clk) begin
     endcase
 end
 
+assign tdm_num_real = tdm_num_real_reg;
+
 endmodule
 
 `resetall
