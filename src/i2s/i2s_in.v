@@ -11,10 +11,9 @@
  */
 module i2s_in 
 (
-    /* clock: 125MHz
+    /*
      * Asynchronous reset
      */
-    input  wire             clk,
     input  wire             arst,
 
     /*
@@ -175,28 +174,28 @@ for (i = 0; i < 16; i = i + 1) begin
     
     // ---- tdm_num ----
     tdm_num_parser tdm_num_parser (
-        .clk(clk),
+        .clk(mclk_int),
         .tdm_num(i_tdm_num[3*i +: 3]),
         .tdm_num_real(parsed_tdm_num)
     );
     
     // ---- word_with ----
     word_with_parser word_with_parser (
-        .clk(clk),
+        .clk(mclk_int),
         .word_width(i_word_width[i]),
         .word_width_real(parsed_word_width)
     );
     
     // ---- valid_word_width ----
     valid_word_with_parser valid_word_with_parser (
-        .clk(clk),
+        .clk(mclk_int),
         .valid_word_width(i_valid_word_width[2*i +: 2]),
         .valid_word_width_real(parsed_valid_word_width)
     );
     
     // ---- bclk_factor ----
     bclk_factor_parser bclk_factor_parser (
-        .clk(clk),
+        .clk(mclk_int),
         .bclk_factor(i_bclk_factor[3*i +: 3]),
         .bclk_factor_real(parsed_bclk_factor)
     );
@@ -242,6 +241,18 @@ for (i = 0; i < 16; i = i + 1) begin
 end
     
 endgenerate
+
+reg is_master_reg=0;
+always @(posedge mclk_int) begin
+    if (rst_int) begin
+        is_master_reg <= 1'b0;
+    end else begin
+        is_master_reg <= parsed_is_master;
+    end
+end
+
+assign bclkt = is_master_reg;
+assign lrckt = is_master_reg;
 
 endmodule
 
