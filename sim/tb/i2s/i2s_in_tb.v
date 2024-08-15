@@ -1,14 +1,15 @@
 
 
+
 `timescale 1ns/1ps
   
-module i2s_freq_divider_tb ();
+module i2s_in_tb ();
 
 wire clk;     
 wire reset;   
 
-reg  [15:0]      bclki;
-reg  [15:0]      lrcki;
+wire [15:0]      bclki;
+wire [15:0]      lrcki;
 wire [15:0]      bclko;
 wire [15:0]      lrcko;
 wire [15:0]      bclkt;
@@ -19,16 +20,16 @@ wire [15:0]      m_axis_tvalid;
 wire [511:0]     m_axis_tdata;
 wire [15:0]      m_axis_tlast;
 
-reg  [3*16-1:0]  i_tdm_num;
-reg  [15:0]      i_is_master;
-reg  [15:0]      i_enable;
-reg  [4*16-1:0]  i_dst_fpga_index;
-reg  [15:0]      i_word_width;
-reg  [2*16-1:0]  i_valid_word_width;
-reg  [15:0]      i_lrck_is_pulse;
-reg  [15:0]      i_lrck_polarity;
-reg  [15:0]      i_lrck_alignment;
-reg  [3*16-1:0]  i_bclk_factor;
+reg  [3*16-1:0]  tdm_num;
+reg  [15:0]      is_master;
+reg  [15:0]      enable;
+reg  [4*16-1:0]  dst_fpga_index;
+reg  [15:0]      word_width;
+reg  [2*16-1:0]  valid_word_width;
+reg  [15:0]      lrck_is_pulse; // TODO for 1'b1.
+reg  [15:0]      lrck_polarity;
+reg  [15:0]      lrck_alignment;
+reg  [3*16-1:0]  bclk_factor;
 
 i2s_in dut (
     /*
@@ -50,17 +51,16 @@ i2s_in dut (
     .m_axis_tdata(m_axis_tdata),
     .m_axis_tlast(m_axis_tlast),
 
-    .i_tdm_num
-    .i_is_master
-    .i_enable
-    .i_dst_fpga_index
-    .i_word_width
-    .i_valid_word_width
-    .i_lrck_is_pulse
-    .i_lrck_polarity
-    .i_lrck_alignment
-    .i_bclk_factor
-
+    .i_tdm_num(tdm_num),
+    .i_is_master(is_master),
+    .i_enable(enable),
+    .i_dst_fpga_index(dst_fpga_index),
+    .i_word_width(word_width),
+    .i_valid_word_width(valid_word_width),
+    .i_lrck_is_pulse(lrck_is_pulse),
+    .i_lrck_polarity(lrck_polarity),
+    .i_lrck_alignment(lrck_alignment),
+    .i_bclk_factor(bclk_factor)
 );
 clock_gen 
 #(.PERIOD(40.690)) 

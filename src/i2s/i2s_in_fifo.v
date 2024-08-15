@@ -7,9 +7,9 @@
 `default_nettype none
 
 /*
- * I2S from ADC
+ * I2S from ADC with output fifo.
  */
-module i2s_in 
+module i2s_in_fifo
 (
     /*
      * Asynchronous reset

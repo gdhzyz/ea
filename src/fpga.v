@@ -1,6 +1,7 @@
 
 
 
+
 // Language: Verilog 2001
 
 `resetall
@@ -52,7 +53,16 @@ module fpga (
      * uart
      */
     input  wire         uart_rx,
-    output wire         uart_tx
+    output wire         uart_tx,
+
+    /*
+     * i2s
+     */
+    input  wire         i2s_in_mclki,
+    inout  wire [15:0]  i2s_in_bclk,
+    inout  wire [15:0]  i2s_in_lrck,
+    input  wire [15:0]  i2s_in_datin,
+    output wire [15:0]  i2s_out_datout
 );
 
 // Clock and reset
@@ -178,6 +188,20 @@ wire [3:0]  fpga_index;
 wire [4:0]  mac_jumbo_errors;
 wire [4:0]  mac_jumbo_error_clears;
 
+// i2s in
+wire [47:0]     i2s_in_tdm_num;
+wire [15:0]     i2s_in_is_master;
+wire [15:0]     i2s_in_enable;
+wire [63:0]     i2s_in_fpga_index;
+wire [15:0]     i2s_in_word_width;
+wire [31:0]     i2s_in_valid_word_width;
+wire [15:0]     i2s_in_lrck_is_pulse;
+wire [15:0]     i2s_in_lrck_polarity;
+wire [15:0]     i2s_in_lrck_alignment;
+wire [63:0]     i2s_in_i2s_index;
+wire [511:0]    i2s_in_frame_num;
+wire [47:0]     i2s_in_bclk_factor;
+
 wire        mdio_valid;
 wire        mdio_write;
 wire        mdio_ready;
@@ -219,11 +243,23 @@ reg_intf reg_intf(
     .mac_dly_values(mac_dly_values),
     .mac_enable_jumbo_test(mac_enable_jumbo_test),
     .mac_jumbo_errors(mac_jumbo_errors),
-    .mac_jumbo_error_clears(mac_jumbo_error_clears)
+    .mac_jumbo_error_clears(mac_jumbo_error_clears),
+    // i2s in
+    .i2s_in_tdm_num(i2s_in_tdm_num),
+    .i2s_in_is_master(i2s_in_is_master),
+    .i2s_in_enable(i2s_in_enable),
+    .i2s_in_fpga_index(i2s_in_fpga_index),
+    .i2s_in_word_width(i2s_in_word_width),
+    .i2s_in_valid_word_width(i2s_in_valid_word_width),
+    .i2s_in_lrck_is_pulse(i2s_in_lrck_is_pulse),
+    .i2s_in_lrck_polarity(i2s_in_lrck_polarity),
+    .i2s_in_lrck_alignment(i2s_in_lrck_alignment),
+    .i2s_in_i2s_index(i2s_in_i2s_index),
+    .i2s_in_frame_num(i2s_in_frame_num),
+    .i2s_in_bclk_factor(i2s_in_bclk_factor)
 );
 
 // =================== end reg ==================
-
 
 wire debug_led;
 wire deskew_done;
@@ -439,7 +475,56 @@ assign mdio_i = mdio_d;
 
 // =================== end mdio ==================
 
+// =================== i2s ==================
+localparam I2S_CN = 16;   // I2S channel number
 
+wire [I2S_CN-1:0] i2s_in_bclki;
+wire [I2S_CN-1:0] i2s_in_bclko;
+wire [I2S_CN-1:0] i2s_in_bclkt;
+wire [I2S_CN-1:0] i2s_in_lrcki;
+wire [I2S_CN-1:0] i2s_in_lrcko;
+wire [I2S_CN-1:0] i2s_in_lrckt;
+
+wire i2s_in_m_axis_tvalid;
+wire [7:0] i2s_in_m_axis_tdata;
+wire i2s_in_m_axis_tlast;
+
+i2s_in_fifo #(
+    .CN(I2S_CN)
+) i2s_in_fifo (
+    .sys_clk(clk_int),
+    .arst(rst_int),
+
+    .mclki(i2s_in_mclki),
+    .bclki(i2s_in_bclki),
+    .lrcki(i2s_in_lrcki),
+    .bclko(i2s_in_bclko),
+    .lrcko(i2s_in_lrcko),
+    .bclkt(i2s_in_bclkt),
+    .lrckt(i2s_in_lrckt),
+    .datai(i2s_in_datin),
+    
+    .m_axis_tvalid(i2s_in_m_axis_tvalid),
+    .m_axis_tdata(i2s_in_m_axis_tdata),
+    .m_axis_tlast(i2s_in_m_axis_tlast)
+
+
+);
+
+genvar i;
+generate 
+
+    for (i = 0; i < 16; i = i + 1) begin
+        assign i2s_in_bclk[i] = i2s_in_bclkt ? i2s_in_bclko : 1'bz;
+        assign i2s_in_lrck[i] = i2s_in_lrckt ? i2s_in_lrcko : 1'bz;
+        assign i2s_in_bclki = i2s_in_bclk;
+        assign i2s_in_lrcki = i2s_in_lrck;
+    end
+endgenerate
+
+// =================== end i2s ==================
+
+// =================== debug ==================
 /*
  * Leds
  */
@@ -502,7 +587,7 @@ always @(posedge clk_int) begin
         time_counter <= time_counter + 'd1;
     end
 end
-
+// =================== end debug ==================
 
 
 endmodule
