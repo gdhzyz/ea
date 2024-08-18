@@ -16,17 +16,17 @@ module tdm_num_parser
     /*
      * configuration
      */
-    input  wire [3:0]   tdm_num,
-    output wire [3:0]   tdm_num_real
+    input  wire [2:0]   tdm_num,
+    output wire [4:0]   tdm_num_real
 );
 
 reg [4:0] tdm_num_real_reg;
 always @(posedge clk) begin
     case (tdm_num)
-        4'd1: tdm_num_real_reg <= 5'd2;
-        4'd2: tdm_num_real_reg <= 5'd4;
-        4'd3: tdm_num_real_reg <= 5'd8;
-        4'd4: tdm_num_real_reg <= 5'd16;
+        3'd1: tdm_num_real_reg <= 5'd2;
+        3'd2: tdm_num_real_reg <= 5'd4;
+        3'd3: tdm_num_real_reg <= 5'd8;
+        3'd4: tdm_num_real_reg <= 5'd16;
         default: tdm_num_real_reg <= 5'd2;
     endcase
 end

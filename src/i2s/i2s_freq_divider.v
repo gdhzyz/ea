@@ -57,6 +57,7 @@ always @(posedge mclki) begin
 end
 
 freq_divider #(
+    .INIT_VALUE(1),
     .MAX_FACTOR(16*4*32) // tdm * 4 * word_width
 ) lrck_freq_divider (
     .rst(rst),

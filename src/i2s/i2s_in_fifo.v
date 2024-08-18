@@ -1,5 +1,3 @@
-
-
 // Language: Verilog 2001
 
 `resetall
@@ -9,12 +7,16 @@
 /*
  * I2S from ADC with output fifo.
  */
-module i2s_in_fifo
+module i2s_in_fifo #(
+    parameter CN = 16  // channel number
+)
 (
     /*
-     * Asynchronous reset
+     * Clock: 125MHz
+     * Synchronous reset with sys_clk
      */
-    input  wire             arst,
+    input  wire             sys_clk,
+    input  wire             rst,
 
     /*
      * I2S master clock from outside FPGA, 24.576MHz
@@ -24,235 +26,166 @@ module i2s_in_fifo
     /*
      * I2S IOs
      */
-    input  wire [15:0]      bclki,
-    input  wire [15:0]      lrcki,
-    output wire [15:0]      bclko,
-    output wire [15:0]      lrcko,
-    output wire [15:0]      bclkt,
-    output wire [15:0]      lrckt,
-    input  wire [15:0]      datai,
+    input  wire [CN-1:0]    bclki,
+    input  wire [CN-1:0]    lrcki,
+    output wire [CN-1:0]    bclko,
+    output wire [CN-1:0]    lrcko,
+    output wire [CN-1:0]    bclkt,
+    output wire [CN-1:0]    lrckt,
+    input  wire [CN-1:0]    datai,
 
     /*
-     * I2S parallel output, synchronized with bclk.
+     * I2S muxed output, synchronized with sys_clk.
      */
-    output wire [15:0]      m_axis_tvalid,
-    output wire [511:0]     m_axis_tdata,
-    output wire [15:0]      m_axis_tlast,
+    output wire             m_axis_tvalid,
+    output wire [7:0]       m_axis_tdata,
+    output wire             m_axis_tlast,
+    output wire             m_axis_tready,
 
     /*
-     * configuration, synchronized to clk.
+     * configuration, synchronized with sys_clk.
      */
-    input  wire [3*16-1:0]  i_tdm_num,
-    input  wire [15:0]      i_is_master,
-    input  wire [15:0]      i_enable,
-    input  wire [4*16-1:0]  i_dst_fpga_index,
-    input  wire [15:0]      i_word_width,
-    input  wire [2*16-1:0]  i_valid_word_width,
-    input  wire [15:0]      i_lrck_is_pulse,
-    input  wire [15:0]      i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
-    input  wire [15:0]      i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
-    output wire [32*16-1:0] o_frame_num,
-    input  wire [3*16-1:0]  i_bclk_factor
+    input  wire [3*CN-1:0]  i_tdm_num,
+    input  wire [CN-1:0]    i_is_master,
+    input  wire [CN-1:0]    i_enable,
+    input  wire [4*CN-1:0]  i_dst_fpga_index,
+    input  wire [CN-1:0]    i_word_width,
+    input  wire [2*CN-1:0]  i_valid_word_width,
+    input  wire [CN-1:0]    i_lrck_is_pulse,
+    input  wire [CN-1:0]    i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
+    input  wire [CN-1:0]    i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
+    output wire [32*CN-1:0] o_frame_num,
+    input  wire [3*CN-1:0]  i_bclk_factor
 );
 
+// ==================== i2s in =======================
+wire [CN-1:0]       i2s_in_m_axis_tvalid;
+wire [32*CN-1:0]    i2s_in_m_axis_tdata;
+wire [CN-1:0]       i2s_in_m_axis_tlast;
 
-// ==================== mmcm =======================
-wire mclki_ibufg;
-IBUFG
-mclki_ibufg_inst(
-    .I(mclki),
-    .O(mclki_ibufg)
+wire [CN-1:0]       i2s_in_srst;
+
+i2s_in # (
+    .CN(CN)
+) i2s_in (
+    .arst(rst),
+    .mclki(mclki),
+    .srst(i2s_in_srst),
+    .bclki(bclki),
+    .lrcki(lrcki),
+    .bclko(bclko),
+    .lrcko(lrcko),
+    .bclkt(bclkt),
+    .lrckt(lrckt),
+    .datai(datai),
+    .m_axis_tvalid(i2s_in_m_axis_tvalid),
+    .m_axis_tdata(i2s_in_m_axis_tdata),
+    .m_axis_tlast(i2s_in_m_axis_tlast),
+    .i_tdm_num(i_tdm_num),
+    .i_is_master(i_is_master),
+    .i_enable(i_enable),
+    .i_dst_fpga_index(i_dst_fpga_index),
+    .i_word_width(i_word_width),
+    .i_valid_word_width(i_valid_word_width),
+    .i_lrck_is_pulse(i_lrck_is_pulse),
+    .i_lrck_polarity(i_lrck_polarity),
+    .i_lrck_alignment(i_lrck_alignment),
+    .o_frame_num(o_frame_num),
+    .i_bclk_factor(i_bclk_factor)
 );
 
-wire clk_mmcm_out;
-wire mmcm_clkfb;
-wire mmcm_rst = arst;
-wire mmcm_locked;
+// ==================== fifo =======================
+wire [CN-1:0]       fifo_out_m_axis_tvalid;
+wire [32*CN-1:0]    fifo_out_m_axis_tdata;
+wire [CN-1:0]       fifo_out_m_axis_tlast;
+wire [CN-1:0]       fifo_out_m_axis_tready;
 
-// MMCM instance
-// 24.576 MHz in, 98.304 MHz out
-// PFD range: 10 MHz to 500 MHz
-// VCO range: 600 MHz to 1440 MHz
-// M = 40.5, D = 1 sets Fvco = 995.328 MHz (in range)
-// Divide by 10.125 to get output frequency of 125 MHz
-// Need two 125 MHz outputs with 90 degree offset
-// Also need 200 MHz out for IODELAY
-// 1000 / 5 = 200 MHz
-// The goal is to make D and M values as small as possible while keeping ƒVCO as high as possible.
-// Dmin = ceil(50 / 500) = 1; Dmax = floor(50 / 10) = 5
-// Mmin = ceil(600 / 50 * 1) = 12, Mmax = floor(1440 / 50 * 5) = 144, Mideal = 1 * 1000 / 50 = 20
-
-MMCME2_BASE #(
-    .BANDWIDTH("OPTIMIZED"),
-    .CLKOUT0_DIVIDE_F(10.125),
-    .CLKOUT0_DUTY_CYCLE(0.5),
-    .CLKOUT0_PHASE(0),
-    .CLKOUT1_DIVIDE(8),
-    .CLKOUT1_DUTY_CYCLE(0.5),
-    .CLKOUT1_PHASE(90),
-    .CLKOUT2_DIVIDE(5),
-    .CLKOUT2_DUTY_CYCLE(0.5),
-    .CLKOUT2_PHASE(0),
-    .CLKOUT3_DIVIDE(1),
-    .CLKOUT3_DUTY_CYCLE(0.5),
-    .CLKOUT3_PHASE(0),
-    .CLKOUT4_DIVIDE(1),
-    .CLKOUT4_DUTY_CYCLE(0.5),
-    .CLKOUT4_PHASE(0),
-    .CLKOUT5_DIVIDE(1),
-    .CLKOUT5_DUTY_CYCLE(0.5),
-    .CLKOUT5_PHASE(0),
-    .CLKOUT6_DIVIDE(1),
-    .CLKOUT6_DUTY_CYCLE(0.5),
-    .CLKOUT6_PHASE(0),
-    .CLKFBOUT_MULT_F(40.5),
-    .CLKFBOUT_PHASE(0),
-    .DIVCLK_DIVIDE(1),
-    .REF_JITTER1(0.010),
-    .CLKIN1_PERIOD(40.690),
-    .CLKIN2_PERIOD(10),
-    .COMPENSATION("ZHOLD"),
-    .STARTUP_WAIT("FALSE"),
-    .CLKOUT4_CASCADE("FALSE")
-)
-clk_mmcm_inst (
-    .CLKIN1(mclki_ibufg),
-    .CLKFBIN(mmcm_clkfb),
-    .RST(mmcm_rst),
-    .PWRDWN(1'b0),
-    .CLKOUT0(clk_mmcm_out),
-    .CLKOUT0B(),
-    .CLKOUT1(),
-    .CLKOUT1B(),
-    .CLKOUT2(),
-    .CLKOUT2B(),
-    .CLKOUT3(),
-    .CLKOUT3B(),
-    .CLKOUT4(),
-    .CLKOUT5(),
-    .CLKOUT6(),
-    .CLKFBOUT(mmcm_clkfb),
-    .CLKFBOUTB(),
-    .LOCKED(mmcm_locked)
-);
-
-wire mclk_int;
-BUFG
-clk_bufg_inst (
-    .I(clk_mmcm_out),
-    .O(mclk_int)
-);
-
-// ==================== reset =======================
-wire rst_int;
-sync_reset #(
-    .N(4)
-)
-sync_reset_inst (
-    .clk(mclk_int),
-    .rst(~mmcm_locked),
-    .out(rst_int)
-);
-
-
-generate
 genvar i;
+generate
+for (i = 0; i < CN; i = i + 1) begin
+    axis_async_fifo_adapter #(
+        .DEPTH(128),
+        .S_DATA_WIDTH(32),
+        .S_KEEP_ENABLE(0),
+        .M_DATA_WIDTH(8),
+        .M_KEEP_ENABLE(0),
+        .ID_ENABLE(0),
+        .DEST_ENABLE(0),
+        .USER_ENABLE(0)
+    ) (
+        .s_clk(bclki[i]),
+        .s_rst(i2s_in_srst[i]),
+        .s_axis_tdata(i2s_in_m_axis_tdata[32*i +: 32]),
+        .s_axis_tkeep(1'b1),
+        .s_axis_tvalid(i2s_in_m_axis_tvalid[i]),
+        .s_axis_tready(),
+        .s_axis_tlast(i2s_in_m_axis_tlast[i]),
+        .s_axis_tid(1'b0),
+        .s_axis_tdest(1'b0),
+        .s_axis_tuser(1'b0),
 
+        .m_clk(sys_clk),
+        .m_rst(rst),
+        .m_axis_tdata(fifo_out_m_axis_tdata[32*i +: 32]),
+        .m_axis_tkeep(),
+        .m_axis_tvalid(fifo_out_m_axis_tvalid[i]),
+        .m_axis_tready(fifo_out_m_axis_tready[i]),
+        .m_axis_tlast(fifo_out_m_axis_tlast[i]),
+        .m_axis_tid(),
+        .m_axis_tdest(),
+        .m_axis_tuser(),
 
-for (i = 0; i < 16; i = i + 1) begin
-// ================== register parsers ==================
-    wire [4:0]   parsed_tdm_num;
-    wire         parsed_is_master;
-    wire         parsed_enable;
-    wire [3:0]   parsed_dst_fpga_index;
-    wire [5:0]   parsed_word_width;
-    wire [5:0]   parsed_valid_word_width;
-    wire         parsed_lrck_is_pulse;
-    wire         parsed_lrck_polarity;
-    wire         parsed_lrck_alignment;
-    wire [4:0]   parsed_bclk_factor;
-    
-    // ---- tdm_num ----
-    tdm_num_parser tdm_num_parser (
-        .clk(mclk_int),
-        .tdm_num(i_tdm_num[3*i +: 3]),
-        .tdm_num_real(parsed_tdm_num)
+        .s_pause_req(),
+        .s_pause_ack(),
+        .m_pause_req(),
+        .m_pause_ack(),
+
+        .s_status_depth(),
+        .s_status_depth_commit(),
+        .s_status_overflow(),
+        .s_status_bad_frame(),
+        .s_status_good_frame(),
+        .m_status_depth(),
+        .m_status_depth_commit(),
+        .m_status_overflow(),
+        .m_status_bad_frame(),
+        .m_status_good_frame()
     );
-    
-    // ---- word_with ----
-    word_with_parser word_with_parser (
-        .clk(mclk_int),
-        .word_width(i_word_width[i]),
-        .word_width_real(parsed_word_width)
-    );
-    
-    // ---- valid_word_width ----
-    valid_word_with_parser valid_word_with_parser (
-        .clk(mclk_int),
-        .valid_word_width(i_valid_word_width[2*i +: 2]),
-        .valid_word_width_real(parsed_valid_word_width)
-    );
-    
-    // ---- bclk_factor ----
-    bclk_factor_parser bclk_factor_parser (
-        .clk(mclk_int),
-        .bclk_factor(i_bclk_factor[3*i +: 3]),
-        .bclk_factor_real(parsed_bclk_factor)
-    );
-
-    assign parsed_is_master = i_is_master[i];
-    assign parsed_enable = i_enable[i];
-    assign parsed_dst_fpga_index = i_dst_fpga_index[4*i +: 4];
-    assign parsed_lrck_is_pulse = i_lrck_is_pulse[i];
-    assign parsed_lrck_polarity = i_lrck_polarity[i];
-    assign parsed_lrck_alignment = i_lrck_alignment[i];
-
-    // ======================== frequency divider ==========
-    i2s_freq_divider i2s_freq_divider (
-        /*
-         * Clock: 24.576MHz * 4
-         * Synchronous reset
-         */
-        .mclki(mclk_int),
-        .rst(rst_int),
-        .enable(parsed_enable),
-        .bclk(bclko[i]),
-        .lrck(lrcko[i]),
-        .bclk_factor(parsed_bclk_factor),
-        .word_width(parsed_word_width)
-    );
-
-    // ======================== i2s_phy_in ==========
-    i2s_phy_in i2s_phy_in (
-        .rst(rst_int),
-        .bclk(bclki[i]),
-        .lrck(lrcki[i]),
-        .datai(datai[i]),
-        .m_axis_tvalid(m_axis_tvalid[i]),
-        .m_axis_tdata(m_axis_tdata[32*i +: 32]),
-        .m_axis_tlast(m_axis_tlast[i]),
-        .i_tdm_num(parsed_tdm_num),
-        .i_word_width(parsed_word_width),
-        .i_lrck_polarity(parsed_lrck_polarity),
-        .i_lrck_alignment(parsed_lrck_alignment),
-        .o_frame_num(o_frame_num[32*i +: 32])
-    );
- 
-    reg is_master_reg=0;
-    always @(posedge mclk_int) begin
-        if (rst_int) begin
-            is_master_reg <= 1'b0;
-        end else begin
-            is_master_reg <= parsed_is_master;
-        end
-    end
-    
-    assign bclkt[i] = is_master_reg;
-    assign lrckt[i] = is_master_reg;
-end // for
-
-
+end
 endgenerate
+
+// ==================== output arbiter =======================
+axis_arb_mux #(
+    .S_COUNT(CN),
+    .DATA_WIDTH(8),
+    .KEEP_ENABLE(0),
+    .ID_ENABLE(0),
+    .DEST_ENABLE(0),
+    .USER_ENABLE(0),
+    .LAST_ENABLE(1)
+) axis_arb_mux (
+    .clk(sys_clk),
+    .rst(rst),
+    
+    .s_axis_tdata(fifo_out_m_axis_tdata),
+    .s_axis_tkeep(),
+    .s_axis_tvalid(fifo_out_m_axis_tvalid),
+    .s_axis_tready(fifo_out_m_axis_tready),
+    .s_axis_tlast(fifo_out_m_axis_tlast),
+    .s_axis_tid(),
+    .s_axis_tdest(),
+    .s_axis_tuser(),
+
+    .m_axis_tdata(m_axis_tdata),
+    .m_axis_tkeep(),
+    .m_axis_tvalid(m_axis_tvalid),
+    .m_axis_tready(m_axis_tready),
+    .m_axis_tlast(m_axis_tlast),
+    .m_axis_tid(),
+    .m_axis_tdest(),
+    .m_axis_tuser()
+);
+
 
 endmodule
 

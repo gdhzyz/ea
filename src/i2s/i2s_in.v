@@ -1,5 +1,3 @@
-
-
 // Language: Verilog 2001
 
 `resetall
@@ -9,12 +7,19 @@
 /*
  * I2S from ADC
  */
-module i2s_in 
+module i2s_in # (
+    parameter CN = 16
+)
 (
     /*
      * Asynchronous reset
      */
     input  wire             arst,
+    
+    /*
+     * Synchronous reset with bclk
+     */
+    output wire             srst,
 
     /*
      * I2S master clock from outside FPGA, 24.576MHz
@@ -24,35 +29,35 @@ module i2s_in
     /*
      * I2S IOs
      */
-    input  wire [15:0]      bclki,
-    input  wire [15:0]      lrcki,
-    output wire [15:0]      bclko,
-    output wire [15:0]      lrcko,
-    output wire [15:0]      bclkt,
-    output wire [15:0]      lrckt,
-    input  wire [15:0]      datai,
+    input  wire [CN-1:0]    bclki,
+    input  wire [CN-1:0]    lrcki,
+    output wire [CN-1:0]    bclko,
+    output wire [CN-1:0]    lrcko,
+    output wire [CN-1:0]    bclkt,
+    output wire [CN-1:0]    lrckt,
+    input  wire [CN-1:0]    datai,
 
     /*
      * I2S parallel output, synchronized with bclk.
      */
-    output wire [15:0]      m_axis_tvalid,
-    output wire [511:0]     m_axis_tdata,
-    output wire [15:0]      m_axis_tlast,
+    output wire [CN-1:0]    m_axis_tvalid,
+    output wire [32*CN-1:0] m_axis_tdata,
+    output wire [CN-1:0]    m_axis_tlast,
 
     /*
      * configuration, synchronized to clk.
      */
-    input  wire [3*16-1:0]  i_tdm_num,
-    input  wire [15:0]      i_is_master,
-    input  wire [15:0]      i_enable,
-    input  wire [4*16-1:0]  i_dst_fpga_index,
-    input  wire [15:0]      i_word_width,
-    input  wire [2*16-1:0]  i_valid_word_width,
-    input  wire [15:0]      i_lrck_is_pulse,
-    input  wire [15:0]      i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
-    input  wire [15:0]      i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
-    output wire [32*16-1:0] o_frame_num,
-    input  wire [3*16-1:0]  i_bclk_factor
+    input  wire [3*CN-1:0]  i_tdm_num,
+    input  wire [CN-1:0]    i_is_master,
+    input  wire [CN-1:0]    i_enable,
+    input  wire [4*CN-1:0]  i_dst_fpga_index,
+    input  wire [CN-1:0]    i_word_width,
+    input  wire [2*CN-1:0]  i_valid_word_width,
+    input  wire [CN-1:0]    i_lrck_is_pulse,
+    input  wire [CN-1:0]    i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
+    input  wire [CN-1:0]    i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
+    output wire [32*CN-1:0] o_frame_num,
+    input  wire [3*CN-1:0]  i_bclk_factor
 );
 
 
@@ -110,8 +115,8 @@ MMCME2_BASE #(
     .DIVCLK_DIVIDE(1),
     .REF_JITTER1(0.010),
     .CLKIN1_PERIOD(40.690),
-    .CLKIN2_PERIOD(10),
-    .COMPENSATION("ZHOLD"),
+    //.CLKIN2_PERIOD(10),
+    //.COMPENSATION("ZHOLD"),
     .STARTUP_WAIT("FALSE"),
     .CLKOUT4_CASCADE("FALSE")
 )
@@ -154,16 +159,17 @@ sync_reset_inst (
     .out(rst_int)
 );
 
+assign srst = rst_int;
+
 
 generate
 genvar i;
 
 
-for (i = 0; i < 16; i = i + 1) begin
+for (i = 0; i < CN; i = i + 1) begin
 // ================== register parsers ==================
     wire [4:0]   parsed_tdm_num;
     wire         parsed_is_master;
-    wire         parsed_enable;
     wire [3:0]   parsed_dst_fpga_index;
     wire [5:0]   parsed_word_width;
     wire [5:0]   parsed_valid_word_width;
@@ -200,8 +206,26 @@ for (i = 0; i < 16; i = i + 1) begin
         .bclk_factor_real(parsed_bclk_factor)
     );
 
+    // ---- enable ----
+    wire divider_enable;
+    sync_signal #(
+        .WIDTH(1)
+    ) divider_enable_sync (
+        .clk(mclk_int),
+        .in(i_enable[i]),
+        .out(divider_enable)
+    );
+
+    wire phy_in_enable;
+    sync_signal #(
+        .WIDTH(1)
+    ) phy_in_enable_sync (
+        .clk(bclki[i]),
+        .in(i_enable[i]),
+        .out(phy_in_enable)
+    );
+
     assign parsed_is_master = i_is_master[i];
-    assign parsed_enable = i_enable[i];
     assign parsed_dst_fpga_index = i_dst_fpga_index[4*i +: 4];
     assign parsed_lrck_is_pulse = i_lrck_is_pulse[i];
     assign parsed_lrck_polarity = i_lrck_polarity[i];
@@ -215,7 +239,7 @@ for (i = 0; i < 16; i = i + 1) begin
          */
         .mclki(mclk_int),
         .rst(rst_int),
-        .enable(parsed_enable),
+        .enable(divider_enable),
         .bclk(bclko[i]),
         .lrck(lrcko[i]),
         .bclk_factor(parsed_bclk_factor),
@@ -235,7 +259,8 @@ for (i = 0; i < 16; i = i + 1) begin
         .i_word_width(parsed_word_width),
         .i_lrck_polarity(parsed_lrck_polarity),
         .i_lrck_alignment(parsed_lrck_alignment),
-        .o_frame_num(o_frame_num[32*i +: 32])
+        .o_frame_num(o_frame_num[32*i +: 32]),
+        .i_enable(phy_in_enable)
     );
  
     reg is_master_reg=0;

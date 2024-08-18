@@ -1,7 +1,3 @@
-
-
-
-
 // Language: Verilog 2001
 
 `resetall
@@ -13,35 +9,37 @@
 /*
  * FPGA top-level module
  */
-module fpga (
+module fpga #(
+    localparam I2S_CN = 1   // I2S channel number
+)(
     /*
      * Clock: 50MHz
      * Reset: Push button, active high
      */
-    input  wire         clk_50mhz,
-    input  wire         reset,
+    input  wire                 clk_50mhz,
+    input  wire                 reset,
 
     /*
      * Ethernet: 1000BASE-T RGMII
      */
-    input  wire         phy_rx_clk,
-    input  wire [3:0]   phy_rxd,
-    input  wire         phy_rx_ctl,
-    output wire         phy_tx_clk,
-    output wire [3:0]   phy_txd,
-    output wire         phy_tx_ctl,
-    output wire         phy_reset_n,  // 100ms for YT8511(document require 10us)
-    //input  wire       phy_int_n,
+    input  wire                 phy_rx_clk,
+    input  wire [3:0]           phy_rxd,
+    input  wire                 phy_rx_ctl,
+    output wire                 phy_tx_clk,
+    output wire [3:0]           phy_txd,
+    output wire                 phy_tx_ctl,
+    output wire                 phy_reset_n,  // 100ms for YT8511(document require 10us)
+    //input  wire               phy_int_n,
 
-    output wire         mdio_c,
-    inout  wire         mdio_d,
+    output wire                 mdio_c,
+    inout  wire                 mdio_d,
 
 
     /*
      * Leds
      */
-    output reg          led1 = 1'b1,
-    output reg          led2 = 1'b1,
+    output reg                  led1 = 1'b1,
+    output reg                  led2 = 1'b1,
 
     ///*
     // * keys
@@ -52,18 +50,24 @@ module fpga (
     /*
      * uart
      */
-    input  wire         uart_rx,
-    output wire         uart_tx,
+    input  wire                 uart_rx,
+    output wire                 uart_tx,
 
     /*
      * i2s
      */
-    input  wire         i2s_in_mclki,
-    inout  wire [15:0]  i2s_in_bclk,
-    inout  wire [15:0]  i2s_in_lrck,
-    input  wire [15:0]  i2s_in_datin,
-    output wire [15:0]  i2s_out_datout
+    input  wire                 i2s_in_mclki,
+    inout  wire [I2S_CN-1:0]    i2s_in_bclk,
+    inout  wire [I2S_CN-1:0]    i2s_in_lrck,
+    input  wire [I2S_CN-1:0]    i2s_in_datin,
+    output wire [I2S_CN-1:0]    i2s_out_datout
 );
+
+generate
+    if (I2S_CN > 16 || I2S_CN < 1) begin
+        UNSUPPORTED_I2S_CN UNSUPPORTED_I2S_CN();
+    end
+endgenerate
 
 // Clock and reset
 wire clk_50mhz_ibufg;
@@ -189,18 +193,18 @@ wire [4:0]  mac_jumbo_errors;
 wire [4:0]  mac_jumbo_error_clears;
 
 // i2s in
-wire [47:0]     i2s_in_tdm_num;
-wire [15:0]     i2s_in_is_master;
+wire [47:0]     i2s_in_reg_tdm_num;
+wire [15:0]     i2s_in_reg_is_master;
 wire [15:0]     i2s_in_enable;
-wire [63:0]     i2s_in_fpga_index;
-wire [15:0]     i2s_in_word_width;
-wire [31:0]     i2s_in_valid_word_width;
-wire [15:0]     i2s_in_lrck_is_pulse;
-wire [15:0]     i2s_in_lrck_polarity;
-wire [15:0]     i2s_in_lrck_alignment;
-wire [63:0]     i2s_in_i2s_index;
-wire [511:0]    i2s_in_frame_num;
-wire [47:0]     i2s_in_bclk_factor;
+wire [63:0]     i2s_in_reg_fpga_index;
+wire [15:0]     i2s_in_reg_word_width;
+wire [31:0]     i2s_in_reg_valid_word_width;
+wire [15:0]     i2s_in_reg_lrck_is_pulse;
+wire [15:0]     i2s_in_reg_lrck_polarity;
+wire [15:0]     i2s_in_reg_lrck_alignment;
+wire [63:0]     i2s_in_reg_i2s_index;
+wire [511:0]    i2s_in_reg_frame_num;
+wire [47:0]     i2s_in_reg_bclk_factor;
 
 wire        mdio_valid;
 wire        mdio_write;
@@ -245,18 +249,18 @@ reg_intf reg_intf(
     .mac_jumbo_errors(mac_jumbo_errors),
     .mac_jumbo_error_clears(mac_jumbo_error_clears),
     // i2s in
-    .i2s_in_tdm_num(i2s_in_tdm_num),
-    .i2s_in_is_master(i2s_in_is_master),
+    .i2s_in_tdm_num(i2s_in_reg_tdm_num),
+    .i2s_in_is_master(i2s_in_reg_is_master),
     .i2s_in_enable(i2s_in_enable),
-    .i2s_in_fpga_index(i2s_in_fpga_index),
-    .i2s_in_word_width(i2s_in_word_width),
-    .i2s_in_valid_word_width(i2s_in_valid_word_width),
-    .i2s_in_lrck_is_pulse(i2s_in_lrck_is_pulse),
-    .i2s_in_lrck_polarity(i2s_in_lrck_polarity),
-    .i2s_in_lrck_alignment(i2s_in_lrck_alignment),
-    .i2s_in_i2s_index(i2s_in_i2s_index),
-    .i2s_in_frame_num(i2s_in_frame_num),
-    .i2s_in_bclk_factor(i2s_in_bclk_factor)
+    .i2s_in_fpga_index(i2s_in_reg_fpga_index),
+    .i2s_in_word_width(i2s_in_reg_word_width),
+    .i2s_in_valid_word_width(i2s_in_reg_valid_word_width),
+    .i2s_in_lrck_is_pulse(i2s_in_reg_lrck_is_pulse),
+    .i2s_in_lrck_polarity(i2s_in_reg_lrck_polarity),
+    .i2s_in_lrck_alignment(i2s_in_reg_lrck_alignment),
+    .i2s_in_i2s_index(i2s_in_reg_i2s_index),
+    .i2s_in_frame_num(i2s_in_reg_frame_num),
+    .i2s_in_bclk_factor(i2s_in_reg_bclk_factor)
 );
 
 // =================== end reg ==================
@@ -476,7 +480,6 @@ assign mdio_i = mdio_d;
 // =================== end mdio ==================
 
 // =================== i2s ==================
-localparam I2S_CN = 16;   // I2S channel number
 
 wire [I2S_CN-1:0] i2s_in_bclki;
 wire [I2S_CN-1:0] i2s_in_bclko;
@@ -488,6 +491,7 @@ wire [I2S_CN-1:0] i2s_in_lrckt;
 wire i2s_in_m_axis_tvalid;
 wire [7:0] i2s_in_m_axis_tdata;
 wire i2s_in_m_axis_tlast;
+wire i2s_in_m_axis_tready;
 
 i2s_in_fifo #(
     .CN(I2S_CN)
@@ -506,19 +510,29 @@ i2s_in_fifo #(
     
     .m_axis_tvalid(i2s_in_m_axis_tvalid),
     .m_axis_tdata(i2s_in_m_axis_tdata),
-    .m_axis_tlast(i2s_in_m_axis_tlast)
+    .m_axis_tlast(i2s_in_m_axis_tlast),
+    .m_axis_tready(i2s_in_m_axis_tready),
 
-
+    .i_tdm_num(i2s_in_reg_tdm_num),
+    .i_is_master(i2s_in_reg_is_master),
+    .i_enable(i2s_in_enable),
+    .i_dst_fpga_index(i2s_in_reg_fpga_index),
+    .i_word_width(i2s_in_reg_word_width),
+    .i_valid_word_width(i2s_in_reg_valid_word_width),
+    .i_lrck_is_pulse(i2s_in_reg_lrck_is_pulse),
+    .i_lrck_polarity(i2s_in_reg_lrck_polarity),
+    .i_lrck_alignment(i2s_in_reg_lrck_alignment),
+    .o_frame_num(i2s_in_reg_frame_num),
+    .i_bclk_factor(i2s_in_reg_bclk_factor)
 );
 
 genvar i;
 generate 
-
-    for (i = 0; i < 16; i = i + 1) begin
-        assign i2s_in_bclk[i] = i2s_in_bclkt ? i2s_in_bclko : 1'bz;
-        assign i2s_in_lrck[i] = i2s_in_lrckt ? i2s_in_lrcko : 1'bz;
-        assign i2s_in_bclki = i2s_in_bclk;
-        assign i2s_in_lrcki = i2s_in_lrck;
+    for (i = 0; i < I2S_CN; i = i + 1) begin
+        assign i2s_in_bclk[i] = i2s_in_bclkt[i] ? i2s_in_bclko[i] : 1'bz;
+        assign i2s_in_lrck[i] = i2s_in_lrckt[i] ? i2s_in_lrcko[i] : 1'bz;
+        assign i2s_in_bclki[i] = i2s_in_bclk[i];
+        assign i2s_in_lrcki[i] = i2s_in_lrck[i];
     end
 endgenerate
 

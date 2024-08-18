@@ -16,7 +16,7 @@ module valid_word_with_parser
     /*
      * configuration
      */
-    input  wire         valid_word_width,
+    input  wire [1:0]   valid_word_width,
     output wire [5:0]   valid_word_width_real
 );
 

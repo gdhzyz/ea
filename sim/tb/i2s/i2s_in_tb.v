@@ -60,7 +60,9 @@ i2s_in dut (
     .i_lrck_is_pulse(lrck_is_pulse),
     .i_lrck_polarity(lrck_polarity),
     .i_lrck_alignment(lrck_alignment),
-    .i_bclk_factor(bclk_factor)
+    .i_bclk_factor(bclk_factor),
+    .srst(),
+    .o_frame_num()
 );
 clock_gen 
 #(.PERIOD(40.690)) 
