@@ -5,33 +5,37 @@
   
 module i2s_in_tb ();
 
+localparam CN = 16;
+
 wire clk;     
 wire reset;   
 
-wire [15:0]      bclki;
-wire [15:0]      lrcki;
-wire [15:0]      bclko;
-wire [15:0]      lrcko;
-wire [15:0]      bclkt;
-wire [15:0]      lrckt;
-reg  [15:0]      datai;
+wire [CN-1:0]   bclki;
+wire [CN-1:0]   lrcki;
+wire [CN-1:0]   bclko;
+wire [CN-1:0]   lrcko;
+wire [CN-1:0]   bclkt;
+wire [CN-1:0]   lrckt;
+reg  [CN-1:0]   datai;
 
-wire [15:0]      m_axis_tvalid;
-wire [511:0]     m_axis_tdata;
-wire [15:0]      m_axis_tlast;
+wire [CN-1:0]   m_axis_tvalid;
+wire [8*CN-1:0] m_axis_tdata;
+wire [CN-1:0]   m_axis_tlast;
 
-reg  [3*16-1:0]  tdm_num;
-reg  [15:0]      is_master;
-reg  [15:0]      enable;
-reg  [4*16-1:0]  dst_fpga_index;
-reg  [15:0]      word_width;
-reg  [2*16-1:0]  valid_word_width;
-reg  [15:0]      lrck_is_pulse; // TODO for 1'b1.
-reg  [15:0]      lrck_polarity;
-reg  [15:0]      lrck_alignment;
-reg  [3*16-1:0]  bclk_factor;
+reg  [3*CN-1:0] tdm_num;
+reg  [CN-1:0]   is_master;
+reg  [CN-1:0]   enable;
+reg  [4*CN-1:0] dst_fpga_index;
+reg  [CN-1:0]   word_width;
+reg  [2*CN-1:0] valid_word_width;
+reg  [CN-1:0]   lrck_is_pulse; // TODO for 1'b1.
+reg  [CN-1:0]   lrck_polarity;
+reg  [CN-1:0]   lrck_alignment;
+reg  [3*CN-1:0] bclk_factor;
 
-i2s_in dut (
+i2s_in #(
+    .CN(CN)
+)dut (
     /*
      * Clock: 24.576MHz
      * Asynchronous reset

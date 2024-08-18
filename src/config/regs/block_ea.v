@@ -44,7 +44,7 @@ module block_ea #(
   input i_mac_jumbo_error,
   output o_mac_jumbo_error_trigger,
   input [511:0] i_mac_test_array,
-  output [63:0] o_i2s_in_tdm_num,
+  output [47:0] o_i2s_in_tdm_num,
   output [15:0] o_i2s_in_is_master,
   output [15:0] o_i2s_in_enable,
   output [63:0] o_i2s_in_fpga_index,
@@ -55,7 +55,7 @@ module block_ea #(
   output [15:0] o_i2s_in_lrck_alignment,
   output [63:0] o_i2s_in_i2s_index,
   input [511:0] i_i2s_in_frame_num,
-  output [63:0] o_i2s_in_bclk_freq_factor,
+  output [47:0] o_i2s_in_bclk_factor,
   output [63:0] o_i2s_out_tdm_num,
   output [15:0] o_i2s_out_is_master,
   output [15:0] o_i2s_out_enable,
@@ -67,7 +67,7 @@ module block_ea #(
   output [15:0] o_i2s_out_lrck_alignment,
   output [63:0] o_i2s_out_i2s_outdex,
   input [63:0] i_i2s_out_frame_num,
-  output [63:0] o_i2s_out_bclk_freq_factor
+  output [63:0] o_i2s_out_bclk_factor
 );
   wire w_register_valid;
   wire [1:0] w_register_access;
@@ -1501,7 +1501,7 @@ module block_ea #(
     wire [63:0] w_bit_field_write_data;
     wire [63:0] w_bit_field_read_data;
     wire [63:0] w_bit_field_value;
-    `rggen_tie_off_unused_signals(64, 64'hffffffffffffffff, w_bit_field_read_data, w_bit_field_value)
+    `rggen_tie_off_unused_signals(64, 64'h7777777777777777, w_bit_field_read_data, w_bit_field_value)
     rggen_default_register #(
       .READABLE       (1),
       .WRITABLE       (1),
@@ -1533,29 +1533,29 @@ module block_ea #(
       genvar i;
       for (i = 0;i < 16;i = i + 1) begin : g
         rggen_bit_field #(
-          .WIDTH          (4),
-          .INITIAL_VALUE  (4'h0),
+          .WIDTH          (3),
+          .INITIAL_VALUE  (3'h0),
           .SW_WRITE_ONCE  (0),
           .TRIGGER        (0)
         ) u_bit_field (
           .i_clk              (i_clk),
           .i_rst_n            (i_rst_n),
           .i_sw_valid         (w_bit_field_valid),
-          .i_sw_read_mask     (w_bit_field_read_mask[0+4*i+:4]),
+          .i_sw_read_mask     (w_bit_field_read_mask[0+4*i+:3]),
           .i_sw_write_enable  (1'b1),
-          .i_sw_write_mask    (w_bit_field_write_mask[0+4*i+:4]),
-          .i_sw_write_data    (w_bit_field_write_data[0+4*i+:4]),
-          .o_sw_read_data     (w_bit_field_read_data[0+4*i+:4]),
-          .o_sw_value         (w_bit_field_value[0+4*i+:4]),
+          .i_sw_write_mask    (w_bit_field_write_mask[0+4*i+:3]),
+          .i_sw_write_data    (w_bit_field_write_data[0+4*i+:3]),
+          .o_sw_read_data     (w_bit_field_read_data[0+4*i+:3]),
+          .o_sw_value         (w_bit_field_value[0+4*i+:3]),
           .o_write_trigger    (),
           .o_read_trigger     (),
           .i_hw_write_enable  (1'b0),
-          .i_hw_write_data    ({4{1'b0}}),
-          .i_hw_set           ({4{1'b0}}),
-          .i_hw_clear         ({4{1'b0}}),
-          .i_value            ({4{1'b0}}),
-          .i_mask             ({4{1'b1}}),
-          .o_value            (o_i2s_in_tdm_num[4*(i)+:4]),
+          .i_hw_write_data    ({3{1'b0}}),
+          .i_hw_set           ({3{1'b0}}),
+          .i_hw_clear         ({3{1'b0}}),
+          .i_value            ({3{1'b0}}),
+          .i_mask             ({3{1'b1}}),
+          .o_value            (o_i2s_in_tdm_num[3*(i)+:3]),
           .o_value_unmasked   ()
         );
       end
@@ -2231,14 +2231,14 @@ module block_ea #(
       end
     end
   end endgenerate
-  generate if (1) begin : g_i2s_in_bclk_freq_factor
+  generate if (1) begin : g_i2s_in_bclk_factor
     wire w_bit_field_valid;
     wire [63:0] w_bit_field_read_mask;
     wire [63:0] w_bit_field_write_mask;
     wire [63:0] w_bit_field_write_data;
     wire [63:0] w_bit_field_read_data;
     wire [63:0] w_bit_field_value;
-    `rggen_tie_off_unused_signals(64, 64'hffffffffffffffff, w_bit_field_read_data, w_bit_field_value)
+    `rggen_tie_off_unused_signals(64, 64'h7777777777777777, w_bit_field_read_data, w_bit_field_value)
     rggen_default_register #(
       .READABLE       (1),
       .WRITABLE       (1),
@@ -2266,33 +2266,33 @@ module block_ea #(
       .i_bit_field_read_data  (w_bit_field_read_data),
       .i_bit_field_value      (w_bit_field_value)
     );
-    if (1) begin : g_i2s_in_bclk_freq_factor
+    if (1) begin : g_i2s_in_bclk_factor
       genvar i;
       for (i = 0;i < 16;i = i + 1) begin : g
         rggen_bit_field #(
-          .WIDTH          (4),
-          .INITIAL_VALUE  (4'h0),
+          .WIDTH          (3),
+          .INITIAL_VALUE  (3'h0),
           .SW_WRITE_ONCE  (0),
           .TRIGGER        (0)
         ) u_bit_field (
           .i_clk              (i_clk),
           .i_rst_n            (i_rst_n),
           .i_sw_valid         (w_bit_field_valid),
-          .i_sw_read_mask     (w_bit_field_read_mask[0+4*i+:4]),
+          .i_sw_read_mask     (w_bit_field_read_mask[0+4*i+:3]),
           .i_sw_write_enable  (1'b1),
-          .i_sw_write_mask    (w_bit_field_write_mask[0+4*i+:4]),
-          .i_sw_write_data    (w_bit_field_write_data[0+4*i+:4]),
-          .o_sw_read_data     (w_bit_field_read_data[0+4*i+:4]),
-          .o_sw_value         (w_bit_field_value[0+4*i+:4]),
+          .i_sw_write_mask    (w_bit_field_write_mask[0+4*i+:3]),
+          .i_sw_write_data    (w_bit_field_write_data[0+4*i+:3]),
+          .o_sw_read_data     (w_bit_field_read_data[0+4*i+:3]),
+          .o_sw_value         (w_bit_field_value[0+4*i+:3]),
           .o_write_trigger    (),
           .o_read_trigger     (),
           .i_hw_write_enable  (1'b0),
-          .i_hw_write_data    ({4{1'b0}}),
-          .i_hw_set           ({4{1'b0}}),
-          .i_hw_clear         ({4{1'b0}}),
-          .i_value            ({4{1'b0}}),
-          .i_mask             ({4{1'b1}}),
-          .o_value            (o_i2s_in_bclk_freq_factor[4*(i)+:4]),
+          .i_hw_write_data    ({3{1'b0}}),
+          .i_hw_set           ({3{1'b0}}),
+          .i_hw_clear         ({3{1'b0}}),
+          .i_value            ({3{1'b0}}),
+          .i_mask             ({3{1'b1}}),
+          .o_value            (o_i2s_in_bclk_factor[3*(i)+:3]),
           .o_value_unmasked   ()
         );
       end
@@ -3035,7 +3035,7 @@ module block_ea #(
       end
     end
   end endgenerate
-  generate if (1) begin : g_i2s_out_bclk_freq_factor
+  generate if (1) begin : g_i2s_out_bclk_factor
     wire w_bit_field_valid;
     wire [63:0] w_bit_field_read_mask;
     wire [63:0] w_bit_field_write_mask;
@@ -3070,7 +3070,7 @@ module block_ea #(
       .i_bit_field_read_data  (w_bit_field_read_data),
       .i_bit_field_value      (w_bit_field_value)
     );
-    if (1) begin : g_i2s_out_bclk_freq_factor
+    if (1) begin : g_i2s_out_bclk_factor
       genvar i;
       for (i = 0;i < 16;i = i + 1) begin : g
         rggen_bit_field #(
@@ -3096,7 +3096,7 @@ module block_ea #(
           .i_hw_clear         ({4{1'b0}}),
           .i_value            ({4{1'b0}}),
           .i_mask             ({4{1'b1}}),
-          .o_value            (o_i2s_out_bclk_freq_factor[4*(i)+:4]),
+          .o_value            (o_i2s_out_bclk_factor[4*(i)+:4]),
           .o_value_unmasked   ()
         );
       end

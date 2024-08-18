@@ -57,7 +57,7 @@ module block_ea
   input logic i_mac_jumbo_error,
   output logic o_mac_jumbo_error_trigger,
   input logic [15:0][31:0] i_mac_test_array,
-  output logic [15:0][3:0] o_i2s_in_tdm_num,
+  output logic [15:0][2:0] o_i2s_in_tdm_num,
   output logic [15:0] o_i2s_in_is_master,
   output logic [15:0] o_i2s_in_enable,
   output logic [15:0][3:0] o_i2s_in_fpga_index,
@@ -68,7 +68,7 @@ module block_ea
   output logic [15:0] o_i2s_in_lrck_alignment,
   output logic [15:0][3:0] o_i2s_in_i2s_index,
   input logic [15:0][31:0] i_i2s_in_frame_num,
-  output logic [15:0][3:0] o_i2s_in_bclk_freq_factor,
+  output logic [15:0][2:0] o_i2s_in_bclk_factor,
   output logic [15:0][3:0] o_i2s_out_tdm_num,
   output logic [15:0] o_i2s_out_is_master,
   output logic [15:0] o_i2s_out_enable,
@@ -80,7 +80,7 @@ module block_ea
   output logic [15:0] o_i2s_out_lrck_alignment,
   output logic [15:0][3:0] o_i2s_out_i2s_outdex,
   input logic [15:0][3:0] i_i2s_out_frame_num,
-  output logic [15:0][3:0] o_i2s_out_bclk_freq_factor
+  output logic [15:0][3:0] o_i2s_out_bclk_factor
 );
   rggen_register_if #(16, 32, 512) register_if[46]();
   rggen_apb_adapter #(
@@ -1039,7 +1039,7 @@ module block_ea
   end endgenerate
   generate if (1) begin : g_i2s_in_tdm_num
     rggen_bit_field_if #(64) bit_field_if();
-    `rggen_tie_off_unused_signals(64, 64'hffffffffffffffff, bit_field_if)
+    `rggen_tie_off_unused_signals(64, 64'h7777777777777777, bit_field_if)
     rggen_default_register #(
       .READABLE       (1),
       .WRITABLE       (1),
@@ -1057,11 +1057,11 @@ module block_ea
     if (1) begin : g_i2s_in_tdm_num
       genvar i;
       for (i = 0;i < 16;++i) begin : g
-        localparam bit [3:0] INITIAL_VALUE = 4'h0;
-        rggen_bit_field_if #(4) bit_field_sub_if();
-        `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0+4*i, 4)
+        localparam bit [2:0] INITIAL_VALUE = 3'h0;
+        rggen_bit_field_if #(3) bit_field_sub_if();
+        `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0+4*i, 3)
         rggen_bit_field #(
-          .WIDTH          (4),
+          .WIDTH          (3),
           .INITIAL_VALUE  (INITIAL_VALUE),
           .SW_WRITE_ONCE  (0),
           .TRIGGER        (0)
@@ -1554,9 +1554,9 @@ module block_ea
       end
     end
   end endgenerate
-  generate if (1) begin : g_i2s_in_bclk_freq_factor
+  generate if (1) begin : g_i2s_in_bclk_factor
     rggen_bit_field_if #(64) bit_field_if();
-    `rggen_tie_off_unused_signals(64, 64'hffffffffffffffff, bit_field_if)
+    `rggen_tie_off_unused_signals(64, 64'h7777777777777777, bit_field_if)
     rggen_default_register #(
       .READABLE       (1),
       .WRITABLE       (1),
@@ -1571,14 +1571,14 @@ module block_ea
       .register_if  (register_if[33]),
       .bit_field_if (bit_field_if)
     );
-    if (1) begin : g_i2s_in_bclk_freq_factor
+    if (1) begin : g_i2s_in_bclk_factor
       genvar i;
       for (i = 0;i < 16;++i) begin : g
-        localparam bit [3:0] INITIAL_VALUE = 4'h0;
-        rggen_bit_field_if #(4) bit_field_sub_if();
-        `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0+4*i, 4)
+        localparam bit [2:0] INITIAL_VALUE = 3'h0;
+        rggen_bit_field_if #(3) bit_field_sub_if();
+        `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0+4*i, 3)
         rggen_bit_field #(
-          .WIDTH          (4),
+          .WIDTH          (3),
           .INITIAL_VALUE  (INITIAL_VALUE),
           .SW_WRITE_ONCE  (0),
           .TRIGGER        (0)
@@ -1595,7 +1595,7 @@ module block_ea
           .i_hw_clear         ('0),
           .i_value            ('0),
           .i_mask             ('1),
-          .o_value            (o_i2s_in_bclk_freq_factor[i]),
+          .o_value            (o_i2s_in_bclk_factor[i]),
           .o_value_unmasked   ()
         );
       end
@@ -2118,7 +2118,7 @@ module block_ea
       end
     end
   end endgenerate
-  generate if (1) begin : g_i2s_out_bclk_freq_factor
+  generate if (1) begin : g_i2s_out_bclk_factor
     rggen_bit_field_if #(64) bit_field_if();
     `rggen_tie_off_unused_signals(64, 64'hffffffffffffffff, bit_field_if)
     rggen_default_register #(
@@ -2135,7 +2135,7 @@ module block_ea
       .register_if  (register_if[45]),
       .bit_field_if (bit_field_if)
     );
-    if (1) begin : g_i2s_out_bclk_freq_factor
+    if (1) begin : g_i2s_out_bclk_factor
       genvar i;
       for (i = 0;i < 16;++i) begin : g
         localparam bit [3:0] INITIAL_VALUE = 4'h0;
@@ -2159,7 +2159,7 @@ module block_ea
           .i_hw_clear         ('0),
           .i_value            ('0),
           .i_mask             ('1),
-          .o_value            (o_i2s_out_bclk_freq_factor[i]),
+          .o_value            (o_i2s_out_bclk_factor[i]),
           .o_value_unmasked   ()
         );
       end

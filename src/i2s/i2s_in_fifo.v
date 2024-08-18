@@ -60,7 +60,7 @@ module i2s_in_fifo #(
 
 // ==================== i2s in =======================
 wire [CN-1:0]       i2s_in_m_axis_tvalid;
-wire [32*CN-1:0]    i2s_in_m_axis_tdata;
+wire [8*CN-1:0]     i2s_in_m_axis_tdata;
 wire [CN-1:0]       i2s_in_m_axis_tlast;
 
 wire [CN-1:0]       i2s_in_srst;
@@ -96,7 +96,7 @@ i2s_in # (
 
 // ==================== fifo =======================
 wire [CN-1:0]       fifo_out_m_axis_tvalid;
-wire [32*CN-1:0]    fifo_out_m_axis_tdata;
+wire [8*CN-1:0]     fifo_out_m_axis_tdata;
 wire [CN-1:0]       fifo_out_m_axis_tlast;
 wire [CN-1:0]       fifo_out_m_axis_tready;
 
@@ -104,8 +104,8 @@ genvar i;
 generate
 for (i = 0; i < CN; i = i + 1) begin
     axis_async_fifo_adapter #(
-        .DEPTH(128),
-        .S_DATA_WIDTH(32),
+        .DEPTH(128), // 2 frames
+        .S_DATA_WIDTH(8),
         .S_KEEP_ENABLE(0),
         .M_DATA_WIDTH(8),
         .M_KEEP_ENABLE(0),
@@ -115,7 +115,7 @@ for (i = 0; i < CN; i = i + 1) begin
     ) (
         .s_clk(bclki[i]),
         .s_rst(i2s_in_srst[i]),
-        .s_axis_tdata(i2s_in_m_axis_tdata[32*i +: 32]),
+        .s_axis_tdata(i2s_in_m_axis_tdata[8*i +: 8]),
         .s_axis_tkeep(1'b1),
         .s_axis_tvalid(i2s_in_m_axis_tvalid[i]),
         .s_axis_tready(),
@@ -126,7 +126,7 @@ for (i = 0; i < CN; i = i + 1) begin
 
         .m_clk(sys_clk),
         .m_rst(rst),
-        .m_axis_tdata(fifo_out_m_axis_tdata[32*i +: 32]),
+        .m_axis_tdata(fifo_out_m_axis_tdata[8*i +: 8]),
         .m_axis_tkeep(),
         .m_axis_tvalid(fifo_out_m_axis_tvalid[i]),
         .m_axis_tready(fifo_out_m_axis_tready[i]),

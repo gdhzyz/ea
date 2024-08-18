@@ -47,12 +47,12 @@ freq_divider #(
 );
 
 // ==================== lrck =======================
-reg [10:0] lrck_factor=0; // max 16 * 32 * 2
+reg [9:0] lrck_factor=0; // max 16 * 32 * 2
 always @(posedge mclki) begin
     if (word_width == 16) begin
         lrck_factor <= {5'b00, bclk_factor} << 5;  // toggle every 16 bclk cycles.
     end else if (word_width == 32) begin
-        lrck_factor <= {6'b0, bclk_factor} << 6;
+        lrck_factor <= {5'b0, bclk_factor} << 6;
     end
 end
 

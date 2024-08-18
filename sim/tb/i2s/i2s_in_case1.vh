@@ -91,19 +91,14 @@ task run_one_channel;
         @(posedge clk);
 
         // configure
-        //tdm_num[3*(i+1)-1 : 3*i] <= i_tdm_num;
         tdm_num = indexed_update(0, 3, i, i_tdm_num);
-        $display("tdm_num 0x%h i_tdm_num 0x%h", tdm_num, i_tdm_num);
         is_master[i] <= 1'b1;
-        //dst_fpga_index[4*(i+1)-1 : 4*i] <= 4'd3;
         dst_fpga_index <= indexed_update(0, 4, i, 4'd3);
         word_width[i] <= i_word_width;
-        //valid_word_width[2*(i+1) : 2*i] <= i_valid_word_width;
         valid_word_width <= indexed_update(0, 2, i, i_valid_word_width);
         lrck_is_pulse[i] <= i_lrck_is_pulse;
         lrck_polarity[i] <= i_lrck_polarity;
         lrck_alignment[i] <= i_lrck_alignment;
-        //bclk_factor[3*(i+1) : 3*i] <= i_bclk_factor;
         bclk_factor <= indexed_update(0, 3, i, i_bclk_factor);
 
         if (i_valid_word_width == 1) begin
@@ -156,23 +151,38 @@ task check_one_channel;
     input [31:0] expected_data;
     input expected_last;
 
-    reg [31:0] valid_actual_data;
-    reg [31:0] actual_word;
+    reg [7:0] actual_byte;
     reg [31:0] valid_expected_data;
+    reg [5:0] got_bits;
+    reg [7:0] valid_expected_byte;
+    reg last_byte;
 
     begin
         valid_expected_data = partial_update(0, 31, 32-valid_width, expected_data);
-        actual_word = get_partial(m_axis_tdata, 32*(i+1)-1, 32*i);
-        valid_actual_data = partial_update(0, 31, 32-valid_width, actual_word);
-        if ((valid_expected_data !== valid_actual_data) || 
-                (expected_last ^ m_axis_tlast[i])) begin
-            $error("index %d valid_width %d expected_data 0x%h actual_word 0x%h got data 0x%h, expected_last %d got last %d",
-                   i, valid_width, valid_expected_data, actual_word, valid_actual_data, expected_last, m_axis_tlast[i]);
-            $finish;
-        end else begin
-            $display("index %d check one channel pass, valid_width %d expected data 0x%h got data 0x%h",
-                     i, valid_width, valid_expected_data, valid_actual_data);
+        got_bits = 0;
+        last_byte = valid_width == 8 && expected_last;
+
+        while ((valid_width > got_bits)) begin
+            if (m_axis_tvalid[i]) begin
+                actual_byte = get_partial(m_axis_tdata, 8*(i+1)-1, 8*i);
+                valid_expected_byte = valid_expected_data >> (valid_width - got_bits - 8);
+                last_byte = valid_width == got_bits+8 && expected_last;
+
+                if ((valid_expected_byte !== actual_byte) || 
+                        (last_byte ^ m_axis_tlast[i])) begin
+                    $error("index %d valid_width %d got_bits %d expected_byte 0x%h actual_byte 0x%h expected_last %d got last %d",
+                           i, valid_width, got_bits, valid_expected_byte, actual_byte, last_byte, m_axis_tlast[i]);
+                    $finish;
+                end else begin
+                    $display("index %d check one byte pass, valid_width %d got bits %d expected data 0x%h",
+                             i, valid_width, got_bits, valid_expected_data);
+                end
+                got_bits = got_bits + 8;
+            end
+            @(posedge bclki[i]);
         end
+        $display("index %d check one channel pass, valid_width %d expected data 0x%h",
+                 i, valid_width, valid_expected_data);
 
     end
 endtask

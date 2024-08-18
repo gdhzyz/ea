@@ -44,7 +44,22 @@ module reg_intf
     input  wire [24:0]  mac_dly_values,
     output wire         mac_enable_jumbo_test,
     input  wire [4:0]   mac_jumbo_errors,
-    output reg  [4:0]   mac_jumbo_error_clears
+    output reg  [4:0]   mac_jumbo_error_clears,
+
+    
+    // i2s in
+    output wire [47:0]     i2s_in_tdm_num,
+    output wire [15:0]     i2s_in_is_master,
+    output wire [15:0]     i2s_in_enable,
+    output wire [63:0]     i2s_in_fpga_index,
+    output wire [15:0]     i2s_in_word_width,
+    output wire [31:0]     i2s_in_valid_word_width,
+    output wire [15:0]     i2s_in_lrck_is_pulse,
+    output wire [15:0]     i2s_in_lrck_polarity,
+    output wire [15:0]     i2s_in_lrck_alignment,
+    output wire [63:0]     i2s_in_i2s_index,
+    output wire [47:0]     i2s_in_bclk_factor,
+    input  wire [511:0]    i2s_in_frame_num
 );
 localparam UART_BITS = `UART_BITS;
 
@@ -214,7 +229,21 @@ block_ea #(
     .i_mac_dly_value(mac_dly_value),
     .o_mac_enable_jumbo_test(mac_enable_jumbo_test),
     .i_mac_jumbo_error(mac_jumbo_error),
-    .o_mac_jumbo_error_trigger(mac_jumbo_error_clear)
+    .o_mac_jumbo_error_trigger(mac_jumbo_error_clear),
+
+    // i2s in
+    .o_i2s_in_tdm_num(i2s_in_tdm_num),
+    .o_i2s_in_is_master(i2s_in_is_master),
+    .o_i2s_in_enable(i2s_in_enable),
+    .o_i2s_in_fpga_index(i2s_in_fpga_index),
+    .o_i2s_in_word_width(i2s_in_word_width),
+    .o_i2s_in_valid_word_width(i2s_in_valid_word_width),
+    .o_i2s_in_lrck_is_pulse(i2s_in_lrck_is_pulse),
+    .o_i2s_in_lrck_polarity(i2s_in_lrck_polarity),
+    .o_i2s_in_lrck_alignment(i2s_in_lrck_alignment),
+    .o_i2s_in_i2s_index(i2s_in_i2s_index),
+    .o_i2s_in_bclk_factor(i2s_in_bclk_factor),
+    .i_i2s_in_frame_num(i2s_in_frame_num)
 
 );
 

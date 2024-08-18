@@ -25,7 +25,7 @@ module i2s_phy_in
      * I2S parallel output, synchronized with bclk.
      */
     output wire         m_axis_tvalid,
-    output wire [31:0]  m_axis_tdata, // lower bits are always valid.
+    output wire [7:0]   m_axis_tdata, // lower bits are always valid.
     output wire         m_axis_tlast,
 
     /*
@@ -133,6 +133,7 @@ reg in_frame = 1'b0;
 reg [3:0] tdm_counter=0;
 reg [5:0] bit_counter=0;
 wire word_last = bit_counter == (6'd32 - word_width);
+wire slice_last = bit_counter[2:0] == 4'd0;
 wire frame_last = tdm_counter == tdm_num-1 && word_last;
 always @(posedge bclk) begin
     if (rst_sync) begin
@@ -168,11 +169,11 @@ always @(posedge bclk) begin
     end
 end
 
-reg [31:0] data_reg;
+reg [7:0] data_reg;
 integer i;
 always @(posedge bclk) begin
-    for (i = 0; i < 32; i = i + 1) begin
-        if (i == bit_counter) begin
+    for (i = 0; i < 8; i = i + 1) begin
+        if (i == bit_counter[2:0]) begin
             data_reg[i] <= data;
         end
     end
@@ -182,7 +183,7 @@ reg ovalid = 0;
 always @(posedge bclk) begin
     if (rst_sync) begin
         ovalid <= 1'b0;
-    end else if (word_last) begin
+    end else if ((word_last || slice_last) && in_frame) begin
         ovalid <= 1'b1;
     end else begin
         ovalid <= 1'b0;

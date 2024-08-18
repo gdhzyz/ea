@@ -41,7 +41,7 @@ module i2s_in # (
      * I2S parallel output, synchronized with bclk.
      */
     output wire [CN-1:0]    m_axis_tvalid,
-    output wire [32*CN-1:0] m_axis_tdata,
+    output wire [8*CN-1:0]  m_axis_tdata,
     output wire [CN-1:0]    m_axis_tlast,
 
     /*
@@ -253,7 +253,7 @@ for (i = 0; i < CN; i = i + 1) begin
         .lrck(lrcki[i]),
         .datai(datai[i]),
         .m_axis_tvalid(m_axis_tvalid[i]),
-        .m_axis_tdata(m_axis_tdata[32*i +: 32]),
+        .m_axis_tdata(m_axis_tdata[8*i +: 8]),
         .m_axis_tlast(m_axis_tlast[i]),
         .i_tdm_num(parsed_tdm_num),
         .i_word_width(parsed_word_width),
