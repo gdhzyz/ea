@@ -30,11 +30,11 @@ module uart_rx
   localparam WORD_BITS = $clog2(WORD);
   localparam CLKS_BITS = $clog2(CLKS_PER_BIT);
     
-  parameter s_IDLE         = 3'b000;
-  parameter s_RX_START_BIT = 3'b001;
-  parameter s_RX_DATA_BITS = 3'b010;
-  parameter s_RX_STOP_BIT  = 3'b011;
-  parameter s_CLEANUP      = 3'b100;
+  localparam s_IDLE         = 3'b000;
+  localparam s_RX_START_BIT = 3'b001;
+  localparam s_RX_DATA_BITS = 3'b010;
+  localparam s_RX_STOP_BIT  = 3'b011;
+  localparam s_CLEANUP      = 3'b100;
    
   (* async_reg = "true" *)reg                       r_Rx_Data_R = 1'b1;
   (* async_reg = "true" *)reg                       r_Rx_Data   = 1'b1;

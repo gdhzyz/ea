@@ -17,7 +17,7 @@ module fpga #(
      * Reset: Push button, active high
      */
     input  wire                 clk_50mhz,
-    input  wire                 reset,
+    input  wire                 reset_n,
 
     /*
      * Ethernet: 1000BASE-T RGMII
@@ -51,7 +51,9 @@ module fpga #(
      * uart
      */
     input  wire                 uart_rx,
-    output wire                 uart_tx,
+    output wire                 uart_tx
+`ifdef I2S_IN    
+    ,
 
     /*
      * i2s
@@ -61,6 +63,7 @@ module fpga #(
     inout  wire [I2S_CN-1:0]    i2s_in_lrck,
     input  wire [I2S_CN-1:0]    i2s_in_datin,
     output wire [I2S_CN-1:0]    i2s_out_datout
+`endif // I2S_IN
 );
 
 generate
@@ -82,7 +85,7 @@ wire rst_int;
 wire clk_200mhz_mmcm_out;
 wire clk_200mhz_int;
 
-wire mmcm_rst = !reset;
+wire mmcm_rst = !reset_n;
 wire mmcm_locked;
 wire mmcm_clkfb;
 
@@ -302,11 +305,21 @@ wire       phy_rx_clk_delay = phy_rx_clk;
 
 localparam PHY_RX_DATA_DELAY_TAGS = 5'd25; // each tags is 78ps, 25 tags is 1950ps
 
+wire idelayctrl_ready;
 IDELAYCTRL
 idelayctrl_inst (
     .REFCLK(clk_200mhz_int),
     .RST(rst_int),
-    .RDY()
+    .RDY(idelayctrl_ready)
+);
+
+wire idelay_ready_int;
+sync_signal #(
+    .N(4)
+) idelayctrl_ready_sync_inst (
+    .clk(clk_int),
+    .in(idelayctrl_ready),
+    .out(idelay_ready_int)
 );
 
 IDELAYE2 #(
@@ -399,6 +412,7 @@ phy_rx_ctl_idelay (
     .REGRST(1'b0)
 );
 
+wire mac_core_rst = !idelay_ready_int;
 fpga_core #(
     .TARGET("XILINX")
 )
@@ -409,7 +423,7 @@ core_inst (
      */
     .clk(clk_int),
     .clk90(clk90_int),
-    .rst(rst_int),
+    .rst(mac_core_rst),
     
     /*
      * Ethernet: 1000BASE-T RGMII
@@ -439,7 +453,7 @@ mdio_if mdio_if (
     .MDIO_en(mdio_valid),
     .MDIO_OP(~mdio_write),
     .MDIO_Req(mdio_valid),
-    .MDIO_PHY_AD(5'b00100),
+    .MDIO_PHY_AD(5'b00111),
     .MDIO_REG_AD(mdio_addr),
     .MDIO_WR_DATA(mdio_wdata),
     .MDIO_RD_DATA(mdio_rdata),
@@ -479,8 +493,8 @@ assign mdio_i = mdio_d;
 
 // =================== end mdio ==================
 
+`ifdef I2S_IN
 // =================== i2s ==================
-
 wire [I2S_CN-1:0] i2s_in_bclki;
 wire [I2S_CN-1:0] i2s_in_bclko;
 wire [I2S_CN-1:0] i2s_in_bclkt;
@@ -488,16 +502,16 @@ wire [I2S_CN-1:0] i2s_in_lrcki;
 wire [I2S_CN-1:0] i2s_in_lrcko;
 wire [I2S_CN-1:0] i2s_in_lrckt;
 
-wire i2s_in_m_axis_tvalid;
-wire [7:0] i2s_in_m_axis_tdata;
-wire i2s_in_m_axis_tlast;
-wire i2s_in_m_axis_tready;
+(* mark_debug = "true" *)wire i2s_in_m_axis_tvalid;
+(* mark_debug = "true" *)wire [7:0] i2s_in_m_axis_tdata;
+(* mark_debug = "true" *)wire i2s_in_m_axis_tlast;
+(* mark_debug = "true" *)wire i2s_in_m_axis_tready;
 
 i2s_in_fifo #(
     .CN(I2S_CN)
 ) i2s_in_fifo (
     .sys_clk(clk_int),
-    .arst(rst_int),
+    .rst(rst_int),
 
     .mclki(i2s_in_mclki),
     .bclki(i2s_in_bclki),
@@ -537,6 +551,7 @@ generate
 endgenerate
 
 // =================== end i2s ==================
+`endif //I2S_IN
 
 // =================== debug ==================
 /*

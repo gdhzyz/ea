@@ -5,41 +5,40 @@
 `default_nettype none
 
 /*
- * I2S from ADC
+ * I2S to ADC
  */
-module i2s_phy_in 
+module i2s_phy_out
 (
-    /*
+    /* Clock: 24.576MHz * 8 = 
      * Asynchronous reset
      */
+    input  wire         mclk,
     input  wire         rst,
 
     /*
      * I2S IOs
      */
     input  wire         bclk,
-    (* mark_debug = "true" *)input  wire         lrck,
-    (* mark_debug = "true" *)input  wire         datai,
+    input  wire         lrck,
+    output wire         datao,
 
     /*
      * I2S parallel output, synchronized with bclk.
      */
-    (* mark_debug = "true" *)output wire         m_axis_tvalid,
-    (* mark_debug = "true" *)output wire [7:0]   m_axis_tdata, // lower bits are always valid.
-    (* mark_debug = "true" *)output wire         m_axis_tlast,
+    input  wire         m_axis_tvalid,
+    input  wire [7:0]   m_axis_tdata, // lower bits are always valid.
+    input  wire         m_axis_tlast,
+    output wire         m_axis_tready,
 
     /*
      * configuration, do not need to have been synchronized to system clock.
      */
-    (* mark_debug = "true" *)input  wire [4:0]   i_tdm_num,
-    (* mark_debug = "true" *)input  wire [5:0]   i_word_width,
-    (* mark_debug = "true" *)input  wire [5:0]   i_valid_word_width,
-    (* mark_debug = "true" *)input  wire         i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
-    (* mark_debug = "true" *)input  wire         i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
+    input  wire [4:0]   i_tdm_num,
+    input  wire [5:0]   i_valid_word_width,
+    input  wire         i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
+    input  wire         i_lrck_alignment, // MSB alignment with lrck, 1'b0: aligned, 1'b1: one clock delay
     output wire [31:0]  o_frame_num,
-
-    // synchronized with bclk
-    (* mark_debug = "true" *)input  wire         i_enable
+    output wire         o_error
 );
 
 // ====================== synchronization ========================
@@ -55,10 +54,6 @@ sync_reset sync_reset (
 wire [4:0] tdm_num;
 assign tdm_num = i_tdm_num;
 
-// -------- word_width --------
-wire [5:0] word_width;
-assign word_width = i_word_width;
-
 // -------- valid_word_width --------
 wire [5:0] valid_word_width;
 assign valid_word_width = i_valid_word_width;
@@ -70,42 +65,48 @@ assign lrck_polarity = i_lrck_polarity;
 // -------- lrck_alignment --------
 wire lrck_alignment;
 assign lrck_alignment = i_lrck_alignment;
+
 // ====================== end synchronization ========================
 
+wire ifire = m_axis_tvalid && m_axis_tready;
 
-reg [2:0] lrck_d;
+reg [7:0] data_reg;
 always @(posedge bclk) begin
-    if (rst_sync) begin
-        lrck_d <= 3'b111;
-    end else begin
-        lrck_d <= {lrck_d[1:0], lrck};
+    if (ifire) begin
+        data_reg <= m_axis_tdata;
     end
 end
 
+
+wire start_frame = (lrck_polarity ? lrck_neg : (lrck_pos || lrck_neg)) && i_enable;
+wire start_word = lrck_neg || lrck_pos;
+
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        bit_counter <= 6'd31;
+    end else if (start_word && (start_frame || in_frame)) begin
+        bit_counter <= 6'd31;
+    end else if (in_frame && bit_counter > 0) begin
+        bit_counter <= bit_counter - 1;
+    end else begin
+        bit_counter <= 6'd31;
+    end
+end
+
+
 // use delay[1] data.
 // bclk     ___|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__
-// lrck     ___|--------------------------------------------------
-// lrckd0   ______|-------------------------------------------
-// lrckd1   _________|------------------------------------
-// lrck_pos _________|--|_______
-// datai    ___|MSB
-// datai_d0 ______|MSB
-// datai_d1 _________|MSB
-// datai_d2 ____________|MSB
-// in_frame_reg ________|--------
+// lrck     ______|--------------------------------------------------
+// lrckd0   _________|-------------------------------------------
+// lrck_pos _________|-----|_________
+// in_frame _________|------------------------
+// bcnt     31          | 30  |29
 wire [1:0] lrck_pos_array = {lrck_d[2:1] == 2'b01, lrck_d[1:0] == 2'b01};
 wire [1:0] lrck_neg_array = {lrck_d[2:1] == 2'b10, lrck_d[1:0] == 2'b10};
 wire is_lrck_aligned = lrck_alignment == 1'b0;
 wire lrck_pos = is_lrck_aligned ? lrck_pos_array[0] : lrck_pos_array[1];
 wire lrck_neg = is_lrck_aligned ? lrck_neg_array[0] : lrck_neg_array[1];
-wire start_frame = (lrck_polarity ? lrck_neg : (lrck_pos || lrck_neg)) && i_enable;
-wire start_word = lrck_neg || lrck_pos;
 
-reg [3:0] datai_d;
-always @(posedge bclk) begin
-    datai_d <= {datai_d[2:0], datai};
-end
-wire data = datai_d[1];
 
 reg in_frame = 1'b0;
 reg [3:0] tdm_counter=0;
@@ -124,17 +125,6 @@ always @(posedge bclk) begin
     end
 end
 
-always @(posedge bclk) begin
-    if (rst_sync) begin
-        bit_counter <= 6'd31;
-    end else if (start_word && (start_frame || in_frame)) begin
-        bit_counter <= 6'd31;
-    end else if (in_frame && bit_counter > 0) begin
-        bit_counter <= bit_counter - 1;
-    end else begin
-        bit_counter <= 6'd31;
-    end
-end
 
 always @(posedge bclk) begin
     if (rst_sync) begin

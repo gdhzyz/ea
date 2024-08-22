@@ -36,6 +36,13 @@ module freq_divider # (
     input  wire [WIDTH-1:0] factor  // must be greater than or equal to 4, and must be an even number
 );
 
+initial begin
+    if (MAX_FACTOR < 4) begin
+        $error("Instance %m, MAX_FACTOR(%d) must be greater than or equal to 4.", MAX_FACTOR);
+        $finish;
+    end
+end
+
 wire [WIDTH-2:0] factor_half = factor >> 1;
 
 reg [WIDTH-1:0] count={WIDTH{1'b0}};

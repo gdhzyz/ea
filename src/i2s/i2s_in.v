@@ -62,12 +62,31 @@ module i2s_in # (
 
 
 // ==================== mmcm =======================
-wire mclki_ibufg;
-IBUFG
-mclki_ibufg_inst(
-    .I(mclki),
-    .O(mclki_ibufg)
+wire mclki_bufmr;
+BUFMR BUFMR_inst (
+   .O(mclki_bufmr), // 1-bit output: Clock output (connect to BUFIOs/BUFRs)
+   .I(mclki)  // 1-bit input: Clock input (Connect to IBUF)
 );
+
+wire mclki_bufr;
+BUFR #(
+   .BUFR_DIVIDE("BYPASS"),   // Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8" 
+   .SIM_DEVICE("7SERIES")  // Must be set to "7SERIES" 
+)
+mclki_bufr_inst (
+   .O(mclki_bufr),     // 1-bit output: Clock output port
+   .CE(1'b1),   // 1-bit input: Active high, clock enable (Divided modes only)
+   .CLR(1'b0), // 1-bit input: Active high, asynchronous clear (Divided modes only)
+   .I(mclki_bufmr)      // 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
+);
+
+wire mclki_ibufg;
+assign mclki_ibufg = mclki_bufr;
+//BUFG
+//mclki_ibufg_inst(
+//    .I(mclki_bufr),
+//    .O(mclki_ibufg)
+//);
 
 wire clk_mmcm_out;
 wire mmcm_clkfb;
@@ -79,13 +98,7 @@ wire mmcm_locked;
 // PFD range: 10 MHz to 500 MHz
 // VCO range: 600 MHz to 1440 MHz
 // M = 40.5, D = 1 sets Fvco = 995.328 MHz (in range)
-// Divide by 10.125 to get output frequency of 125 MHz
-// Need two 125 MHz outputs with 90 degree offset
-// Also need 200 MHz out for IODELAY
-// 1000 / 5 = 200 MHz
-// The goal is to make D and M values as small as possible while keeping ƒVCO as high as possible.
-// Dmin = ceil(50 / 500) = 1; Dmax = floor(50 / 10) = 5
-// Mmin = ceil(600 / 50 * 1) = 12, Mmax = floor(1440 / 50 * 5) = 144, Mideal = 1 * 1000 / 50 = 20
+// Divide by 10.125 to get output frequency of 98.304 MHz
 
 MMCME2_BASE #(
     .BANDWIDTH("OPTIMIZED"),
@@ -120,7 +133,7 @@ MMCME2_BASE #(
     .STARTUP_WAIT("FALSE"),
     .CLKOUT4_CASCADE("FALSE")
 )
-clk_mmcm_inst (
+i2s_mclki_mmcm_inst (
     .CLKIN1(mclki_ibufg),
     .CLKFBIN(mmcm_clkfb),
     .RST(mmcm_rst),
@@ -143,7 +156,7 @@ clk_mmcm_inst (
 
 wire mclk_int;
 BUFG
-clk_bufg_inst (
+mclk_bufg_inst (
     .I(clk_mmcm_out),
     .O(mclk_int)
 );
@@ -166,7 +179,33 @@ generate
 genvar i;
 
 
-for (i = 0; i < CN; i = i + 1) begin
+for (i = 0; i < CN; i = i + 1) begin: gen_block
+    // ======================== bclk ==========
+    wire bclk;
+    wire bclk_bufr;
+    BUFR #(
+       .BUFR_DIVIDE("BYPASS"),   // Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8" 
+       .SIM_DEVICE("7SERIES")  // Must be set to "7SERIES" 
+    )
+    bclk_bufr_inst (
+       .O(bclk_bufr),     // 1-bit output: Clock output port
+       .CE(1'b1),   // 1-bit input: Active high, clock enable (Divided modes only)
+       .CLR(1'b0), // 1-bit input: Active high, asynchronous clear (Divided modes only)
+       .I(bclki[i])      // 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
+    );
+
+    wire bclk_bufgmux;
+    BUFGMUX #(
+    )
+    bclk_bufgmux_inst (
+       .O(bclk_bufgmux),   // 1-bit output: Clock output
+       .I0(bclk_bufr), // 1-bit input: Clock input (S=0)
+       .I1(bclko[i]), // 1-bit input: Clock input (S=1)
+       .S(bclkt[0])    // 1-bit input: Clock select
+    ); 
+
+    assign bclk = bclk_bufgmux;
+
 // ================== register parsers ==================
     wire [4:0]   parsed_tdm_num;
     wire         parsed_is_master;
@@ -220,7 +259,7 @@ for (i = 0; i < CN; i = i + 1) begin
     sync_signal #(
         .WIDTH(1)
     ) phy_in_enable_sync (
-        .clk(bclki[i]),
+        .clk(bclk),
         .in(i_enable[i]),
         .out(phy_in_enable)
     );
@@ -230,6 +269,7 @@ for (i = 0; i < CN; i = i + 1) begin
     assign parsed_lrck_is_pulse = i_lrck_is_pulse[i];
     assign parsed_lrck_polarity = i_lrck_polarity[i];
     assign parsed_lrck_alignment = i_lrck_alignment[i];
+
 
     // ======================== frequency divider ==========
     i2s_freq_divider i2s_freq_divider (
@@ -249,7 +289,7 @@ for (i = 0; i < CN; i = i + 1) begin
     // ======================== i2s_phy_in ==========
     i2s_phy_in i2s_phy_in (
         .rst(rst_int),
-        .bclk(bclki[i]),
+        .bclk(bclk),
         .lrck(lrcki[i]),
         .datai(datai[i]),
         .m_axis_tvalid(m_axis_tvalid[i]),
@@ -257,6 +297,7 @@ for (i = 0; i < CN; i = i + 1) begin
         .m_axis_tlast(m_axis_tlast[i]),
         .i_tdm_num(parsed_tdm_num),
         .i_word_width(parsed_word_width),
+        .i_valid_word_width(parsed_valid_word_width),
         .i_lrck_polarity(parsed_lrck_polarity),
         .i_lrck_alignment(parsed_lrck_alignment),
         .o_frame_num(o_frame_num[32*i +: 32]),
