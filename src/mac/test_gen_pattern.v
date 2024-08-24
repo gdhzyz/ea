@@ -22,10 +22,11 @@ module test_gen_pattern #
     input  wire  [15:0]             packet_index,
     input  wire  [47:0]             src_mac,
     input  wire  [47:0]             dst_mac,
-    input  wire  [15:0]             timestamp,
+    input  wire  [23:0]             timestamp,
     output wire                     is_data,
     output wire                     is_timestamp0,
     output wire                     is_timestamp1,
+    output wire                     is_timestamp2,
 
     /*
      * Ethernet frame output
@@ -94,29 +95,21 @@ always @* begin
             end
         end
         S_TIMESTAMP: begin
-            if (fire_payload && count_reg == 1) begin
-                state_next = S_3ZEROS;
+            if (fire_payload && count_reg == 2) begin
+                state_next = S_PACKET_INDEX;
                 clear = 1'b1;
             end else begin
                 state_next = S_TIMESTAMP;
                 clear = 1'b0;
             end
 
-            if (count_reg == 1) begin
+            if (count_reg == 2) begin
+                tdata = timestamp[23:16];
+            end else if (count_reg == 1) begin
                 tdata = timestamp[15:8];
             end else begin
                 tdata = timestamp[7:0];
             end
-        end
-        S_3ZEROS: begin
-            if (fire_payload && count_reg == 2) begin
-                state_next = S_PACKET_INDEX;
-                clear = 1'b1;
-            end else begin
-                state_next = S_3ZEROS;
-                clear = 1'b0;
-            end
-            tdata = 8'd0;
         end
         S_PACKET_INDEX: begin
             if (fire_payload && count_reg == 1) begin
@@ -178,22 +171,11 @@ always @(posedge clk) begin
     end
 end
 
-reg [31:0] gap_counter = 32'd0;
-always @(posedge clk) begin
-    if (rst) begin
-        gap_counter <= 32'd0;
-    end else if (m_eth_payload_axis_tlast && fire_payload) begin
-        gap_counter <= 32'd12500; // 100us
-    end else if (gap_counter != 0) begin
-        gap_counter <= gap_counter - 1;
-    end
-end
-
 assign m_eth_dest_mac = dst_mac;
 assign m_eth_src_mac = src_mac;
 assign m_eth_type = 16'h88B5;
 assign m_eth_hdr_valid = state_reg != S_IDLE && enable;
-assign m_eth_payload_axis_tvalid = state_reg != S_IDLE && gap_counter == 0;
+assign m_eth_payload_axis_tvalid = state_reg != S_IDLE;
 assign m_eth_payload_axis_tdata = tdata;
 assign m_eth_payload_axis_tlast = state_reg == S_DATA && count_reg == DATA_LENGTH - 1;
 assign m_eth_payload_axis_tuser = 1'b0;
@@ -201,6 +183,7 @@ assign m_eth_payload_axis_tuser = 1'b0;
 assign is_data = state_reg == S_DATA;
 assign is_timestamp0 = state_reg == S_TIMESTAMP && count_reg == 0;
 assign is_timestamp1 = state_reg == S_TIMESTAMP && count_reg == 1;
+assign is_timestamp2 = state_reg == S_TIMESTAMP && count_reg == 2;
 
 endmodule
 

@@ -81,7 +81,7 @@ wire [15:0] tx_eth_type;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tlast;
 (* mark_debug = "true" *)wire tx_eth_payload_axis_tuser;
 
-wire [15:0] num_1us;
+wire [23:0] num_1us;
 
 localparam TIME_200MS_BITS = $clog2(TIME_200MS);
 reg [TIME_200MS_BITS - 1:0] phy_reset_counter = 0;
@@ -176,6 +176,7 @@ test_gen_pattern (
     .is_data(),
     .is_timestamp0(),
     .is_timestamp1(),
+    .is_timestamp2(),
 
     .m_eth_hdr_valid(tx_eth_hdr_valid),
     .m_eth_hdr_ready(tx_eth_hdr_ready),
@@ -215,7 +216,7 @@ test_pattern_recv #(
 );
 `endif //DO_DPA_INSIDE_MAC
 
-`else // not client, loopback server.
+`else // IS_CLIENT. Not a client, just a loopback server.
 
 assign tx_eth_hdr_valid = rx_eth_hdr_valid;
 assign rx_eth_hdr_ready = tx_eth_hdr_ready;

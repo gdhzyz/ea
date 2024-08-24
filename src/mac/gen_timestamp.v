@@ -11,12 +11,12 @@ module gen_timestamp
     input  wire                     clk,
     input  wire                     rst,
 
-    output wire [15:0]              timestamp
+    output wire [23:0]              timestamp
 );
 
 localparam COUNTER_BITS = $clog2(CYCLE_NUM_1US);
 
-reg [15:0] num_1us = 0;
+reg [23:0] num_1us = 0;
 reg [COUNTER_BITS-1:0] counter = 0;
 wire inc = counter == CYCLE_NUM_1US-1;
 

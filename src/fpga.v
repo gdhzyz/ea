@@ -72,6 +72,7 @@ generate
     end
 endgenerate
 
+
 // Clock and reset
 wire clk_50mhz_ibufg;
 
@@ -86,7 +87,7 @@ wire clk_200mhz_mmcm_out;
 wire clk_200mhz_int;
 
 wire mmcm_rst = !reset_n;
-wire mmcm_locked;
+(* mark_debug = "true" *)wire mmcm_locked;
 wire mmcm_clkfb;
 
 IBUFG
@@ -189,8 +190,8 @@ sync_reset_inst (
 
 wire        srst; // soft reset
 wire [3:0]  fpga_index;
-(* mark_debug = "true" *)wire [4:0]  mac_dly_incs;
-(* mark_debug = "true" *)wire [24:0] mac_dly_values;
+wire [4:0]  mac_dly_incs;
+wire [24:0] mac_dly_values;
 (* mark_debug = "true" *)wire        mac_enable_jumbo_test;
 wire [4:0]  mac_jumbo_errors;
 wire [4:0]  mac_jumbo_error_clears;
@@ -616,6 +617,12 @@ always @(posedge clk_int) begin
         time_counter <= time_counter + 'd1;
     end
 end
+
+(* mark_debug = "true" *)reg [7:0] free_counter = 0;
+always @(posedge clk_50mhz_ibufg) begin
+    free_counter <= free_counter + 1;
+end
+
 // =================== end debug ==================
 
 

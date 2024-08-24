@@ -1,10 +1,10 @@
 create_clock -period 40.690 -name i2s_in_mclki [get_ports i2s_in_mclki]
 
-set_property -dict {LOC W20 IOSTANDARD LVCMOS33} [get_ports i2s_in_mclki]
-set_property -dict {LOC AB20 IOSTANDARD LVCMOS33} [get_ports {i2s_in_bclk[0]}]
-set_property -dict {LOC AA20 IOSTANDARD LVCMOS33} [get_ports {i2s_in_lrck[0]}]
-set_property -dict {LOC AA19 IOSTANDARD LVCMOS33} [get_ports {i2s_in_datin[0]}]
-set_property -dict {LOC AB21 IOSTANDARD LVCMOS33} [get_ports {i2s_out_datout[0]}]
+set_property -dict {LOC J19 IOSTANDARD LVCMOS33} [get_ports i2s_in_mclki]
+set_property -dict {LOC J20 IOSTANDARD LVCMOS33} [get_ports {i2s_in_bclk[0]}]
+set_property -dict {LOC H17 IOSTANDARD LVCMOS33} [get_ports {i2s_in_lrck[0]}]
+set_property -dict {LOC H18 IOSTANDARD LVCMOS33} [get_ports {i2s_in_datin[0]}]
+set_property -dict {LOC J17 IOSTANDARD LVCMOS33} [get_ports {i2s_out_datout[0]}]
 
 # link: https://docs.amd.com/r/en-US/ug835-vivado-tcl-commands/create_generated_clock
 # internal generated output bclk
