@@ -133,7 +133,7 @@ wire [47:0] server_mac = 48'h07_08_09_0a_0b_0c;
 `ifdef DO_DPA_INSIDE_MAC
 
 gen_dpa_pattern #(
-    .DATA_LENGTH(7000), // actually needs to minus 8, for payload info.
+    .DATA_LENGTH(64), // actually needs to minus 8, for payload info.
     .DATA_WIDTH(8)
 )
 gen_dpa_pattern (
@@ -161,7 +161,7 @@ assign rx_eth_payload_axis_tready = 1'b1;
 
 `else // DO_DPA_INSIDE_MAC
 test_gen_pattern #(
-    .DATA_LENGTH(7000), // actually needs to minus 8, for payload info.
+    .DATA_LENGTH(64), // actually needs to minus 8, for payload info.
     .DATA_WIDTH(8)
 )
 test_gen_pattern (
@@ -191,7 +191,7 @@ test_gen_pattern (
 );
 
 test_pattern_recv #(
-    .DATA_LENGTH(7000),
+    .DATA_LENGTH(64),
     .DATA_WIDTH(8)
 ) test_pattern_recv (
     .clk(clk),
