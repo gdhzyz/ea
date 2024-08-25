@@ -196,7 +196,7 @@ test_pattern_recv #(
 ) test_pattern_recv (
     .clk(clk),
     .rst(rst),
-    .enable(enable_jumbo_test),
+    .enable(1'b1),
 
     .packet_index(rx_packet_num),
     .src_mac(client_mac),

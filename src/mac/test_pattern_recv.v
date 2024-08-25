@@ -33,7 +33,7 @@ module test_pattern_recv #
     input  wire [47:0]              s_eth_dest_mac,
     input  wire [47:0]              s_eth_src_mac,
     input  wire [15:0]              s_eth_type,
-    input  wire [DATA_WIDTH-1:0]    s_eth_payload_axis_tdata,
+    (* mark_debug = "true" *)input  wire [DATA_WIDTH-1:0]    s_eth_payload_axis_tdata,
     input  wire                     s_eth_payload_axis_tvalid,
     output wire                     s_eth_payload_axis_tready,
     input  wire                     s_eth_payload_axis_tlast,
@@ -50,7 +50,7 @@ wire                     gen_eth_hdr_ready;
 wire [47:0]              gen_eth_dest_mac;
 wire [47:0]              gen_eth_src_mac;
 wire [15:0]              gen_eth_type;
-wire [DATA_WIDTH-1:0]    gen_eth_payload_axis_tdata;
+(* mark_debug = "true" *)wire [DATA_WIDTH-1:0]    gen_eth_payload_axis_tdata;
 wire                     gen_eth_payload_axis_tvalid;
 wire                     gen_eth_payload_axis_tready;
 wire                     gen_eth_payload_axis_tlast;
@@ -95,7 +95,7 @@ always @(posedge clk) begin
     if (rst) begin
         error <= 1'b0;
     end else if (fire) begin
-        if (gen_eth_payload_axis_tdata != gen_eth_payload_axis_tdata && gen_is_data) begin
+        if (gen_eth_payload_axis_tdata != s_eth_payload_axis_tdata && gen_is_data) begin
             error <= 1'b1;
         end
     end
