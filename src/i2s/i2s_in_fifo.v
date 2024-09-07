@@ -33,6 +33,7 @@ module i2s_in_fifo #(
     output wire [CN-1:0]    bclkt,
     output wire [CN-1:0]    lrckt,
     input  wire [CN-1:0]    datai,
+    output wire [CN-1:0]    datao,
 
     /*
      * I2S muxed output, synchronized with sys_clk.
@@ -78,6 +79,7 @@ i2s_in # (
     .bclkt(bclkt),
     .lrckt(lrckt),
     .datai(datai),
+    .datao(datao),
     .m_axis_tvalid(i2s_in_m_axis_tvalid),
     .m_axis_tdata(i2s_in_m_axis_tdata),
     .m_axis_tlast(i2s_in_m_axis_tlast),
@@ -93,6 +95,14 @@ i2s_in # (
     .o_frame_num(o_frame_num),
     .i_bclk_factor(i_bclk_factor)
 );
+
+//reg datao_reg=1'b0;
+//always @(posedge sys_clk) begin
+//    datao_reg <= datai;
+//end
+//assign datao = datao_reg;
+
+
 
 // ==================== fifo =======================
 wire [CN-1:0]       fifo_out_m_axis_tvalid;

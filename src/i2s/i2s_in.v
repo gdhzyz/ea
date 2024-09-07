@@ -4,6 +4,8 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
+`include "head.vh"
+
 /*
  * I2S from ADC
  */
@@ -36,6 +38,7 @@ module i2s_in # (
     output wire [CN-1:0]    bclkt,
     output wire [CN-1:0]    lrckt,
     input  wire [CN-1:0]    datai,
+    output wire [CN-1:0]    datao,
 
     /*
      * I2S parallel output, synchronized with bclk.
@@ -91,15 +94,15 @@ assign mclki_ibufg = mclki_bufr;
 wire clk_mmcm_out;
 wire mmcm_clkfb;
 wire mmcm_rst = arst;
-wire mmcm_locked;
+(* mark_debug = "true" *)wire mmcm_locked;
 
+`ifdef MCLK_24_576 // 24.576MHz
 // MMCM instance
 // 24.576 MHz in, 98.304 MHz out
 // PFD range: 10 MHz to 500 MHz
 // VCO range: 600 MHz to 1440 MHz
 // M = 40.5, D = 1 sets Fvco = 995.328 MHz (in range)
 // Divide by 10.125 to get output frequency of 98.304 MHz
-
 MMCME2_BASE #(
     .BANDWIDTH("OPTIMIZED"),
     .CLKOUT0_DIVIDE_F(10.125),
@@ -133,6 +136,47 @@ MMCME2_BASE #(
     .STARTUP_WAIT("FALSE"),
     .CLKOUT4_CASCADE("FALSE")
 )
+`else // 12.288MHz
+// MMCM instance
+// 12.288 MHz in, 49.152 MHz out
+// PFD range: 10 MHz to 500 MHz
+// VCO range: 600 MHz to 1440 MHz
+// M = 64, D = 1 sets Fvco = 786.432 MHz (in range)
+// Divide by 16 to get output frequency of 49.152 MHz
+MMCME2_BASE #(
+    .BANDWIDTH("OPTIMIZED"),
+    .CLKOUT0_DIVIDE_F(16),
+    .CLKOUT0_DUTY_CYCLE(0.5),
+    .CLKOUT0_PHASE(0),
+    .CLKOUT1_DIVIDE(8),
+    .CLKOUT1_DUTY_CYCLE(0.5),
+    .CLKOUT1_PHASE(90),
+    .CLKOUT2_DIVIDE(5),
+    .CLKOUT2_DUTY_CYCLE(0.5),
+    .CLKOUT2_PHASE(0),
+    .CLKOUT3_DIVIDE(1),
+    .CLKOUT3_DUTY_CYCLE(0.5),
+    .CLKOUT3_PHASE(0),
+    .CLKOUT4_DIVIDE(1),
+    .CLKOUT4_DUTY_CYCLE(0.5),
+    .CLKOUT4_PHASE(0),
+    .CLKOUT5_DIVIDE(1),
+    .CLKOUT5_DUTY_CYCLE(0.5),
+    .CLKOUT5_PHASE(0),
+    .CLKOUT6_DIVIDE(1),
+    .CLKOUT6_DUTY_CYCLE(0.5),
+    .CLKOUT6_PHASE(0),
+    .CLKFBOUT_MULT_F(64),
+    .CLKFBOUT_PHASE(0),
+    .DIVCLK_DIVIDE(1),
+    .REF_JITTER1(0.010),
+    .CLKIN1_PERIOD(81.380),
+    //.CLKIN2_PERIOD(10),
+    //.COMPENSATION("ZHOLD"),
+    .STARTUP_WAIT("FALSE"),
+    .CLKOUT4_CASCADE("FALSE")
+)
+`endif // MCLK_24_576
 i2s_mclki_mmcm_inst (
     .CLKIN1(mclki_ibufg),
     .CLKFBIN(mmcm_clkfb),
@@ -153,6 +197,7 @@ i2s_mclki_mmcm_inst (
     .CLKFBOUTB(),
     .LOCKED(mmcm_locked)
 );
+
 
 wire mclk_int;
 BUFG
@@ -315,6 +360,16 @@ for (i = 0; i < CN; i = i + 1) begin: gen_block
     
     assign bclkt[i] = is_master_reg;
     assign lrckt[i] = is_master_reg;
+
+    
+    // ================= debug ===================
+    debug_i2s_dataout debug_i2s_dataout(
+        .bclk(bclk),
+        .lrck(lrcko),
+        .datao(datao)
+    );
+    
+    // ================= end debug ===================
 end // for
 
 

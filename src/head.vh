@@ -6,6 +6,7 @@
 `define IS_CLIENT
 `define VERSION 32'h24072300
 `define UART_BITS 8
-`define I2S_IN
+`define ENABLE_I2S_IN
+//`define MCLK_24_576
 
 `endif // __HEAD_VH__

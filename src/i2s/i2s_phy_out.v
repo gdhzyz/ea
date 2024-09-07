@@ -19,6 +19,7 @@ module i2s_phy_out
      * I2S IOs
      */
     input  wire         bclk,
+    input  wire         bclk_180,
     input  wire         lrck,
     output wire         datao,
 
@@ -33,6 +34,7 @@ module i2s_phy_out
     /*
      * configuration, do not need to have been synchronized to system clock.
      */
+    input  wire         i_enable,
     input  wire [4:0]   i_tdm_num,
     input  wire [5:0]   i_valid_word_width,
     input  wire         i_lrck_polarity,  // edge of starting flag, 1'b0: posedge, 1'b1: negedge.
@@ -48,6 +50,14 @@ sync_reset sync_reset (
     .clk(bclk),
     .rst(rst),
     .out(rst_sync)
+);
+
+// -------- enable --------
+wire enable;
+sync_signal enable_synchronizer (
+    .clk(bclk),
+    .in(i_enable),
+    .out(enable)
 );
 
 // -------- tdm_num --------
@@ -68,53 +78,34 @@ assign lrck_alignment = i_lrck_alignment;
 
 // ====================== end synchronization ========================
 
-wire ifire = m_axis_tvalid && m_axis_tready;
-
-reg [7:0] data_reg;
-always @(posedge bclk) begin
-    if (ifire) begin
-        data_reg <= m_axis_tdata;
-    end
-end
 
 
-wire start_frame = (lrck_polarity ? lrck_neg : (lrck_pos || lrck_neg)) && i_enable;
-wire start_word = lrck_neg || lrck_pos;
-
-always @(posedge bclk) begin
-    if (rst_sync) begin
-        bit_counter <= 6'd31;
-    end else if (start_word && (start_frame || in_frame)) begin
-        bit_counter <= 6'd31;
-    end else if (in_frame && bit_counter > 0) begin
-        bit_counter <= bit_counter - 1;
-    end else begin
-        bit_counter <= 6'd31;
-    end
-end
-
-
-// use delay[1] data.
 // bclk     ___|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__|--|__
 // lrck     ______|--------------------------------------------------
-// lrckd0   _________|-------------------------------------------
+// lrckd    _________|-------------------------------------------
 // lrck_pos _________|-----|_________
-// in_frame _________|------------------------
-// bcnt     31          | 30  |29
-wire [1:0] lrck_pos_array = {lrck_d[2:1] == 2'b01, lrck_d[1:0] == 2'b01};
-wire [1:0] lrck_neg_array = {lrck_d[2:1] == 2'b10, lrck_d[1:0] == 2'b10};
-wire is_lrck_aligned = lrck_alignment == 1'b0;
-wire lrck_pos = is_lrck_aligned ? lrck_pos_array[0] : lrck_pos_array[1];
-wire lrck_neg = is_lrck_aligned ? lrck_neg_array[0] : lrck_neg_array[1];
+// start    _________|-----|_________
+// in_frame _________|-----------------------|_________
+// bcnt_180 31          | 30  |29   | ... |0    |
+// frame_last   __________________________|-----|______
+// dout_180 ------------|______
 
+reg [1:0] lrck_d;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        lrck_d <= 2'b11;
+    end else begin
+        lrck_d <= {lrck_d[0], lrck};
+    end
+end
+
+wire is_lrck_aligned = lrck_alignment == 1'b0;
+wire first_bit_pos = is_lrck_aligned ? {lrck_d[0], lrck} == 2'b01 : lrck_d[1:0] == 2'b01;
+wire first_bit_neg = is_lrck_aligned ? {lrck_d[0], lrck} == 2'b10 : lrck_d[1:0] == 2'b10;
+wire start_frame = (lrck_polarity ? first_bit_neg : (first_bit_pos || first_bit_neg)) && enable;
+wire frame_last;
 
 reg in_frame = 1'b0;
-reg [3:0] tdm_counter=0;
-reg [5:0] bit_counter=0;
-wire word_last = bit_counter == (6'd32 - word_width);
-wire is_valid = bit_counter >= (6'd32 - valid_word_width);
-wire slice_last = bit_counter[2:0] == 3'd0;
-wire frame_last = tdm_counter == tdm_num-1 && word_last;
 always @(posedge bclk) begin
     if (rst_sync) begin
         in_frame <= 1'b0;
@@ -125,11 +116,33 @@ always @(posedge bclk) begin
     end
 end
 
+wire ifire = m_axis_tvalid && m_axis_tready;
+
+wire start_word = first_bit_neg || first_bit_pos;
+
+reg [5:0] bit_counter_180=0;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        bit_counter_180 <= 6'd31;
+    end else if (start_word && (start_frame || in_frame)) begin
+        bit_counter_180 <= 6'd31;
+    end else if (in_frame && bit_counter_180 > 0) begin
+        bit_counter_180 <= bit_counter_180 - 1;
+    end else begin
+        bit_counter_180 <= 6'd31;
+    end
+end
+
+reg [3:0] tdm_counter=0;
+wire word_last_180 = bit_counter_180 == (6'd32 - word_width);
+wire is_valid = bit_counter_180 >= (6'd32 - valid_word_width);
+wire slice_last = bit_counter_180[2:0] == 3'd0;
+assign frame_last = tdm_counter == tdm_num-1 && word_last_180;
 
 always @(posedge bclk) begin
     if (rst_sync) begin
         tdm_counter <= 0;
-    end else if (word_last) begin
+    end else if (word_last_180) begin
         if (frame_last) begin
             tdm_counter <= 0;
         end else begin
@@ -138,39 +151,29 @@ always @(posedge bclk) begin
     end
 end
 
+wire last_word_bit = bit_counter_180[2:0] == 3'd0 && in_frame;
+
+reg empty=1'b1;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        empty <= 1'b1;
+    end else if (ifire) begin
+        empty <= 1'b0;
+    end else if (last_word_bit) begin
+        empty <= 1'b1;
+    end
+end
+
 reg [7:0] data_reg;
-integer i;
-always @(posedge bclk) begin
-    for (i = 0; i < 8; i = i + 1) begin
-        if (i == bit_counter[2:0]) begin
-            data_reg[i] <= data;
-        end
-    end
-end
-
-reg ovalid = 0;
-always @(posedge bclk) begin
-    if (rst_sync) begin
-        ovalid <= 1'b0;
-    end else if (slice_last && in_frame && is_valid) begin
-        ovalid <= 1'b1;
+always @(posedge bclk_180) begin
+    if (ifire) begin
+        data_reg <= m_axis_tdata;
     end else begin
-        ovalid <= 1'b0;
+        data_reg <= {data_reg[6:0], 1'b0};
     end
 end
-
-reg olast=0;
-always @(posedge bclk) begin
-    if (rst_sync) begin
-        olast <= 1'b0;
-    end else begin
-        olast <= frame_last;
-    end
-end
-
-assign m_axis_tvalid = ovalid;
-assign m_axis_tdata = data_reg;
-assign m_axis_tlast = olast;
+assign datao = data_reg[7];
+assign m_axis_tready = empty || last_word_bit;
 
 endmodule
 

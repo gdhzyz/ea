@@ -38,8 +38,8 @@ module fpga #(
     /*
      * Leds
      */
-    output reg                  led1 = 1'b1,
-    output reg                  led2 = 1'b1,
+    output reg                  led1 = 1'b0,
+    output reg                  led2 = 1'b0,
 
     ///*
     // * keys
@@ -52,18 +52,18 @@ module fpga #(
      */
     input  wire                 uart_rx,
     output wire                 uart_tx
-`ifdef I2S_IN    
+`ifdef ENABLE_I2S_IN    
     ,
 
     /*
      * i2s
      */
     input  wire                 i2s_in_mclki,
-    inout  wire [I2S_CN-1:0]    i2s_in_bclk,
-    inout  wire [I2S_CN-1:0]    i2s_in_lrck,
-    input  wire [I2S_CN-1:0]    i2s_in_datin,
-    output wire [I2S_CN-1:0]    i2s_out_datout
-`endif // I2S_IN
+    (* mark_debug = "true" *)inout  wire [I2S_CN-1:0]    i2s_in_bclk,
+    (* mark_debug = "true" *)inout  wire [I2S_CN-1:0]    i2s_in_lrck,
+    (* mark_debug = "true" *)input  wire [I2S_CN-1:0]    i2s_in_datin,
+    (* mark_debug = "true" *)output wire [I2S_CN-1:0]    i2s_out_datout
+`endif // ENABLE_I2S_IN
 );
 
 generate
@@ -494,7 +494,7 @@ assign mdio_i = mdio_d;
 
 // =================== end mdio ==================
 
-`ifdef I2S_IN
+`ifdef ENABLE_I2S_IN
 // =================== i2s ==================
 wire [I2S_CN-1:0] i2s_in_bclki;
 wire [I2S_CN-1:0] i2s_in_bclko;
@@ -522,6 +522,7 @@ i2s_in_fifo #(
     .bclkt(i2s_in_bclkt),
     .lrckt(i2s_in_lrckt),
     .datai(i2s_in_datin),
+    .datao(i2s_out_datout),
     
     .m_axis_tvalid(i2s_in_m_axis_tvalid),
     .m_axis_tdata(i2s_in_m_axis_tdata),
@@ -551,8 +552,22 @@ generate
     end
 endgenerate
 
+//ila_i2s_port ila_i2s_port (
+//    .clk(i2s_in_mclki),
+//    .probe0(1'b0),
+//    .probe1(i2s_in_lrcko[0]),
+//    .probe2(i2s_in_datin[0]),
+//    .probe3(i2s_out_datout[0])
+//);
+
+//vio_0 i2s_vio_inst(
+//    .clk(clk_int),
+//    .probe_out0(i2s_in_datin),
+//    .probe_out1(i2s_out_datout)
+//);
+
 // =================== end i2s ==================
-`endif //I2S_IN
+`endif //ENABLE_I2S_IN
 
 // =================== debug ==================
 /*

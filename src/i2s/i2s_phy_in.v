@@ -182,6 +182,25 @@ assign m_axis_tvalid = ovalid;
 assign m_axis_tdata = data_reg;
 assign m_axis_tlast = olast;
 
+
+// ================= debug =====================
+(* mark_debug = "true" *)reg [15:0] lrck_pos_count = 0;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        lrck_pos_count <= 0;
+    end else if (lrck_pos) begin
+        lrck_pos_count <= lrck_pos_count + 1;
+    end
+end
+(* mark_debug = "true" *)reg [15:0] lrck_neg_count = 0;
+always @(posedge bclk) begin
+    if (rst_sync) begin
+        lrck_neg_count <= 0;
+    end else if (lrck_neg) begin
+        lrck_neg_count <= lrck_neg_count + 1;
+    end
+end
+
 endmodule
 
 `resetall
