@@ -18,6 +18,7 @@ module fpga #(
      */
     input  wire                 clk_50mhz,
     input  wire                 reset_n,
+`ifdef ENABLE_MAC
 
     /*
      * Ethernet: 1000BASE-T RGMII
@@ -33,6 +34,7 @@ module fpga #(
 
     output wire                 mdio_c,
     inout  wire                 mdio_d,
+`endif // ENABLE_MAC
 
 
     /*
@@ -275,28 +277,7 @@ wire mdio_i;
 wire mdio_o;
 wire mdio_t;
 
-`ifdef DO_DPA
-dpa dpa (
-    .clk_200m(clk_200mhz_int),
-    .clk(clk_int), // 125mhz
-    .clk90(clk90_int), // 125mhz, shifted 90 degree
-    .rst(rst_int),
-    .phy_reset_n(phy_reset_n),
-    
-    .phy_rx_clk(phy_rx_clk),
-    .phy_rxd(phy_rxd),
-    .phy_rx_ctl(phy_rx_ctl),
-    .phy_tx_clk(phy_tx_clk),
-    .phy_txd(phy_txd),
-    .phy_tx_ctl(phy_tx_ctl),
-    
-    .deskew_done(deskew_done)
-);
-
-assign     debug_led = 1'b1;
-
-`else  // DO_DPA
-
+`ifdef ENABLE_MAC
 // =================== mac ==================
 
 // IODELAY elements for RGMII interface to PHY
@@ -443,7 +424,6 @@ core_inst (
     .jumbo_error_clears(mac_jumbo_error_clears)
 );
 // =================== end mac ==================
-`endif // DO_DPA
 
 // =================== mdio ==================
 reg clk_2_5m=1;
@@ -493,6 +473,7 @@ assign mdio_d = mdio_t ? 1'bz : mdio_o;
 assign mdio_i = mdio_d;
 
 // =================== end mdio ==================
+`endif // ENABLE_MAC
 
 `ifdef ENABLE_I2S_IN
 // =================== i2s ==================
@@ -552,13 +533,13 @@ generate
     end
 endgenerate
 
-//ila_i2s_port ila_i2s_port (
-//    .clk(i2s_in_mclki),
-//    .probe0(1'b0),
-//    .probe1(i2s_in_lrcko[0]),
-//    .probe2(i2s_in_datin[0]),
-//    .probe3(i2s_out_datout[0])
-//);
+ila_i2s_port ila_i2s_port (
+    .clk(i2s_in_mclki),
+    .probe0(1'b0),
+    .probe1(i2s_in_lrcko[0]),
+    .probe2(i2s_in_datin[0]),
+    .probe3(i2s_out_datout[0])
+);
 
 //vio_0 i2s_vio_inst(
 //    .clk(clk_int),

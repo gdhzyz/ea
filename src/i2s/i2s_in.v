@@ -328,7 +328,8 @@ for (i = 0; i < CN; i = i + 1) begin: gen_block
         .bclk(bclko[i]),
         .lrck(lrcko[i]),
         .bclk_factor(parsed_bclk_factor),
-        .word_width(parsed_word_width)
+        .word_width(parsed_word_width),
+        .tdm_num(parsed_tdm_num)
     );
 
     // ======================== i2s_phy_in ==========
@@ -366,7 +367,10 @@ for (i = 0; i < CN; i = i + 1) begin: gen_block
     debug_i2s_dataout debug_i2s_dataout(
         .bclk(bclk),
         .lrck(lrcko),
-        .datao(datao)
+        .datao(datao),
+        .mclki(mclki),
+        .srst(rst_int),
+        .tdm_num(parsed_tdm_num)
     );
     
     // ================= end debug ===================

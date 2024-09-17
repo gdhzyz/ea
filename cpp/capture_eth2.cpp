@@ -107,7 +107,7 @@ int main() {
     std::cout << "Listening on " << device->name << " with buffer size " << buffer_size << " bytes..." << std::endl;
 
     // Start capturing packets
-    pcap_loop(handle, 40000, packet_handler, nullptr);
+    pcap_loop(handle, 1, packet_handler, nullptr);
 
     // Close the handle
     pcap_close(handle);

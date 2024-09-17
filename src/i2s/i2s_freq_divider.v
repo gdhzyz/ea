@@ -31,7 +31,8 @@ module i2s_freq_divider (
      * configuration, do not need to have been synchronized to bclk.
      */
     input  wire [4:0]       bclk_factor,
-    input  wire [5:0]       word_width
+    input  wire [5:0]       word_width,
+    input  wire [4:0]       tdm_num
 );
 
 
@@ -49,11 +50,13 @@ freq_divider #(
 // ==================== lrck =======================
 reg [9:0] lrck_factor=0; // max 16 * 32 * 2
 always @(posedge mclki) begin
-    if (word_width == 16) begin
-        lrck_factor <= {5'b00, bclk_factor} << 5;  // toggle every 16 bclk cycles.
-    end else if (word_width == 32) begin
-        lrck_factor <= {5'b0, bclk_factor} << 6;
-    end
+    //if (word_width == 16) begin
+    //    lrck_factor <= {5'b00, bclk_factor} << 5;  // toggle every 16 bclk cycles.
+    //end else if (word_width == 32) begin
+    //    lrck_factor <= {5'b0, bclk_factor} << 6;
+    //end
+
+    lrck_factor <= word_width * tdm_num;
 end
 
 freq_divider #(

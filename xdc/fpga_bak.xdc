@@ -4,9 +4,9 @@
 # General configuration
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
-set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 [current_design] 
-set_property CONFIG_MODE SPIx4 [current_design] 
-set_property BITSTREAM.CONFIG.CONFIGRATE 50 [current_design] 
+set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 [current_design]
+set_property CONFIG_MODE SPIx4 [current_design]
+set_property BITSTREAM.CONFIG.CONFIGRATE 50 [current_design]
 #set_property BITSTREAM.CONFIG.OVERTEMPSHUTDOWN Enable  [current_design]
 
 # System clocks
@@ -16,11 +16,13 @@ create_clock -period 20.000 -name clk_50mhz [get_ports clk_50mhz]
 
 # Gigabit Ethernet GMII PHY
 set_property -dict {LOC Y18 IOSTANDARD LVCMOS33} [get_ports phy_rx_clk]
+set_property -dict {LOC AA21 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[0]}]
 set_property -dict {LOC V19 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[0]}]
 set_property -dict {LOC V20 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[1]}]
 set_property -dict {LOC U17 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[2]}]
 set_property -dict {LOC U20 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[3]}]
 set_property -dict {LOC Y19 IOSTANDARD LVCMOS33} [get_ports phy_rx_ctl]
+set_property -dict {LOC V18 IOSTANDARD LVCMOS33 SLEW FAST DRIVE 16} [get_ports phy_tx_clk]
 set_property -dict {LOC U21 IOSTANDARD LVCMOS33 SLEW FAST DRIVE 16} [get_ports phy_tx_clk]
 set_property -dict {LOC V22 IOSTANDARD LVCMOS33 SLEW FAST DRIVE 16} [get_ports {phy_txd[0]}]
 set_property -dict {LOC W21 IOSTANDARD LVCMOS33 SLEW FAST DRIVE 16} [get_ports {phy_txd[1]}]
@@ -75,5 +77,7 @@ set_property -dict {LOC H22 IOSTANDARD LVCMOS33} [get_ports uart_tx]
 set_property -dict {LOC J22 IOSTANDARD LVCMOS33} [get_ports uart_rx]
 
 # mdio
+set_property -dict {LOC M20 IOSTANDARD LVCMOS33} [get_ports mdio_c]
 set_property -dict {LOC AA21 IOSTANDARD LVCMOS33} [get_ports mdio_c]
 set_property -dict {LOC Y22 IOSTANDARD LVCMOS33} [get_ports mdio_d]
+
